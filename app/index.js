@@ -22,5 +22,3 @@ export default class OdooMobile extends React.Component {
   }
 
 }
-
-
