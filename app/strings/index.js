@@ -8,5 +8,14 @@ export default {
     },
     home_screen: {
         title: 'Trang chủ'
-    }
+    },
+    dialog: {
+        btn_close_text: 'Đóng',
+        title_error: 'Không thành công',
+        title_loading: 'Đang xử lý',
+        content_loading: 'Xin vui lòng đợi',
+        content_error: 'Xin vui lòng thử lại',
+        send: 'Gửi',
+        send_successfully: 'Gởi thành công'
+    },
 }
