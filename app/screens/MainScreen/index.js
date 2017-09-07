@@ -7,10 +7,6 @@ import {
 
 export default class MainScreen extends Component {
 
-  componentDidMount() {
-    console.log(this.props);
-  }
-  
   render() {
     return (
       <View style={styles.container}>
