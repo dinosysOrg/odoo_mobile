@@ -26,7 +26,7 @@ export default class Menu extends Component {
         </View>
 
          <ScrollView>
-         <View style={{paddingHorizontal:30, flex: 1}}>
+         <View style={{paddingTop:10, flex: 1}}>
 
          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('HomeScreen')} >
                <Icon name='home' color='white' size={24} />
@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
         left: 0,
         width: SideMenuWidth,
         flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: '#0080FF',
+        backgroundColor: '#2A3C47',
     },
 
     avatarView: {
@@ -90,11 +89,9 @@ const styles = StyleSheet.create({
     menuItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 10,
-        marginRight: 10,
+        flex: 1,
         paddingHorizontal: 50,
         paddingVertical: 10,
-        backgroundColor: 'pink',
         borderRadius: 5,
     },
 

@@ -8,23 +8,25 @@ import LoginScreen from '../screens/LoginScreen/index';
 import { SideMenu } from '../screens/MenuScreen/route';
 import strings from '../strings';
 import Icon from 'react-native-vector-icons/Entypo';
+
 export const AppNavigator = StackNavigator({
+  Main: { screen: SideMenu,
+          navigationOptions: ({navigation}) => ({
+              title: strings.home_screen.title,
+              headerStyle: { backgroundColor: '#2A3C47' },
+              headerTintColor: 'white',
+              headerLeft: <DrawerButton navigation={navigation}/>
+          })
+  },
   Login: {
           screen: LoginScreen,
           navigationOptions: {
                   title: strings.login_screen.title,
-                  headerStyle: { backgroundColor: '#397ad0' },
+                  headerStyle: { backgroundColor: '#2A3C47' },
                   headerTintColor: 'white'
           }
   },
-  Main: { screen: MainScreen,
-          navigationOptions: ({navigation}) => ({
-              title: strings.home_screen.title,
-              headerStyle: { backgroundColor: '#397ad0' },
-              headerTintColor: 'white',
-              headerLeft: <DrawerButton navigation={navigation}/>
-          })
-        }
+
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => (
@@ -43,8 +45,10 @@ const mapStateToProps = state => ({
 const DrawerButton = (props) => {
 	return (
     <View>
-      <TouchableOpacity onPress={() => {props.navigation.navigate('DrawerOpen')}}>
-        <Icon name='menu' color='red' size={44} />
+      <TouchableOpacity onPress={() => {
+        console.log("drawer",props)
+        props.navigation.navigate('DrawerOpen')}}>
+        <Icon name='menu' color='white' size={44} />
       </TouchableOpacity>
     </View>
   );

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { AppNavigator } from './AppNavigator';
 
-const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
+const firstAction = AppNavigator.router.getActionForPathAndParams('Login');
 const tempNavState = AppNavigator.router.getStateForAction(firstAction);
 const initialNavState = AppNavigator.router.getStateForAction(
   tempNavState
@@ -11,7 +11,7 @@ const initialNavState = AppNavigator.router.getStateForAction(
 function appReducer(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
-    case 'Main': 
+    case 'Main':
     nextState = createNavigator('Main', null);
     break
     default:
