@@ -14,34 +14,58 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 let SideMenuWidth = Dimensions.get('window').width * 3/4
 
+const MenuItem = ({title, icon, onPress, selected}) => (
+  <TouchableOpacity style={selected ? styles.menuItemSelected : styles.menuItem}
+      onPress={onPress} >
+        <View style={{height:30, width:30, alignItems: 'center'}}>
+          <Icon name={icon} color={selected ? '#5FC5B0' : 'gray'} size={30} />
+        </View>
+        <Text style={selected ? styles.menuTextSelected: styles.menuText} >{title}</Text>
+  </TouchableOpacity>
+)
+
 export default class Menu extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedItem: 0,
+    };
+  }
+
+  _selectScreen = (name, index) => {
+    this.setState({selectedItem : index});
+    let { navigation } = this.props;
+    navigation.navigate(name);
+  }
+
+  _getStyle(infrc) {
+
+  }
+
   render() {
     const { navigation } = this.props
+    let { selectedItem } = this.state;
+
     return (
       <View style={styles.sideMenu}>
 
         <View style={styles.avatarView}>
           <Image style={styles.avatar} source={{uri: 'https://avatarfiles.alphacoders.com/798/79894.jpg'}}  />
-          <Text style={styles.userName}> Albert Einstein </Text>
+          <Text style={styles.userName}> MEWO MEWO </Text>
         </View>
 
          <ScrollView>
          <View style={{paddingTop:10, flex: 1}}>
 
-         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('HomeScreen')} >
-               <Icon name='home' color='white' size={24} />
-               <Text style={styles.menuText} >Home</Text>
-         </TouchableOpacity>
+         <MenuItem title="Home" icon="home" selected={selectedItem==0}
+            onPress={() => this._selectScreen('HomeScreen', 0)} />
 
-         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ProfileScreen')} >
-               <Icon name='user-o' color = 'white' size={24} />
-               <Text style={styles.menuText} >Profile</Text>
-         </TouchableOpacity>
+          <MenuItem title="Profile" icon="user" selected={selectedItem==1}
+               onPress={() => this._selectScreen('ProfileScreen', 1)} />
 
-         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ProfileScreen')} >
-               <Icon name='cog' color = 'white' size={24} />
-               <Text style={styles.menuText} >Settings</Text>
-         </TouchableOpacity>
+          <MenuItem title="Setting" icon="gear" selected={selectedItem==2}
+                onPress={() => this._selectScreen('SettingsScreen', 2)} />
 
          </View>
          </ScrollView>
@@ -60,7 +84,7 @@ const styles = StyleSheet.create({
         left: 0,
         width: SideMenuWidth,
         flexDirection: 'column',
-        backgroundColor: '#2A3C47',
+        backgroundColor: 'white',
     },
 
     avatarView: {
@@ -70,7 +94,7 @@ const styles = StyleSheet.create({
       width: SideMenuWidth,
       flexDirection: 'column',
       alignItems: 'center',
-      backgroundColor: 'gray',
+      backgroundColor: 'white',
       paddingTop: 10,
     },
 
@@ -92,18 +116,31 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 50,
         paddingVertical: 10,
-        borderRadius: 5,
+    },
+
+    menuItemSelected: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+        paddingHorizontal: 50,
+        paddingVertical: 10,
     },
 
     menuText: {
-        marginLeft: 20,
-        color: 'white',
+        left: 20,
+        color: 'gray',
+        fontWeight: '700',
+    },
+
+    menuTextSelected: {
+        left: 20,
+        color: '#5FC5B0',
         fontWeight: '700',
     },
 
     userName: {
       marginTop: 10,
       fontWeight: '700',
-      color: 'white',
+      color: '#5FC5B0',
     },
 })

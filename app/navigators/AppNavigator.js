@@ -10,10 +10,13 @@ import strings from '../strings';
 import Icon from 'react-native-vector-icons/Entypo';
 
 export const AppNavigator = StackNavigator({
+
+
+
   Main: { screen: SideMenu,
           navigationOptions: ({navigation}) => ({
               title: strings.home_screen.title,
-              headerStyle: { backgroundColor: '#2A3C47' },
+              headerStyle: { backgroundColor: '#5FC5B0' },
               headerTintColor: 'white',
               headerLeft: <DrawerButton navigation={navigation}/>
           })
@@ -22,7 +25,7 @@ export const AppNavigator = StackNavigator({
           screen: LoginScreen,
           navigationOptions: {
                   title: strings.login_screen.title,
-                  headerStyle: { backgroundColor: '#2A3C47' },
+                  headerStyle: { backgroundColor: '#1FC36A' },
                   headerTintColor: 'white'
           }
   },
@@ -47,7 +50,8 @@ const DrawerButton = (props) => {
     <View>
       <TouchableOpacity onPress={() => {
         console.log("drawer",props)
-        props.navigation.navigate('DrawerOpen')}}>
+        props.navigation.navigate('DrawerToggle')}
+      }>
         <Icon name='menu' color='white' size={44} />
       </TouchableOpacity>
     </View>

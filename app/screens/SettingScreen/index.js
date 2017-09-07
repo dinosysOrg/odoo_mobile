@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native';
 
-export default class Settings extends Component {
+export default class Setting extends Component {
 
   render() {
     return (
