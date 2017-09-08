@@ -3,7 +3,7 @@ let loginState = {
     error: null
 }
 
-const loginReducer = (state = forgotState, action) => {
+const loginReducer = (state = loginState, action) => {
     switch (action.type) {
         case 'LOGIN_SUCCESSFULLY':
         return {
