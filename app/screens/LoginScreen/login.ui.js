@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, Image, TextInput } from "react-native";
+import { StyleSheet, View, Text, Image, TextInput, AsyncStorage } from "react-native";
 import strings from '../../strings';
 import styles from './login.styles';
 import Button from '../../components/Button';
-import Odoo from 'react-native-odoo-client';
+import getOdoo from '../../api/odoo';
 import MyDialog from '../../components/MyDialog'
+import images from '../../images';
 
-//let odoo = new Odoo(options);
 export default class LoginComponent extends Component {
 
     constructor(props) {
@@ -21,29 +21,61 @@ export default class LoginComponent extends Component {
         this.myDialog = null;
     }
 
+    componentDidMount() {
+        this._loadInfoFromStore()
+    }
+
     render() {
         return (
         <View style={styles.loginContainer}>
+            <Image resizeMode={"contain"} style={styles.logo} source={images.logo} />
             {this._renderLoginInputUI()}   
             <MyDialog  ref={(dialog) => { this.myDialog = dialog; }} />    
         </View>
         );
     }
 
-    _loginClick() {
+    _saveInfoToStore = async (options) => await AsyncStorage.setItem('@MySuperStore:key', options)
+
+    _loadInfoFromStore= async () => {
+        try {
+            const options = await AsyncStorage.getItem('@MySuperStore:key');
+            if (options !== null){
+                this._showDialogLoading()
+                setTimeout(()=> {
+                    let newState = JSON.parse(options)
+                    this.setState(newState)
+                    this._openHomeScreen()
+                }, 1500)
+            }
+          } catch (error) {
+                
+          }
+    }
+
+    _showDialogLoading() {
         let title = strings.dialog.title_loading;
         let content = strings.dialog.content_loading;
         this.myDialog.show("loading", title, content);
-        this.odoo = new Odoo(this.state);
-        this.odoo.authenticate()
+    }
+
+    _loginClick() {
+        this._showDialogLoading()
+        getOdoo(this.state).authenticate()
                     .then(res => {
                         if (res) {
-                            this._openHomeScreen()
+                            this._saveInfoToStore(JSON.stringify(this.state))
                         } else {
-                            this._showLoginError();
+                           throw "Login failure"
                         }
                     })
-                    .catch(error=> this._showLoginError());
+                    .then(value => {
+                        this._openHomeScreen()
+                    })
+                    .catch( error => { 
+                        console.log("error", error)
+                        this._showLoginError() 
+                    });
        
     }
 

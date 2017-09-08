@@ -11,7 +11,3 @@ export const loginFailure = (errorMessage) => {
         error:  errorMessage
     }
 } 
-
-export const doLogin = (host, database, username, password) => {
-    console.log("doLogin", host, database, username, password);
-}
