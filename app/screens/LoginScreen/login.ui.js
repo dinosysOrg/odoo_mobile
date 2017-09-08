@@ -46,6 +46,7 @@ export default class LoginComponent extends Component {
                     let newState = JSON.parse(options)
                     this.setState(newState)
                     this._openHomeScreen()
+                    this.props.loginSuccessfully(newState)
                 }, 1500)
             }
           } catch (error) {

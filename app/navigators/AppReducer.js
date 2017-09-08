@@ -9,7 +9,6 @@ const initialNavState = AppNavigator.router.getStateForAction(
 );
 
 function appReducer(state = initialNavState, action) {
-  console.log("appReducer");
   let nextState;
   switch (action.type) {
     case 'Main':

@@ -1,4 +1,4 @@
-export const loginSucessfully = (json) => {
+export const loginSuccessfully = (json) => {
     return {
         type: 'LOGIN_SUCCESSFULLY',
         data: json
