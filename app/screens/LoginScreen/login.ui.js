@@ -3,10 +3,9 @@ import { StyleSheet, View, Text, Image, TextInput } from "react-native";
 import strings from '../../strings';
 import styles from './login.styles';
 import Button from '../../components/Button';
-import Odoo from 'react-native-odoo-client';
+import getOdoo from '../../api/odoo';
 import MyDialog from '../../components/MyDialog'
-
-//let odoo = new Odoo(options);
+import images from '../../images';
 export default class LoginComponent extends Component {
 
     constructor(props) {
@@ -24,6 +23,7 @@ export default class LoginComponent extends Component {
     render() {
         return (
         <View style={styles.loginContainer}>
+            <Image resizeMode={"contain"} style={styles.logo} source={images.logo} />
             {this._renderLoginInputUI()}   
             <MyDialog  ref={(dialog) => { this.myDialog = dialog; }} />    
         </View>
@@ -34,8 +34,7 @@ export default class LoginComponent extends Component {
         let title = strings.dialog.title_loading;
         let content = strings.dialog.content_loading;
         this.myDialog.show("loading", title, content);
-        this.odoo = new Odoo(this.state);
-        this.odoo.authenticate()
+        getOdoo(this.state).authenticate()
                     .then(res => {
                         if (res) {
                             this._openHomeScreen()
@@ -43,7 +42,10 @@ export default class LoginComponent extends Component {
                             this._showLoginError();
                         }
                     })
-                    .catch(error=> this._showLoginError());
+                    .catch( error => { 
+                        console.log("error", error)
+                        this._showLoginError() 
+                    });
        
     }
 

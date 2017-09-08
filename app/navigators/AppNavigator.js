@@ -10,26 +10,23 @@ import strings from '../strings';
 import Icon from 'react-native-vector-icons/Entypo';
 
 export const AppNavigator = StackNavigator({
-
-
-
-  Main: { screen: SideMenu,
-          navigationOptions: ({navigation}) => ({
-              title: strings.home_screen.title,
-              headerStyle: { backgroundColor: '#5FC5B0' },
-              headerTintColor: 'white',
-              headerLeft: <DrawerButton navigation={navigation}/>
-          })
-  },
   Login: {
-          screen: LoginScreen,
-          navigationOptions: {
-                  title: strings.login_screen.title,
-                  headerStyle: { backgroundColor: '#1FC36A' },
-                  headerTintColor: 'white'
-          }
+    screen: LoginScreen,
+    navigationOptions: {
+            title: strings.login_screen.title,
+            headerStyle: { backgroundColor: '#54bda7' },
+            headerTintColor: 'white'
+    }
   },
-
+  Main: { screen: SideMenu,
+    navigationOptions: ({navigation}) => ({
+        title: strings.home_screen.title,
+        headerStyle: { backgroundColor: '#5FC5B0' },
+        headerTintColor: 'white',
+        headerLeft: <DrawerButton navigation={navigation}/>
+    })
+  },
+  
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => (

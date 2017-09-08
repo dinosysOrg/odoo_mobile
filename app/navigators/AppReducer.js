@@ -9,10 +9,14 @@ const initialNavState = AppNavigator.router.getStateForAction(
 );
 
 function appReducer(state = initialNavState, action) {
+  console.log("appReducer");
   let nextState;
   switch (action.type) {
     case 'Main':
-    nextState = createNavigator('Main', null);
+      nextState = createNavigator('Main', state);
+    break
+    case 'Login':
+    nextState = createNavigator('Login', state);
     break
     default:
       nextState = AppNavigator.router.getStateForAction(action, state);
