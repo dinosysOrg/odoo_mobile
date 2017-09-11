@@ -5,6 +5,8 @@ import Menu from './index';
 import Home from '../HomeScreen/index';
 import Profile from '../ProfileScreen/index';
 import Setting from '../SettingScreen/index';
+import CustomerList from '../CustomerScreen/index';
+
 export const SideMenu = DrawerNavigator(
   {
     HomeScreen: {
@@ -15,6 +17,9 @@ export const SideMenu = DrawerNavigator(
     },
     SettingsScreen: {
       screen: Setting
+    },
+    CustomerScreen: {
+      screen: CustomerList
     },
   },
   {

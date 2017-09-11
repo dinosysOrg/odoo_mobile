@@ -10,9 +10,8 @@ import {
   Platform
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { styles } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-let SideMenuWidth = Dimensions.get('window').width * 3/4
 
 const MenuItem = ({title, icon, onPress, selected}) => (
   <TouchableOpacity style={selected ? styles.menuItemSelected : styles.menuItem}
@@ -67,6 +66,9 @@ export default class Menu extends Component {
           <MenuItem title="Setting" icon="gear" selected={selectedItem==2}
                 onPress={() => this._selectScreen('SettingsScreen', 2)} />
 
+          <MenuItem title="Customers" icon="users" selected={selectedItem==3}
+                onPress={() => this._selectScreen('CustomerScreen', 3)} />
+
          </View>
          </ScrollView>
 
@@ -74,73 +76,3 @@ export default class Menu extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-    sideMenu: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        width: SideMenuWidth,
-        flexDirection: 'column',
-        backgroundColor: 'white',
-    },
-
-    avatarView: {
-      top: 0,
-      right: 0,
-      left: 0,
-      width: SideMenuWidth,
-      flexDirection: 'column',
-      alignItems: 'center',
-      backgroundColor: 'white',
-      paddingTop: 10,
-    },
-
-    avatar: {
-      width: SideMenuWidth/2,
-      height: SideMenuWidth/2,
-      borderWidth: 2,
-      borderColor: 'yellow',
-      borderRadius: SideMenuWidth/4,
-      shadowColor: 'yellow',
-      shadowOffset: {width: 0, height: 0},
-      shadowOpacity: 1,
-      shadowRadius: 10,
-    },
-
-    menuItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flex: 1,
-        paddingHorizontal: 50,
-        paddingVertical: 10,
-    },
-
-    menuItemSelected: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flex: 1,
-        paddingHorizontal: 50,
-        paddingVertical: 10,
-    },
-
-    menuText: {
-        left: 20,
-        color: 'gray',
-        fontWeight: '700',
-    },
-
-    menuTextSelected: {
-        left: 20,
-        color: '#5FC5B0',
-        fontWeight: '700',
-    },
-
-    userName: {
-      marginTop: 10,
-      fontWeight: '700',
-      color: '#5FC5B0',
-    },
-})
