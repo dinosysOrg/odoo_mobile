@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import strings from '../../strings';
+import Button from '../../components/Button';
+import MyDialog from '../../components/MyDialog'
+import images from '../../images';
 import {
   AppRegistry,
   StyleSheet,
@@ -9,39 +13,43 @@ import {
   FlatList,
   View
 } from 'react-native';
-
 import { connect } from 'react-redux'; 
 
 export default class ProductFlatList extends Component {
 
   renderItem = ({item, index}) => {
-
     const { onFinishedItem, onDeleteItem } = this.props;
 
     return (
       <View style={ styles.itemContainer } >
-        <Text style={{ color: 'black'}}>{ 'Name: ' + item }</Text>      
-        <Text style={{ color: 'black'}}>{ 'Created Date: ' + item }</Text>     
-        <Text style={{ color: 'black'}}>{ 'Price: ' + item }</Text>     
-        <Text style={{ color: 'black'}}>{ 'Number of Transaction: ' + item }</Text>  
+        <Text style={{ color: 'black'}}>{ 'Name: ' + item.name }</Text>        
+        <Text style={{ color: 'black'}}>{ 'Price: ' + item.price }</Text> 
       </View>
     );
   }
 
   render() {
+    let { data } = this.props.product;
 
-    //const { dataList } = this.props;   
-    const dataList = ["Durex","Kotex","Vinamil","TH True Milk"]; 
+    console.log('data', data)
+    
+    if (data == null) {
+        data = []
+    }
 
     return(
       <FlatList
-        data={dataList}
-        //extraData={this.props}
+        data={data}
         keyExtractor={ (item, index) => index }
         renderItem={ this.renderItem }
       />
     );
   }
+
+  componentDidMount() {
+    this.props.loadProduct(this.props.user.user)
+  }
+  
 }
 
 const styles = StyleSheet.create({
@@ -59,5 +67,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowColor: 'gray',
     elevation: 2
-  }
+  },
 });

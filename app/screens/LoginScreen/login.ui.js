@@ -45,8 +45,8 @@ export default class LoginComponent extends Component {
                 setTimeout(()=> {
                     let newState = JSON.parse(options)
                     this.setState(newState)
-                    this._openHomeScreen()
                     this.props.loginSuccessfully(newState)
+                    this._openHomeScreen()
                 }, 1500)
             }
           } catch (error) {

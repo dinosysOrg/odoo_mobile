@@ -1,3 +1,6 @@
+
+import getOdoo from '../../api/odoo';
+
 export const loadProductSucessfully = (json) => {
     return {
         type: 'LOAD_PRODUCT_SUCCESSFULLY',
@@ -12,6 +15,14 @@ export const loadProductFailed = (errorMessage) => {
     }
 } 
 
-export const loadProduct = () => {
-    console.log("loadProduct");
+export const loadProduct = (options) => {
+    return function action(dispatch) {
+        dispatch({ type: 'LOADING_PRODUCT' })
+        
+        let requestProduct = getOdoo(options).search_read("product.product", [], {'fields': ['name', 'price'], 'limit': 5})
+        return requestProduct.then(
+            response => dispatch(loadProductSucessfully(response)),
+            err => dispatch(loadProductFailed(err))
+        )
+    }
 }

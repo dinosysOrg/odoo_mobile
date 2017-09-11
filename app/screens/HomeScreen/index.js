@@ -10,23 +10,29 @@ import {
 
 class Home extends Component {
 
-  componentWillMount(){
-
+  constructor(props) {
+        super(props);
+        this.state = {
+            db: 'odoo-dev',
+            username: 'odoo.dev@dinosys.vn',
+            password: 'dino.dev.204',
+            url:'odoo-dev.dinosys.vn'
+        };
+        this.odoo = null;
   }
 
   render() {
-    console.log(this.props)
-
     return (<ProductFlatList style={{ flex: 1 }} {...this.props} />);
   }
 }
 
 const mapStateToProps = state => ({
-    user: state.user
+    user: state.user,
+    product: state.product
 });
 
 const mapDispatchToProps = dispatch => ({
-    loadProduct: () => dispatch( loadProduct())
+    loadProduct: (options) => dispatch( loadProduct(options))
 });
 
 export default connect( mapStateToProps, mapDispatchToProps )(Home);
