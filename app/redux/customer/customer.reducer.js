@@ -1,6 +1,8 @@
 let customerState = {
     data: null,
     error: null,
+    page: 0,
+    pageLimit: 20,
     isLoading: false
 }
 

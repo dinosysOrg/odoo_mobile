@@ -15,11 +15,20 @@ export const loadProductFailed = (errorMessage) => {
     }
 } 
 
-export const loadProduct = (options) => {
+export const loadingProduct = () => {
+    return {
+        type: 'LOADING_PRODUCT',
+    }
+} 
+
+export const loadProduct = (options, page = 0, pageLimit = 10) => {
     return function action(dispatch) {
-        dispatch({ type: 'LOADING_PRODUCT' })
-        
-        let requestProduct = getOdoo(options).search_read("product.product", [], {'fields': ['name', 'price'], 'limit': 5})
+        dispatch(loadingProduct())
+
+        let pageOffset = page <= 0 ? pageLimit : page * pageLimit;
+
+        let requestProduct = getOdoo(options).search_read("product.product", [], {'fields': ['name', 'price'], 'limit': pageLimit, 'offset': pageOffset })
+
         return requestProduct.then(
             response => dispatch(loadProductSucessfully(response)),
             err => dispatch(loadProductFailed(err))

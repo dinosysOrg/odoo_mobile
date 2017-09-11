@@ -12,13 +12,6 @@ class Home extends Component {
 
   constructor(props) {
         super(props);
-        this.state = {
-            db: 'odoo-dev',
-            username: 'odoo.dev@dinosys.vn',
-            password: 'dino.dev.204',
-            url:'odoo-dev.dinosys.vn'
-        };
-        this.odoo = null;
   }
 
   render() {

@@ -1,6 +1,9 @@
 let productState = {
      data: null,
      error: null,
+     page: 0,
+     pageOffset: 1,
+     pageLimit: 20,
      isLoading: false
 }
 
