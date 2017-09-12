@@ -2,6 +2,9 @@
 import getOdoo from '../../api/odoo';
 
 export const loadProductSucessfully = (json) => {
+
+    console.log('Product Fields:', json)
+
     return {
         type: 'LOAD_PRODUCT_SUCCESSFULLY',
         data: json
