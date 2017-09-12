@@ -1,10 +1,26 @@
 import Odoo from 'react-native-odoo-client';
-let odoo = null;
 
-const getOdoo = (options) => {
-    if (odoo == null) {
-        odoo = new Odoo(options)
+export default class MyOdooAPI {
+
+    constructor() {
+
     }
-    return odoo
+
+    doLogin(options) {
+        this.odoo = new Odoo(options);
+        return this.odoo.authenticate()
+    }
+
+    fetchProductList = (limit, offset) => (
+        this.odoo.search_read("product.product", 
+                            [], 
+                            {'fields': ['name', 'price'], 'limit': limit, 'offset': offset })
+    )
+
+    fetchCustomerList = (currentSearchValue, limit, offset) => (
+        this.odoo.search_read("res.partner", 
+                         [[ ['customer', '=', true], ['name', 'like', currentSearchValue] ]],
+                         {'fields': ['name', 'image', 'email'], 'limit': limit, 'offset': offset})
+    )
+
 }
-export default getOdoo

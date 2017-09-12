@@ -46,7 +46,6 @@ const DrawerButton = (props) => {
 	return (
     <View>
       <TouchableOpacity onPress={() => {
-        console.log("drawer",props)
         props.navigation.navigate('DrawerToggle')}
       }>
         <Icon name='menu' color='white' size={44} />

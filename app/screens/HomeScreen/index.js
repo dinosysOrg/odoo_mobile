@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadProduct } from '../../redux/product/product.action'
-import ProductFlatList from './ProductFlatList'
+import ProductListComponent from './productList.ui'
 import {
   StyleSheet,
   Text,
@@ -15,8 +15,14 @@ class Home extends Component {
   }
 
   render() {
-    return (<ProductFlatList style={{ flex: 1 }} {...this.props} />);
+    return (<ProductListComponent style={{ flex: 1 }} {...this.props} />);
   }
+
+  componentDidMount() {
+    let { odoo } = this.props.user;
+    this.props.loadProduct(odoo, 10, 0);
+  }
+
 }
 
 const mapStateToProps = state => ({
@@ -25,7 +31,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    loadProduct: (options) => dispatch( loadProduct(options))
+    loadProduct: (odooApi, limit, offset) => dispatch( loadProduct(odooApi, limit, offset))
 });
 
 export default connect( mapStateToProps, mapDispatchToProps )(Home);

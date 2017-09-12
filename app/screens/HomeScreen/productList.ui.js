@@ -15,11 +15,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux'; 
 
-export default class ProductFlatList extends Component {
+export default class ProductListComponent extends Component {
 
   renderItem = ({item, index}) => {
     const { onFinishedItem, onDeleteItem } = this.props;
-
     return (
       <View style={ styles.itemContainer } >
         <Text style={{ color: 'black'}}>{ 'Name: ' + item.name }</Text>        
@@ -30,10 +29,6 @@ export default class ProductFlatList extends Component {
 
   render() {
     let { data } = this.props.product;
-    if (data == null) {
-        data = []
-    }
-
     return(
       <FlatList
         data={data}
@@ -41,10 +36,6 @@ export default class ProductFlatList extends Component {
         renderItem={ this.renderItem }
       />
     );
-  }
-
-  componentDidMount() {
-    this.props.loadProduct(this.props.user.user)
   }
   
 }

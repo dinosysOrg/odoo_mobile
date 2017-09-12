@@ -1,30 +1,51 @@
-let customerState = {
-    data: null,
+let customerDefaultState = {
+    data: [],
     error: null,
     page: 0,
-    pageLimit: 20,
-    isLoading: false
+    limit: 10,
+    isLoading: false,
+    searchText: '',
+    isFinish: false
 }
 
-const customerReducer = (state = customerState, action) => {
+const customerReducer = (state = customerDefaultState, action) => {
    switch (action.type) {
        case 'LOADING_CUSTOMER':
-       return {
-           ...state,
-           isLoading: true
-       }
+            return {
+                ...state,
+                isLoading: true
+            }
+       case 'RESET_CUSTOMER_DATA': 
+            return {
+                ...state,
+                data: [],
+                page: 0,
+                isLoading: false,
+                isFinish: false
+            }
        case 'LOAD_CUSTOMER_SUCCESSFULLY':
-       return {
-           ...state, 
-           data: [...action.data],
-           isLoading: false
-       }
+            if (action.page > 0 && action.data.length == 0) {
+                return {
+                    ...state,
+                    isLoading: false,
+                    isFinish: true
+                }
+            }
+            let currentPage = ++action.page;
+            let customerList = [...state.data, ...action.data]
+            return {
+                ...state, 
+                data: customerList,
+                isLoading: false,
+                page: currentPage,
+                searchText: action.searchText
+            }
        case 'LOAD_CUSTOMER_FAILURE':
-       return {
-           ...state,
-           error: action.error,
-           isLoading: false
-       }
+            return {
+                ...state,
+                error: action.error,
+                isLoading: false
+            }
    }
    return state;
 }
