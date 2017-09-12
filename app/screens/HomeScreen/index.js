@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadProduct } from '../../redux/product/product.action'
+import { loadProduct, resetProductState } from '../../redux/product/product.action'
 import ProductListComponent from './productList.ui'
 import {
   StyleSheet,
@@ -19,10 +19,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    let { odoo } = this.props.user;
-    this.props.loadProduct(odoo, 10, 0);
+    let { product, loadProduct, user } = this.props;
+    let { odoo } = user;
+    loadProduct(odoo, product.searchText,  product.limit, product.page);
   }
-
 }
 
 const mapStateToProps = state => ({
@@ -31,7 +31,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    loadProduct: (odooApi, limit, offset) => dispatch( loadProduct(odooApi, limit, offset))
+    loadProduct: (odooApi, currentSearchKey, limit, offset) => dispatch( loadProduct(odooApi, currentSearchKey, limit, offset)),
+    resetProductState: () => dispatch( resetProductState())
 });
 
 export default connect( mapStateToProps, mapDispatchToProps )(Home);

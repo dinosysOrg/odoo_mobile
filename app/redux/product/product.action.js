@@ -1,10 +1,9 @@
-export const loadProductSucessfully = (json) => {
-
-    console.log('Product Fields:', json)
-
+export const loadProductSucessfully = (json, page, currentSearchValue) => {
     return {
         type: 'LOAD_PRODUCT_SUCCESSFULLY',
-        data: json
+        data: json,
+        page: page,
+        searchText: currentSearchValue
     }
 }
 
@@ -21,12 +20,17 @@ export const loadingProduct = () => {
     }
 } 
 
-export const loadProduct = (odooApi, limit = 0, offset = 10) => {
+export const resetProductState = () => {
+    return { type: 'RESET_PRODUCT_DATA' } 
+}
+
+export const loadProduct = (odooApi, currentSearchValue = '', limit = 10, page = 0) => {
+    let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingProduct())
-        const requestProduct = odooApi.fetchProductList(limit, offset);
+        const requestProduct = odooApi.fetchProductList(currentSearchValue, limit, offset);
         return requestProduct.then(
-            response => dispatch(loadProductSucessfully(response)),
+            response => dispatch(loadProductSucessfully(response, page, currentSearchValue)),
             err => dispatch(loadProductFailed(err))
         )
     }

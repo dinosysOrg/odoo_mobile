@@ -30,10 +30,6 @@ class CustomerListComponent extends Component {
     )
   }
 
-  componentDidUpdate() {
-    
-  }
-
   _handleRefresh = () => {
     let { customer, loadCustomer, resetCustomerState, user } = this.props;
     if (customer.isLoading) {
@@ -110,9 +106,5 @@ class CustomerListComponent extends Component {
     )
   }
 }
-
-
-
-
 
 export default CustomerListComponent;

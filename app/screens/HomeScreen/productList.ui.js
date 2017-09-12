@@ -1,27 +1,95 @@
-import React, { Component } from 'react';
-import strings from '../../strings';
-import Button from '../../components/Button';
-import MyDialog from '../../components/MyDialog'
-import images from '../../images';
-import {
-  AppRegistry,
-  StyleSheet,
-  Platform,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  Image,
-  View
-} from 'react-native';
-import { connect } from 'react-redux'; 
+import React, { Component } from "react";
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image } from "react-native";
+import { List, ListItem, SearchBar } from "react-native-elements";
+import {styles} from './styles'
+import debounce from 'lodash/debounce'
+import images from '../../images'
 
 export default class ProductListComponent extends Component {
 
-  renderItem = ({item, index}) => {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+   let { data } = this.props.product
+    return (
+      <List containerStyle={styles.container}>
+        <FlatList
+          data={data}
+          renderItem={this._renderProductItem.bind(this)}
+          keyExtractor={item => item.id}
+          ListHeaderComponent={this._renderHeader}
+          ListFooterComponent={this._renderFooter}
+          onRefresh={this._handleRefresh}
+          refreshing={false}
+          onEndReached={this._handleLoadMore}
+          onEndReachedThreshold={0.1}
+        />
+      </List>
+    )
+  }
+
+  _handleRefresh = () => {
+    let { product, loadProduct, resetProductState, user } = this.props;
+    if (product.isLoading) {
+      return
+    }
+    resetProductState()
+    let { odoo } = user
+    loadProduct(odoo, product.searchText,  product.limit, 0);
+  };
+
+  _handleLoadMore = () => {
+    let { product, loadProduct, user } = this.props
+    if (product.isLoading) {
+      return
+    }
+    if (product.isFinish) {
+      return;
+    }
+    let { odoo } = user
+    loadProduct(odoo, product.searchText,  product.limit, product.page);
+  }
+
+  _renderSeparator = () => ( <View style={styles.divider} /> )
+
+  _renderHeader = () => (
+      <SearchBar
+        placeholder="Type Here..." 
+        lightTheme
+        round
+        onChangeText={debounce((text) => this._doSearchAfterTextChange(text), 1000)}
+      />
+  )
+
+  _doSearchAfterTextChange(text) {;
+    let { product, loadProduct, resetProductState, user } = this.props;
+    if (product.isLoading) {
+      return
+    }
+    resetProductState()
+    let { odoo } = user
+    loadProduct(odoo, text,  product.limit, 0);
+  }
+
+
+  _renderFooter = () => {
+    let { isLoading } = this.props.product;
+    if (isLoading) {
+      return (
+        <View style={styles.footer}>
+          <ActivityIndicator animating size="large" />
+        </View>
+      );
+    }
+    return null
+  };
+
+  _renderProductItem = ({item, index}) => {
     const { onFinishedItem, onDeleteItem } = this.props;
 
-    let productImage = this.renderProductImage(item)
+    let productImage = this._renderProductImage(item)
 
     return (
       <View style={ styles.itemContainer } >            
@@ -36,7 +104,7 @@ export default class ProductListComponent extends Component {
     );
   }
 
-  renderProductImage(product) {
+  _renderProductImage(product) {
     if (product.image_small != null && product.image_small != false) {
       return (
             <Image style={ { width: 80, height: 80 } } 
@@ -51,48 +119,4 @@ export default class ProductListComponent extends Component {
       )
     }    
   }
-
-  onLoadingProductImageError(error){
-    console.log('Image Load Failed')
-    console.log(this.props)
-    this.setState({ image_small: images.placeholder})
-  }
-
-  render() {
-    let { data } = this.props.product;
-    return(
-      <FlatList
-        data={data}
-        keyExtractor={ (item, index) => index }
-        renderItem={ this.renderItem }
-      />
-    );
-  }
 }
-
-const styles = StyleSheet.create({
-  itemContainer : {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    height: 100,
-    marginHorizontal: 10,
-    marginTop: 10,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    borderColor: 'gray',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowColor: 'gray',
-    elevation: 2
-  },
-  itemInfoText: {
-    flex: 1, 
-    marginHorizontal: 10, 
-    color: 'black',
-    fontSize: 14,  
-    textAlign: 'left',  
-  }
-});
