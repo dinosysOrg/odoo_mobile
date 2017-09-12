@@ -17,4 +17,20 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: 'gray',
   },
+  container: {
+    borderTopWidth: 0, 
+    borderBottomWidth: 0, 
+    marginTop: 0
+  },
+  footer: {
+    paddingVertical: 20,
+    borderTopWidth: 1,
+    borderColor: "#CED0CE"
+  },
+  divider: {
+    height: 1,
+    width: "86%",
+    backgroundColor: "#CED0CE",
+    marginLeft: "14%" 
+  }
 })

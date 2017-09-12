@@ -1,9 +1,8 @@
 let productState = {
-     data: null,
+     data: [],
      error: null,
      page: 0,
-     pageOffset: 1,
-     pageLimit: 20,
+     limit: 20,
      isLoading: false
 }
 
@@ -17,7 +16,7 @@ const productReducer = (state = productState, action) => {
         case 'LOAD_PRODUCT_SUCCESSFULLY':
         return {
             ...state, 
-            data: [...action.data],
+            data: [...state.data, ...action.data],
             isLoading: false
         }
         case 'LOAD_PRODUCT_FAILURE':

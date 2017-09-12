@@ -1,10 +1,12 @@
 
 import getOdoo from '../../api/odoo';
 
-export const loadCustomerSucessfully = (json) => {
+export const loadCustomerSucessfully = (json, page, currentSearchValue) => {
     return {
         type: 'LOAD_CUSTOMER_SUCCESSFULLY',
-        data: json
+        data: json,
+        page: page,
+        searchText: currentSearchValue
     }
 }
 
@@ -15,16 +17,22 @@ export const loadCustomerFailed = (errorMessage) => {
     }
 } 
 
-export const loadingProduct = () => {
+export const loadingCustomer = () => {
     return { type: 'LOADING_CUSTOMER' } 
 }
 
-export const loadCustomer = (options, currentSearchValue = '', offset = 0, limitSize = 10) => {
+export const resetCustomerState = () => {
+    return { type: 'RESET_CUSTOMER_DATA' } 
+}
+
+export const loadCustomer = (odooApi, currentSearchValue = '', limit = 10, page = 0) => {
+    console.log("loadCustomer", limit, page, currentSearchValue);
+    let offset = page * limit
     return function action(dispatch) {
-        dispatch(loadingProduct())
-        let requestCustomer = getOdoo(options).search_read("res.partner", [[ ['customer', '=', true], ['name', 'like', currentSearchValue] ]], {'fields': ['name', 'image'], 'limit': limitSize, 'offset': limitSize})
+        dispatch(loadingCustomer())
+        let requestCustomer = odooApi.fetchCustomerList(currentSearchValue, limit, offset)
         return requestCustomer.then(
-            response => dispatch(loadCustomerSucessfully(response)),
+            response => dispatch(loadCustomerSucessfully(response, page, currentSearchValue)),
             err => dispatch(loadCustomerFailed(err))
         )
     }
