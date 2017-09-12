@@ -1,6 +1,3 @@
-
-import getOdoo from '../../api/odoo';
-
 export const loadCustomerSucessfully = (json, page, currentSearchValue) => {
     return {
         type: 'LOAD_CUSTOMER_SUCCESSFULLY',
