@@ -30,7 +30,6 @@ export default class ProductFlatList extends Component {
 
   render() {
     let { data } = this.props.product;
-    
     if (data == null) {
         data = []
     }
