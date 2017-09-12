@@ -11,6 +11,7 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  Image,
   View
 } from 'react-native';
 import { connect } from 'react-redux'; 
@@ -20,12 +21,41 @@ export default class ProductFlatList extends Component {
   renderItem = ({item, index}) => {
     const { onFinishedItem, onDeleteItem } = this.props;
 
+    let productImage = this.renderProductImage(item)
+
     return (
-      <View style={ styles.itemContainer } >
-        <Text style={{ color: 'black'}}>{ 'Name: ' + item.name }</Text>        
-        <Text style={{ color: 'black'}}>{ 'Price: ' + item.price }</Text> 
+      <View style={ styles.itemContainer } >            
+        { productImage }
+        <View style={ { flex: 1,  height: 80, marginLeft: 10, justifyContent: 'center', alignItems: 'flex-start' } }>
+          <Text style={ [styles.itemInfoText, { fontWeight: 'bold' }] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>{ item.display_name }</Text>        
+          <Text style={ styles.itemInfoText }>{ 'Price: ' + item.list_price + 'đ'}</Text> 
+          <Text style={ styles.itemInfoText }>{ 'On hand: ' + item.virtual_available + ' Unit(s)'}</Text> 
+          <Text style={ styles.itemInfoText }>{ 'Forecasted: ' + item.virtual_available + ' Unit(s)'}</Text> 
+        </View>
       </View>
     );
+  }
+
+  renderProductImage(product) {
+    if (product.image_small != null && product.image_small != false) {
+      return (
+            <Image style={ { width: 80, height: 80 } } 
+                   source={ {uri: 'data:image/png;base64,' + product.image_small} }
+                   resizeMode= { 'contain' }/>
+      )
+    } else {
+      return (
+            <Image style={ { width: 80, height: 80 } } 
+                   source={ images.placeholder }
+                   resizeMode= { 'contain' }/>
+      )
+    }    
+  }
+
+  onLoadingProductImageError(error){
+    console.log('Image Load Failed')
+    console.log(this.props)
+    this.setState({ image_small: images.placeholder})
   }
 
   render() {
@@ -45,19 +75,20 @@ export default class ProductFlatList extends Component {
 
   componentDidMount() {
     this.props.loadProduct(this.props.user.user)
-  }
-  
+  }  
 }
 
 const styles = StyleSheet.create({
   itemContainer : {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'white',
-    marginHorizontal : 10,
+    height: 100,
+    marginHorizontal: 10,
     marginTop: 10,
     paddingHorizontal: 10,
-    paddingVertical: 15,
     borderRadius: 5,
     borderColor: 'gray',
     shadowOffset: { width: 0, height: 1 },
@@ -65,4 +96,11 @@ const styles = StyleSheet.create({
     shadowColor: 'gray',
     elevation: 2
   },
+  itemInfoText: {
+    flex: 1, 
+    marginHorizontal: 10, 
+    color: 'black',
+    fontSize: 14,  
+    textAlign: 'left',  
+  }
 });

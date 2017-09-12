@@ -7,7 +7,7 @@ export default {
         password: "Mật khẩu"
     },
     home_screen: {
-        title: 'Odoo'
+        title: 'Home'
     },
     dialog: {
         btn_close_text: 'Đóng',
