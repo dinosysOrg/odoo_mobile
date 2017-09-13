@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
-import {styles} from './styles'
-import debounce from 'lodash/debounce'
+import { styles } from './styles';
+import debounce from 'lodash/debounce';
 
 class CustomerListComponent extends Component {
 
@@ -24,10 +24,14 @@ class CustomerListComponent extends Component {
           onRefresh={this._handleRefresh}
           refreshing={false}
           onEndReached={this._handleLoadMore}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.2}
         />
       </List>
     )
+  }
+
+  componentDidUpdate() {
+
   }
 
   _handleRefresh = () => {
@@ -37,7 +41,7 @@ class CustomerListComponent extends Component {
     }
     resetCustomerState()
     let { odoo } = user
-    loadCustomer(odoo, customer.searchText,  customer.limit, 0);
+    this.search.clearText();
   };
 
   _handleLoadMore = () => {
@@ -56,7 +60,8 @@ class CustomerListComponent extends Component {
 
   _renderHeader = () => (
       <SearchBar
-        placeholder="Type Here..." 
+        ref={search => this.search = search}
+        placeholder="Type Here..."
         lightTheme
         round
         onChangeText={debounce((text) => this._doSearchAfterTextChange(text), 1000)}
@@ -97,6 +102,7 @@ class CustomerListComponent extends Component {
         }
         subtitle={
           <View style={styles.subtitleView}>
+            <Text style={styles.subtitleText} numberOfLines={1} ellipsizeMode={"tail"}> {item.create_date} </Text>
             <Text style={styles.subtitleText} numberOfLines={1} ellipsizeMode={"tail"}> {item.email} </Text>
           </View>
         }

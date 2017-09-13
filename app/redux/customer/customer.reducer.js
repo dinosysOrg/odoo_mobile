@@ -5,7 +5,8 @@ let customerDefaultState = {
     limit: 10,
     isLoading: false,
     searchText: '',
-    isFinish: false
+    isFinish: false,
+    orderBy: 'id',
 }
 
 const customerReducer = (state = customerDefaultState, action) => {
@@ -15,7 +16,7 @@ const customerReducer = (state = customerDefaultState, action) => {
                 ...state,
                 isLoading: true
             }
-       case 'RESET_CUSTOMER_DATA': 
+       case 'RESET_CUSTOMER_DATA':
             return {
                 ...state,
                 data: [],
@@ -34,7 +35,7 @@ const customerReducer = (state = customerDefaultState, action) => {
             let currentPage = ++action.page;
             let customerList = [...state.data, ...action.data]
             return {
-                ...state, 
+                ...state,
                 data: customerList,
                 isLoading: false,
                 page: currentPage,
