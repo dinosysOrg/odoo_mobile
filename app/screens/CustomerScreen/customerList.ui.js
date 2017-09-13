@@ -8,7 +8,6 @@ class CustomerListComponent extends Component {
 
   constructor(props) {
     super(props);
-    this.onChangeTextDelayed = debounce(this._doSearchAfterTextChange, 1000);
   }
 
   render() {
@@ -29,10 +28,6 @@ class CustomerListComponent extends Component {
         />
       </List>
     )
-  }
-
-  componentDidUpdate() {
-    
   }
 
   _handleRefresh = () => {
@@ -111,9 +106,5 @@ class CustomerListComponent extends Component {
     )
   }
 }
-
-
-
-
 
 export default CustomerListComponent;

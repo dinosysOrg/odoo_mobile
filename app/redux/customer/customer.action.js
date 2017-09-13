@@ -1,6 +1,3 @@
-
-import getOdoo from '../../api/odoo';
-
 export const loadCustomerSucessfully = (json, page, currentSearchValue) => {
     return {
         type: 'LOAD_CUSTOMER_SUCCESSFULLY',
@@ -26,7 +23,6 @@ export const resetCustomerState = () => {
 }
 
 export const loadCustomer = (odooApi, currentSearchValue = '', limit = 10, page = 0) => {
-    console.log("loadCustomer", limit, page, currentSearchValue);
     let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingCustomer())

@@ -11,16 +11,17 @@ export default class MyOdooAPI {
         return this.odoo.authenticate()
     }
 
-    fetchProductList = (limit, offset) => (
+    fetchProductList = (currentSearchValue, limit, offset) => (
         this.odoo.search_read("product.product", 
-                            [], 
-                            {'fields': ['name', 'price'], 'limit': limit, 'offset': offset })
+                           [[['name', 'like', currentSearchValue] ]], 
+                            {'fields': [ 'id', , 'image_small', 'display_name', 'list_price', 'virtual_available'],
+                            'limit': limit, 'offset': offset })
     )
 
     fetchCustomerList = (currentSearchValue, limit, offset) => (
         this.odoo.search_read("res.partner", 
                          [[ ['customer', '=', true], ['name', 'like', currentSearchValue] ]],
-                         {'fields': ['name', 'image', 'email'], 'limit': limit, 'offset': offset})
+                         {'fields': ['name', 'image', 'email'], 
+                         'limit': limit, 'offset': offset})
     )
-
 }
