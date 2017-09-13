@@ -28,5 +28,12 @@ export default {
     },
     input: {
         searchPlaceHolder: 'Type here'
+    },
+    slide_menu: {
+        profile: "Profile",
+        product: 'Products',
+        customer: 'Customers',
+        logout: 'Logout',
+        sale: 'Sales'
     }
 }

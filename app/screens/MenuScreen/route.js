@@ -6,7 +6,7 @@ import Home from '../HomeScreen/index';
 import Profile from '../ProfileScreen/index';
 import Setting from '../SettingScreen/index';
 import CustomerList from '../CustomerScreen/index';
-
+import SaleScreen from '../SaleScreen';
 export const SideMenu = DrawerNavigator(
   {
     HomeScreen: {
@@ -21,6 +21,9 @@ export const SideMenu = DrawerNavigator(
     CustomerScreen: {
       screen: CustomerList
     },
+    SaleScreen: {
+      screen: SaleScreen
+    }
   },
   {
     drawerWidth: Dimensions.get('window').width * 3/4,

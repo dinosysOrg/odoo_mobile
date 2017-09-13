@@ -5,13 +5,13 @@ import {
   View
 } from 'react-native';
 
-export default class ProfileScreen extends Component {
+export default class SaleScreen extends Component {
 
   render() {
     return (
       <View style={styles.container}>
         <Text>
-            The profile screen
+            The sales  screen
         </Text>
       </View>
     );
