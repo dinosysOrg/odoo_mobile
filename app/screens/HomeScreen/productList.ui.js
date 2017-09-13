@@ -4,6 +4,7 @@ import { List, ListItem, SearchBar } from "react-native-elements";
 import {styles} from './styles'
 import debounce from 'lodash/debounce'
 import images from '../../images'
+import strings from '../../strings/index'
 
 export default class ProductListComponent extends Component {
 
@@ -56,7 +57,7 @@ export default class ProductListComponent extends Component {
 
   _renderHeader = () => (
       <SearchBar
-        placeholder="Type Here..." 
+        placeholder = { strings.input.searchPlaceHolder }
         lightTheme
         round
         onChangeText={debounce((text) => this._doSearchAfterTextChange(text), 1000)}
@@ -94,11 +95,11 @@ export default class ProductListComponent extends Component {
     return (
       <View style={ styles.itemContainer } >            
         { productImage }
-        <View style={ { flex: 1,  height: 80, marginLeft: 10, justifyContent: 'center', alignItems: 'flex-start' } }>
-          <Text style={ [styles.itemInfoText, { fontWeight: 'bold' }] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>{ item.display_name }</Text>        
-          <Text style={ styles.itemInfoText }>{ 'Price: ' + item.list_price + 'đ'}</Text> 
-          <Text style={ styles.itemInfoText }>{ 'On hand: ' + item.virtual_available + ' Unit(s)'}</Text> 
-          <Text style={ styles.itemInfoText }>{ 'Forecasted: ' + item.virtual_available + ' Unit(s)'}</Text> 
+        <View style={ styles.productInfoContainer }>
+          <Text style={ [styles.itemInfoText, styles.itemNameText] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>{ item.display_name }</Text>        
+          <Text style={ styles.itemInfoText }>{ `${strings.product.price}: ${item.list_price} ${strings.product.currency}`}</Text> 
+          <Text style={ styles.itemInfoText }>{ `${strings.product.onHand}: ${item.virtual_available} ${strings.product.units}`}</Text> 
+          <Text style={ styles.itemInfoText }>{ `${strings.product.forecasted}: ${item.virtual_available} ${strings.product.units}`}</Text> 
         </View>
       </View>
     );

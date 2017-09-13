@@ -6,6 +6,13 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 0, 
     marginTop: 0
   },
+  productInfoContainer: {
+    flex: 1,
+    height: 80,
+    marginLeft: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
   itemContainer : {
     flex: 1,
     flexDirection: 'row',
@@ -22,6 +29,9 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowColor: 'gray',
     elevation: 2
+  },
+  itemNameText: {
+    fontWeight: 'bold'
   },
   itemInfoText: {
     flex: 1, 

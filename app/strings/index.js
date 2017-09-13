@@ -1,21 +1,32 @@
 export default {
     login_screen: {
-        title: "Đăng nhập",
+        title: "Login",
         host: "Host",
         database: "Database",
-        username: "Tên đăng nhập",
-        password: "Mật khẩu"
+        username: "Usernam",
+        password: "Password"
     },
     home_screen: {
         title: 'Home'
     },
-    dialog: {
-        btn_close_text: 'Đóng',
-        title_error: 'Không thành công',
-        title_loading: 'Đang xử lý',
-        content_loading: 'Xin vui lòng đợi',
-        content_error: 'Xin vui lòng thử lại',
-        send: 'Gửi',
-        send_successfully: 'Gởi thành công'
+    product: {
+        product: 'Product',
+        price: 'Price',
+        onHand: 'On hand',
+        forecasted: 'Forecasted',
+        currency: '$',        
+        units: 'Unit(s)'
     },
+    dialog: {
+        btn_close_text: 'Close',
+        title_error: 'Error',
+        title_loading: 'Processing',
+        content_loading: 'Please wait a moment',
+        content_error: 'Please try again',
+        send: 'Send',
+        send_successfully: 'Sent successfully'
+    },
+    input: {
+        searchPlaceHolder: 'Type here'
+    }
 }
