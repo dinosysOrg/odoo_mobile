@@ -12,17 +12,18 @@ export const loadCustomerFailed = (errorMessage) => {
         type: 'LOAD_CUSTOMER_FAILURE',
         error:  errorMessage
     }
-} 
+}
 
 export const loadingCustomer = () => {
-    return { type: 'LOADING_CUSTOMER' } 
+    return { type: 'LOADING_CUSTOMER' }
 }
 
 export const resetCustomerState = () => {
-    return { type: 'RESET_CUSTOMER_DATA' } 
+    return { type: 'RESET_CUSTOMER_DATA' }
 }
 
-export const loadCustomer = (odooApi, currentSearchValue = '', limit = 10, page = 0) => {
+export const loadCustomer = (odooApi, currentSearchValue = '', limit = 10, page = 0, orderBy = 'id') => {
+    console.log("loadCustomer", limit, page, currentSearchValue);
     let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingCustomer())

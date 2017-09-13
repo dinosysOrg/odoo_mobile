@@ -26,7 +26,7 @@ export const AppNavigator = StackNavigator({
         headerLeft: <DrawerButton navigation={navigation}/>
     })
   },
-  
+
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => (
@@ -48,7 +48,7 @@ const DrawerButton = (props) => {
       <TouchableOpacity onPress={() => {
         props.navigation.navigate('DrawerToggle')}
       }>
-        <Icon name='menu' color='white' size={44} />
+        <Icon name='menu' color='white' size={30} style={{margin: 9}} />
       </TouchableOpacity>
     </View>
   );

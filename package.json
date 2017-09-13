@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "lodash": "^4.17.4",
     "lodash.debounce": "^4.0.8",
     "react": "16.0.0-alpha.12",
     "react-native": "0.47.2",
@@ -14,6 +15,7 @@
     "react-native-odoo": "^0.5.0",
     "react-native-odoo-client": "git+https://github.com/nguyenphuquang/react-native-odoo-client.git",
     "react-native-popup-dialog": "^0.9.35",
+    "react-native-popup-menu": "^0.8.1",
     "react-native-vector-icons": "^4.3.0",
     "react-navigation": "git+https://github.com/react-community/react-navigation.git",
     "react-redux": "^5.0.6",

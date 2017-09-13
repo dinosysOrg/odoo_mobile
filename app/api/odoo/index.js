@@ -18,10 +18,9 @@ export default class MyOdooAPI {
                             'limit': limit, 'offset': offset })
     )
 
-    fetchCustomerList = (currentSearchValue, limit, offset) => (
-        this.odoo.search_read("res.partner", 
+    fetchCustomerList = (currentSearchValue, limit, offset, orderBy) => (
+        this.odoo.search_read("res.partner",
                          [[ ['customer', '=', true], ['name', 'like', currentSearchValue] ]],
-                         {'fields': ['name', 'image', 'email'], 
-                         'limit': limit, 'offset': offset})
+                         {'fields': ['name', 'image', 'email', 'create_date'], 'limit': limit, 'offset': offset, 'order': orderBy})
     )
 }
