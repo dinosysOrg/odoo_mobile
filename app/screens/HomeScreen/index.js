@@ -31,7 +31,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    loadProduct: (odooApi, currentSearchKey, limit, offset) => dispatch( loadProduct(odooApi, currentSearchKey, limit, offset)),
+    loadProduct: (odooApi, currentSearchText, limit, offset) => dispatch( loadProduct(odooApi, currentSearchText, limit, offset)),
     resetProductState: () => dispatch( resetProductState())
 });
 

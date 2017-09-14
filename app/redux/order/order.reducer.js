@@ -1,4 +1,4 @@
-let productState = {
+let orderState = {
     data: [],
     error: null,
     page: 0,
@@ -8,14 +8,14 @@ let productState = {
     isFinish: false
 }
 
-const productReducer = (state = productState, action) => {
+const orderReducer = (state = orderState, action) => {
     switch (action.type) {
-        case 'LOADING_PRODUCT':
+        case 'LOADING_ORDER':
         return {
             ...state,
             isLoading: true
         }
-        case 'RESET_PRODUCT_DATA': 
+        case 'RESET_ORDER_DATA': 
             return {
                 ...state,
                 data: [],
@@ -23,7 +23,7 @@ const productReducer = (state = productState, action) => {
                 isLoading: false,
                 isFinish: false
         }
-        case 'LOAD_PRODUCT_SUCCESSFULLY':
+        case 'LOAD_ORDER_SUCCESSFULLY':
             if (action.page > 0 && action.data.length == 0) {
                 return {
                     ...state,
@@ -32,15 +32,15 @@ const productReducer = (state = productState, action) => {
                 }
             }
             let currentPage = ++action.page;
-            let productList = [...state.data, ...action.data]
+            let orderList = [...state.data, ...action.data]
             return {
                 ...state, 
-                data: productList,
+                data: orderList,
                 isLoading: false,
                 page: currentPage,
                 searchText: action.searchText
             }
-        case 'LOAD_PRODUCT_FAILURE':
+        case 'LOAD_ORDER_FAILURE':
         return {
             ...state,
             error: action.error,
@@ -50,4 +50,4 @@ const productReducer = (state = productState, action) => {
     return state;
 }
  
-export default productReducer;
+export default orderReducer;

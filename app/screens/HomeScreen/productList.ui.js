@@ -13,7 +13,9 @@ export default class ProductListComponent extends Component {
   }
 
   render() {
+    
    let { data } = this.props.product
+
     return (
       <List containerStyle={styles.container}>
         <FlatList

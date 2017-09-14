@@ -17,6 +17,12 @@ export default {
         currency: '$',        
         units: 'Unit(s)'
     },
+    order: {
+        order: 'Order',
+        customer: 'Customer',
+        createdDate: 'Created date',
+        state: 'State'
+    },
     dialog: {
         btn_close_text: 'Close',
         title_error: 'Error',
