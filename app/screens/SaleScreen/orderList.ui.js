@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import {styles} from './styles'
 import debounce from 'lodash/debounce'
@@ -16,16 +16,15 @@ export default class OrderListComponent extends Component {
 
     let { data } = this.props.order
 
+    console.log(data)
+
     return (
         <FlatList
           data={data}
           renderItem={this._renderOrderItem.bind(this)}
-          keyExtractor={item => item.id}/>
+          keyExtractor={item => item.id}
+          on/>
     )
-  }
-
-  componentDidUpdate() {
-    console.log(this.props)
   }
 
   _renderOrderItem = ({item, index}) => {
@@ -33,21 +32,27 @@ export default class OrderListComponent extends Component {
 
     return (
       <View style={ styles.itemContainer }>
-        <View style={ styles.orderInfoContainer }>    
-            <Text style={ [styles.itemInfoText, styles.itemNameText] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>
-              { `${strings.order.order}: ${item.display_name}` }
-            </Text>        
-            <Text style={ styles.itemInfoText }>
-              { `${strings.order.customer}: ${item.partner_id[1]}`}
-            </Text> 
-            <Text style={ styles.itemInfoText }>
-              { `${strings.order.createdDate}: ${item.create_date}`}
-            </Text> 
-            <Text style={ styles.itemInfoText }>
-              { `${strings.order.state}: ${item.state}`}
-            </Text> 
-        </View>
-      </View>
+        <TouchableOpacity onPress={() => this._onOrderClicked(item)}>
+          <View style={ styles.orderInfoContainer }>    
+              <Text style={ [styles.itemInfoText, styles.itemNameText] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>
+                { `${strings.order.order}: ${item.display_name}` }
+              </Text>        
+              <Text style={ styles.itemInfoText }>
+                { `${strings.order.customer}: ${item.partner_id[1]}`}
+              </Text> 
+              <Text style={ styles.itemInfoText }>
+                { `${strings.order.createdDate}: ${item.create_date}`}
+              </Text> 
+              <Text style={ styles.itemInfoText }>
+                { `${strings.order.state}: ${item.state}`}
+              </Text> 
+          </View>
+        </TouchableOpacity>     
+      </View> 
     );
+  }
+
+  _onOrderClicked = (order) => {  
+    this.props.navigation.navigate('OrderDetail', order);
   }
 }

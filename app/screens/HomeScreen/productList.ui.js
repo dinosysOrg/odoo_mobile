@@ -14,7 +14,7 @@ export default class ProductListComponent extends Component {
 
   render() {
     
-   let { data } = this.props.product
+    let { data } = this.props.product
 
     return (
       <List containerStyle={styles.container}>
@@ -95,7 +95,7 @@ export default class ProductListComponent extends Component {
     let productImage = this._renderProductImage(item)
 
     return (
-      <View style={ styles.itemContainer } >            
+      <View style={ styles.itemContainer }>            
         { productImage }
         <View style={ styles.productInfoContainer }>
           <Text style={ [styles.itemInfoText, styles.itemNameText] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>{ item.display_name }</Text>        
