@@ -19,7 +19,6 @@ class SaleScreen extends Component {
   }
 
   componentDidMount() {    
-    console.log(this.props);
     let { order, loadOrder, user } = this.props;    
     let { odoo } = user;
     loadOrder(odoo, order.searchText,  order.limit, order.page);
