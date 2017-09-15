@@ -62,6 +62,7 @@ export default class ProductListComponent extends Component {
         placeholder = { strings.input.searchPlaceHolder }
         lightTheme
         round
+        noIcon
         onChangeText={debounce((text) => this._doSearchAfterTextChange(text), 1000)}
       />
   )
@@ -95,7 +96,7 @@ export default class ProductListComponent extends Component {
     let productImage = this._renderProductImage(item)
 
     return (
-      <View style={ styles.itemContainer }>            
+      <View style={ styles.itemContainer } >            
         { productImage }
         <View style={ styles.productInfoContainer }>
           <Text style={ [styles.itemInfoText, styles.itemNameText] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>{ item.display_name }</Text>        
