@@ -17,7 +17,6 @@ export default class LoginComponent extends Component {
             password: 'dino.dev.204',
             url:'odoo-dev.dinosys.vn'
         };
-        this.odoo = null;
         this.myDialog = null;
     }
 
@@ -43,10 +42,7 @@ export default class LoginComponent extends Component {
             if (options !== null){
                 this._showDialogLoading()
                 setTimeout(()=> {
-                    let newState = JSON.parse(options)
-                    this.setState(newState)
-                    this.props.loginSuccessfully(newState)
-                    this._openHomeScreen()
+                    this._doLogin(options);
                 }, 1500)
             }
           } catch (error) {
@@ -62,22 +58,24 @@ export default class LoginComponent extends Component {
 
     _loginClick() {
         this._showDialogLoading()
-        getOdoo(this.state).authenticate()
-                    .then(res => {
-                        if (res) {
-                            this._saveInfoToStore(JSON.stringify(this.state))
-                        } else {
-                           throw "Login failure"
-                        }
-                    })
-                    .then(value => {
-                        this._openHomeScreen()
-                    })
-                    .catch( error => { 
-                        console.log("error", error)
-                        this._showLoginError() 
-                    });
-       
+        this._doLogin(this.state);
+    }
+
+    _doLogin(options) {
+        let { odoo } = this.props.user;
+        odoo.doLogin(this.state).then(res => {
+            if (res) {
+                this._saveInfoToStore(JSON.stringify(this.state))
+            } else {
+                throw "Login failure"
+            }
+        })
+        .then(value => {
+            this._openHomeScreen()
+        })
+        .catch( error => { 
+            this._showLoginError() 
+        });
     }
 
     _openHomeScreen = () => {

@@ -5,15 +5,23 @@ import {
   View
 } from 'react-native';
 
-export default class Profile extends Component {
+export default class ProfileScreen extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text>
-        Profile
+            The profile screen
         </Text>
       </View>
     );
+  }
+}
+
+const styles= {
+  container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center'
   }
 }

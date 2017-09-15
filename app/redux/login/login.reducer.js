@@ -1,15 +1,15 @@
-let loginState = {
-    user: null,
-    error: null
+import MyOdooAPI from '../../api/odoo'
+
+const initFirstState = () => {
+    let odoApi = new MyOdooAPI()
+    return {
+        odoo: odoApi,
+        error: null
+    }
 }
 
-const loginReducer = (state = loginState, action) => {
+const loginReducer = (state = initFirstState(), action) => {
     switch (action.type) {
-        case 'LOGIN_SUCCESSFULLY':
-        return {
-            user: action.data,
-            error: null
-        }
         case 'LOGIN_FAILURE':
         return {
             ...state,

@@ -1,147 +1,61 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
-import { List, ListItem, SearchBar } from "react-native-elements";
-import {styles} from './styles'
-class Customers extends Component {
+import { styles, optionsStyles } from './styles'
+import { connect } from 'react-redux';
+import { loadCustomer, resetCustomerState } from '../../redux/customer/customer.action';
+import { View, Text, TouchableOpacity } from "react-native";
+import CustomerListComponent from './customerList.ui'
+import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+import Menu, {
+  MenuContext,
+  MenuTrigger,
+  MenuOptions,
+  MenuOption,
+  renderers
+} from 'react-native-popup-menu';
+import { FontAwesome } from '@expo/vector-icons';
+class Customer extends Component {
+
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerRight:
+        <Menu>
+          <MenuTrigger >
+            <FontAwesome name='sort-amount-asc' color='white' size={18} style={{margin: 9}} />
+          </MenuTrigger>
+          <MenuOptions customStyles={optionsStyles}>
+            <MenuOption onPress={() => {}} text='Name: a -> z' />
+            <MenuOption onPress={() => {}} text='Create Date' />
+            <MenuOption onPress={() => {}} text='Id' />
+          </MenuOptions>
+        </Menu>
+    }
+  };
+
   constructor(props) {
     super(props);
+  }
 
-    this.state = {
-      loading: false,
-      data: [],
-      page: 1,
-      seed: 1,
-      error: null,
-      refreshing: false,
-      searchText: null,
-    };
+  render() {
+    return (
+        <CustomerListComponent style={{ }} {...this.props} />
+    )
   }
 
   componentDidMount() {
-    this.makeRemoteRequest();
-  }
-
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
-    this.setState({ loading: true });
-    console.log("--------make remote request--------");
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
-      });
-  };
-
-  handleRefresh = () => {
-    this.setState(
-      {
-        page: 1,
-        seed: this.state.seed + 1,
-        refreshing: true,
-        searchText: null,
-      },
-      () => {
-        this.makeRemoteRequest();
-        console.log("-----refresh-----")
-      }
-    );
-  };
-
-  handleLoadMore = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-        console.log("--------load more---------")
-      }
-    );
-  };
-
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: "86%",
-          backgroundColor: "#CED0CE",
-          marginLeft: "14%"
-        }}
-      />
-    );
-  };
-
-  renderHeader = () => {
-    return <SearchBar
-              placeholder="Type Here..." lightTheme
-              round
-              onChangeText={(value) => this.setState({searchText: value}) }
-             />;
-  };
-
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
-
-  render() {
-    let { searchText } = this.state;
-    const search = new RegExp(searchText, 'i');
-    return (
-      <List containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0, marginTop: 0 }}>
-        <FlatList
-          data={(!searchText)?this.state.data:this.state.data.filter(object => search.test(object.name.first + ' ' + object.name.last)) }
-          renderItem={({ item }) => (
-            <ListItem
-              roundAvatar
-              title={
-                <View style={styles.titleView}>
-                  <Text style={styles.titleText}> {item.name.first} {item.name.last} </Text>
-                </View>
-              }
-              subtitle={
-                <View style={styles.subtitleView}>
-                  <Text style={styles.subtitleText}> {!item.id.value?"N/A":item.id.value} </Text>
-                  <Text style={styles.subtitleText}> {item.email} </Text>
-                </View>
-              }
-              avatar={{ uri: item.picture.thumbnail }}
-              containerStyle={{ borderBottomWidth: 0 }}
-            />
-          )}
-          keyExtractor={item => item.email}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListHeaderComponent={this.renderHeader}
-          ListFooterComponent={this.renderFooter}
-          onRefresh={this.handleRefresh}
-          refreshing={this.state.refreshing}
-          onEndReached={ !searchText ? this.handleLoadMore : null}
-          onEndReachedThreshold={50}
-        />
-      </List>
-    );
+    let { customer, loadCustomer, user } = this.props;
+    let { odoo } = user;
+    loadCustomer(odoo, customer.searchText,  customer.limit, customer.page);
   }
 }
 
-export default Customers;
+const mapStateToProps = state => ({
+    user: state.user,
+    customer: state.customer
+});
+
+const mapDispatchToProps = dispatch => ({
+    loadCustomer: (odooApi, currentSearchKey, limit, page, orderBy) => dispatch( loadCustomer(odooApi, currentSearchKey,  limit, page, orderBy)),
+    resetCustomerState: () => dispatch( resetCustomerState())
+});
+
+export default connect( mapStateToProps, mapDispatchToProps )(Customer);

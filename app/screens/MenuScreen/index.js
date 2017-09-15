@@ -11,13 +11,14 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { styles } from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome } from '@expo/vector-icons';
+import strings from '../../strings';
 
 const MenuItem = ({title, icon, onPress, selected}) => (
   <TouchableOpacity style={selected ? styles.menuItemSelected : styles.menuItem}
       onPress={onPress} >
         <View style={{height:30, width:30, alignItems: 'center'}}>
-          <Icon name={icon} color={selected ? '#5FC5B0' : 'gray'} size={30} />
+            <FontAwesome name={icon} size={26} c color={selected ? '#5FC5B0' : 'gray'} />
         </View>
         <Text style={selected ? styles.menuTextSelected: styles.menuText} >{title}</Text>
   </TouchableOpacity>
@@ -30,6 +31,13 @@ export default class Menu extends Component {
     this.state = {
       selectedItem: 0,
     };
+    this.menuList = [
+      {title: strings.slide_menu.profile, icon: "user", screen: "ProfileScreen"},
+      {title: strings.slide_menu.sale, icon: "tags", screen: "SaleScreen"},
+      {title: strings.slide_menu.product, icon: "steam",  screen: "HomeScreen"},
+      {title: strings.slide_menu.customer, icon: "users",  screen: "CustomerScreen"},
+      {title: strings.slide_menu.logout, icon: "sign-out",  screen: "Logout"},
+    ]
   }
 
   _selectScreen = (name, index) => {
@@ -38,14 +46,20 @@ export default class Menu extends Component {
     navigation.navigate(name);
   }
 
-  _getStyle(infrc) {
+  _renderMenuItem = (item, index) => (
+          <MenuItem key={index}
+            title={item.title}
+            icon={item.icon}
+            selected={this.state.selectedItem == index}
+            onPress={() => this._selectScreen(item.screen, index)} />
+  )
 
-  }
+  _renderMenus = () => (
+      this.menuList.map((item, index) => this._renderMenuItem(item, index))
+  )
 
   render() {
-    const { navigation } = this.props
-    let { selectedItem } = this.state;
-
+    const { navigation } = this.props;
     return (
       <View style={styles.sideMenu}>
 
@@ -55,21 +69,9 @@ export default class Menu extends Component {
         </View>
 
          <ScrollView>
-         <View style={{paddingTop:10, flex: 1}}>
-
-         <MenuItem title="Home" icon="home" selected={selectedItem==0}
-            onPress={() => this._selectScreen('HomeScreen', 0)} />
-
-          <MenuItem title="Profile" icon="user" selected={selectedItem==1}
-               onPress={() => this._selectScreen('ProfileScreen', 1)} />
-
-          <MenuItem title="Setting" icon="gear" selected={selectedItem==2}
-                onPress={() => this._selectScreen('SettingsScreen', 2)} />
-
-          <MenuItem title="Customers" icon="users" selected={selectedItem==3}
-                onPress={() => this._selectScreen('CustomerScreen', 3)} />
-
-         </View>
+            <View style={ {paddingTop: 10, flex: 1} }>
+                  {this._renderMenus()}
+            </View>
          </ScrollView>
 
       </View>
