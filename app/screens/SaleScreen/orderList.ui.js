@@ -33,7 +33,7 @@ export default class OrderListComponent extends Component {
 
     return (
       <View style={ styles.itemContainer }>
-        <TouchableOpacity onPress={() => this._onOrderClicked(item)}>
+        <TouchableOpacity style={ { flex: 1 } } onPress={() => this._onOrderClicked(item)}>
           <View style={ styles.orderInfoContainer }>
               <Text style={ [styles.itemInfoText, styles.itemNameText] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>
                 { `${strings.order.order}: ${item.display_name}` }
@@ -54,7 +54,6 @@ export default class OrderListComponent extends Component {
   }
 
   _onOrderClicked = (data) => {
-    console.log(JSON.stringify(data));
     this.props.navigation.navigate("SaleDetail", {order: JSON.stringify(data)});
   }
 }
