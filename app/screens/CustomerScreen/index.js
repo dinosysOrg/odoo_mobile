@@ -5,7 +5,6 @@ import { loadCustomer, resetCustomerState } from '../../redux/customer/customer.
 import { View, Text, TouchableOpacity } from "react-native";
 import CustomerListComponent from './customerList.ui'
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome'
 import Menu, {
   MenuContext,
   MenuTrigger,
@@ -13,7 +12,7 @@ import Menu, {
   MenuOption,
   renderers
 } from 'react-native-popup-menu';
-
+import { FontAwesome } from '@expo/vector-icons';
 class Customer extends Component {
 
   static navigationOptions = ({navigation}) => {
@@ -21,7 +20,7 @@ class Customer extends Component {
       headerRight:
         <Menu>
           <MenuTrigger >
-            <Icon name='sort-amount-desc' color='white' size={18} style={{margin: 9}} />
+            <FontAwesome name='sort-amount-asc' color='white' size={18} style={{margin: 9}} />
           </MenuTrigger>
           <MenuOptions customStyles={optionsStyles}>
             <MenuOption onPress={() => {}} text='Name: a -> z' />

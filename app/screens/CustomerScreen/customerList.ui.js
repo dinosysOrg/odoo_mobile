@@ -3,6 +3,7 @@ import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-nativ
 import { List, ListItem, SearchBar } from "react-native-elements";
 import { styles } from './styles';
 import debounce from 'lodash/debounce';
+import { FontAwesome } from '@expo/vector-icons';
 
 class CustomerListComponent extends Component {
 
@@ -95,6 +96,7 @@ class CustomerListComponent extends Component {
   _renderCustomerItem = ({item}) => {
     return (
       <ListItem
+        hideChevron={true}
         roundAvatar
         title={
           <View style={styles.titleView}>
