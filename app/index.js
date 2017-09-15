@@ -16,7 +16,7 @@ export default class OdooMobile extends React.Component {
   render() {
     return (
       <Provider store={store}>
-      <MenuContext style={{flex: 1}}>
+      <MenuContext style={{flex: 1, marginTop:-20}}>
         <AppWithNavigationState />
       </MenuContext>
       </Provider>

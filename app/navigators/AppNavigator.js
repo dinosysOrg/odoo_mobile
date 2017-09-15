@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyleSheet, Image, View, Text, TouchableOpacity, Dimensions, Platform  } from 'react-native';
-import { addNavigationHelpers, StackNavigator } from 'react-navigation';
+import { addNavigationHelpers, StackNavigator, NavigationActions } from 'react-navigation';
 import MainScreen from '../screens/MainScreen/index';
 import LoginScreen from '../screens/LoginScreen/index';
+import SaleDetail from '../screens/SaleDetailScreen/index';
 import { SideMenu } from '../screens/MenuScreen/route';
 import strings from '../strings';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 
 export const AppNavigator = StackNavigator({
   Login: {
@@ -27,7 +28,20 @@ export const AppNavigator = StackNavigator({
     })
   },
 
+  SaleDetail: { screen: SaleDetail,
+    path: 'order/:data',
+    navigationOptions: ({navigation}) => ({
+        title: "DETAIL",
+        headerStyle: { backgroundColor: '#5FC5B0' },
+        headerTintColor: 'white',
+        headerLeft: <BackButton navigation={navigation}/>
+    })
+  },
 });
+
+const backAction = NavigationActions.back({
+  key: null,
+})
 
 const AppWithNavigationState = ({ dispatch, nav }) => (
   <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
@@ -47,7 +61,7 @@ const DrawerButton = (props) => {
       <TouchableOpacity style={styles.container} onPress={() => {
         props.navigation.navigate('DrawerToggle')}
       }>
-        <Ionicons style={styles.menuIcon} name="ios-menu" size={32} color="white" style={styles.menuIcon} />
+        <Entypo style={styles.menuIcon} name="menu" size={32} color="white" style={styles.menuIcon} />
       </TouchableOpacity>
   );
 };
@@ -60,5 +74,17 @@ const styles = {
       padding: 10
   }
 }
+
+const BackButton = (props) => {
+	return (
+    <View>
+      <TouchableOpacity onPress={() => {
+        props.navigation.dispatch(NavigationActions.back())}
+      }>
+        <Entypo name='chevron-left' color='white' size={30} style={{margin: 9}} />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 export default connect(mapStateToProps)(AppWithNavigationState);

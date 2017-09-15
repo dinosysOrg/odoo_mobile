@@ -5,6 +5,7 @@ import {styles} from './styles'
 import debounce from 'lodash/debounce'
 import images from '../../images'
 import strings from '../../strings/index'
+import {SaleDetail} from "../SaleDetailScreen/index"
 
 export default class OrderListComponent extends Component {
 
@@ -33,26 +34,27 @@ export default class OrderListComponent extends Component {
     return (
       <View style={ styles.itemContainer }>
         <TouchableOpacity onPress={() => this._onOrderClicked(item)}>
-          <View style={ styles.orderInfoContainer }>    
+          <View style={ styles.orderInfoContainer }>
               <Text style={ [styles.itemInfoText, styles.itemNameText] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>
                 { `${strings.order.order}: ${item.display_name}` }
-              </Text>        
+              </Text>
               <Text style={ styles.itemInfoText }>
                 { `${strings.order.customer}: ${item.partner_id[1]}`}
-              </Text> 
+              </Text>
               <Text style={ styles.itemInfoText }>
                 { `${strings.order.createdDate}: ${item.create_date}`}
-              </Text> 
+              </Text>
               <Text style={ styles.itemInfoText }>
                 { `${strings.order.state}: ${item.state}`}
-              </Text> 
+              </Text>
           </View>
-        </TouchableOpacity>     
-      </View> 
+        </TouchableOpacity>
+      </View>
     );
   }
 
-  _onOrderClicked = (order) => {  
-    this.props.navigation.navigate('OrderDetail', order);
+  _onOrderClicked = (data) => {
+    console.log(JSON.stringify(data));
+    this.props.navigation.navigate("SaleDetail", {order: JSON.stringify(data)});
   }
 }

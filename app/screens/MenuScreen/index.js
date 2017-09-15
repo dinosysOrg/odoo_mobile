@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { styles } from './styles';
-import { Entypo } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import strings from '../../strings';
 
 const MenuItem = ({title, icon, onPress, selected}) => (
   <TouchableOpacity style={selected ? styles.menuItemSelected : styles.menuItem}
       onPress={onPress} >
         <View style={{height:30, width:30, alignItems: 'center'}}>
-            <Entypo name={icon} size={26} c color={selected ? '#5FC5B0' : 'gray'} />
+            <FontAwesome name={icon} size={26} c color={selected ? '#5FC5B0' : 'gray'} />
         </View>
         <Text style={selected ? styles.menuTextSelected: styles.menuText} >{title}</Text>
   </TouchableOpacity>
@@ -32,11 +32,11 @@ export default class Menu extends Component {
       selectedItem: 0,
     };
     this.menuList = [
-      {title: strings.slide_menu.profile, icon: "gauge", screen: "ProfileScreen"},
-      {title: strings.slide_menu.sale, icon: "price-tag", screen: "SaleScreen"},
-      {title: strings.slide_menu.product, icon: "message",  screen: "HomeScreen"},
-      {title: strings.slide_menu.customer, icon: "user",  screen: "CustomerScreen"},
-      {title: strings.slide_menu.logout, icon: "level-up",  screen: "Logout"},
+      {title: strings.slide_menu.profile, icon: "user", screen: "ProfileScreen"},
+      {title: strings.slide_menu.sale, icon: "tags", screen: "SaleScreen"},
+      {title: strings.slide_menu.product, icon: "steam",  screen: "HomeScreen"},
+      {title: strings.slide_menu.customer, icon: "users",  screen: "CustomerScreen"},
+      {title: strings.slide_menu.logout, icon: "sign-out",  screen: "Logout"},
     ]
   }
 
@@ -47,9 +47,9 @@ export default class Menu extends Component {
   }
 
   _renderMenuItem = (item, index) => (
-          <MenuItem key={index} 
-            title={item.title} 
-            icon={item.icon} 
+          <MenuItem key={index}
+            title={item.title}
+            icon={item.icon}
             selected={this.state.selectedItem == index}
             onPress={() => this._selectScreen(item.screen, index)} />
   )
