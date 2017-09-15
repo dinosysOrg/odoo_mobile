@@ -7,10 +7,30 @@ export default class MyOdooAPI {
 
     }
 
-    doLogin(options) {
+    doLogin (options) {
         this.odoo = new Odoo(options);
-        return this.odoo.authenticate()
+        return new Promise(async(resolve, reject) => {
+            let isLoginSuccessfully = await this.odoo.authenticate()
+            if ( !isLoginSuccessfully ) {
+                reject(false)
+            }
+            const permissionRoles = await this.getAccessRight()
+            resolve(permissionRoles)
+        })
     }
+
+    getAccessRight = async() => {
+        let partnerReadable = await this.checkAccessRight('res.partner', ['read'])
+        let productReadable = await this.checkAccessRight('product.product', ['read'])
+        let saleOrderReadable = await this.checkAccessRight('sale.order', ['read'])
+        this.roles = {
+            resPartner: { read: partnerReadable },
+            productProduct: { read: productReadable },
+            saleOrder: { read: saleOrderReadable },
+        }
+        return this.roles
+    }
+    
 
     fetchTableFields = (tableName) => (
         this.odoo.fields_get(tableName, {})
@@ -34,6 +54,7 @@ export default class MyOdooAPI {
                             [], 
                             {'fields': [],
                             'limit': limit, 'offset': offset })
+
     )    
 
     fetchOrderListInCurrentMonth = (searchKey, limit, offset) =>{
@@ -45,4 +66,10 @@ export default class MyOdooAPI {
                             {'fields': [],
                             'limit': limit, 'offset': offset })
     } 
+
+    
+    checkAccessRight = (tableName, params) => {
+        return this.odoo.check_access_rights(tableName, params, {}) 
+    }
+    
 }
