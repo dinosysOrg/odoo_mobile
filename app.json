@@ -1,4 +1,5 @@
 {
-  "name": "OdooMobile",
-  "displayName": "OdooMobile"
+  "expo": {
+    "sdkVersion": "20.0.0"
+  }
 }

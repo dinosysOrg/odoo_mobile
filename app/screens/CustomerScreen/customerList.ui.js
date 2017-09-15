@@ -64,6 +64,7 @@ class CustomerListComponent extends Component {
         placeholder="Type Here..."
         lightTheme
         round
+        noIcon
         onChangeText={debounce((text) => this._doSearchAfterTextChange(text), 1000)}
       />
   )

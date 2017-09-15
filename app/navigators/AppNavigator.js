@@ -7,7 +7,7 @@ import MainScreen from '../screens/MainScreen/index';
 import LoginScreen from '../screens/LoginScreen/index';
 import { SideMenu } from '../screens/MenuScreen/route';
 import strings from '../strings';
-import Icon from 'react-native-vector-icons/Entypo';
+import { Ionicons } from '@expo/vector-icons';
 
 export const AppNavigator = StackNavigator({
   Login: {
@@ -44,14 +44,21 @@ const mapStateToProps = state => ({
 
 const DrawerButton = (props) => {
 	return (
-    <View>
-      <TouchableOpacity onPress={() => {
+      <TouchableOpacity style={styles.container} onPress={() => {
         props.navigation.navigate('DrawerToggle')}
       }>
-        <Icon name='menu' color='white' size={30} style={{margin: 9}} />
+        <Ionicons style={styles.menuIcon} name="ios-menu" size={32} color="white" style={styles.menuIcon} />
       </TouchableOpacity>
-    </View>
   );
 };
+
+
+const styles = {
+  container: {
+  },
+  menuIcon: {
+      padding: 10
+  }
+}
 
 export default connect(mapStateToProps)(AppWithNavigationState);
