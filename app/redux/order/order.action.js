@@ -28,7 +28,7 @@ export const loadOrder = (odooApi, currentSearchValue = '', limit = 10, page = 0
     let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingOrder())
-        const requestOrder = odooApi.fetchOrderList(currentSearchValue, limit, offset);
+        const requestOrder = odooApi.fetchOrderListInCurrentMonth(currentSearchValue, limit, offset);
         return requestOrder.then(
             response => dispatch(loadOrderSucessfully(response, page, currentSearchValue)),
             err => dispatch(loadOrderFailed(err))

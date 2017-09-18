@@ -21,7 +21,8 @@ export default {
         order: 'Order',
         customer: 'Customer',
         createdDate: 'Created date',
-        state: 'State'
+        state: 'State',
+        currentMonthOrder: 'This month orders'
     },
     dialog: {
         btn_close_text: 'Close',
@@ -36,10 +37,10 @@ export default {
         searchPlaceHolder: 'Type here'
     },
     slide_menu: {
-        profile: "Profile",
+        profile: "Profile",        
         product: 'Products',
+        sale: "Sales",
         customer: 'Customers',
-        logout: 'Logout',
-        sale: 'Sales'
+        logout: 'Logout'
     }
 }
