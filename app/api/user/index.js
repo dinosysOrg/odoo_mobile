@@ -12,6 +12,10 @@ const doActiveUser = async(user) => {
     await AsyncStorage.setItem(CURRENT_USER_ACTIVE_KEY, JSON.stringify(user))
 }
 
+const doClearActiveUser = async() => {
+    await AsyncStorage.removeItem(CURRENT_USER_ACTIVE_KEY)
+}
+
 
 const fetchUserList = async() => {
     try {
@@ -48,6 +52,20 @@ const findUserInUserList = (userList, user) => {
     return itemFound
 }
 
+const removeUserFromList = async (userList, user) => {
+    let newListUser = []
+    if (userList.length == 0) {
+        return newListUser
+    }
+    for (let item of userList) {
+        if (item.username != user.username) {
+            newListUser.push(item)
+            break
+        }
+    }
+    return newListUser
+}
+
 export default class UserSession {
 
     constructor() {
@@ -79,5 +97,20 @@ export default class UserSession {
     loadList = async() => {
         return await fetchUserList()
     }
+
+    removeUser(user){
+        return new Promise(async(resolve, reject) => {
+            try {
+                const userList = await fetchUserList()
+                let newListUser = await removeUserFromList(userList, user)
+                await doUpdateUserList(newListUser)
+                await doClearActiveUser()
+            } catch (error) {
+                console.log("error", error)
+                resolve(false)
+            }
+            resolve(true)
+        })  
+    } 
     
 }

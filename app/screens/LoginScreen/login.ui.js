@@ -21,7 +21,7 @@ export default class LoginComponent extends Component {
     }
 
     componentDidMount() {
-        //this._loadInfoFromStore()
+        this._loadInfoFromStore()
     }
 
     render() {
@@ -42,8 +42,9 @@ export default class LoginComponent extends Component {
     _loadInfoFromStore = async () => {
         const { session } = this.props.user;
         let user = await session.getUserActive();
-        if (!user) {
-
+        if (user) {
+            this._showDialogLoading()
+            this._doLogin(user)
         }
     }
 
