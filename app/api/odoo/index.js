@@ -1,4 +1,5 @@
 import Odoo from 'react-native-odoo-client';
+import moment from 'moment';
 
 export default class MyOdooAPI {
 
@@ -15,30 +16,33 @@ export default class MyOdooAPI {
         this.odoo.fields_get(tableName, {})
     )
 
-    fetchProductList = (currentSearchValue, limit, offset) => (
-        this.odoo.search_read("product.product",
-                           [[['name', 'like', currentSearchValue] ]],
+    fetchProductList = (searchKey, limit, offset) => (
+        this.odoo.search_read("product.product", 
+                           [[['name', 'like', searchKey] ]], 
                             {'fields': [],
                             'limit': limit, 'offset': offset })
     )
 
-    fetchCustomerList = (currentSearchValue, limit, offset, orderBy) => (
+    fetchCustomerList = (searchKey, limit, offset, orderBy) => (
         this.odoo.search_read("res.partner",
-                         [[ ['customer', '=', true], ['name', 'like', currentSearchValue] ]],
+                         [[ ['customer', '=', true], ['name', 'like', searchKey] ]],
                          {'fields': [], 'limit': limit, 'offset': offset, 'order': orderBy})
     )
 
-    fetchOrderList = (currentSearchValue, limit, offset) => (
-        this.odoo.search_read("sale.order",
-                            [],
+    fetchOrderList = (searchKey, limit, offset) => (
+        this.odoo.search_read("sale.order", 
+                            [], 
                             {'fields': [],
                             'limit': limit, 'offset': offset })
-    )
+    )    
 
-    fetchUserProfile = (limit, offset, id) => (
-      this.odoo.search_read("res.users",
-                            [[ ['email', '=', id] ]],
-                            {"fields": [],
-                            "limit": limit, "offset": offset})
-    )
+    fetchOrderListInCurrentMonth = (searchKey, limit, offset) =>{
+        var firstDay = moment().format("YYYY-MM-01");
+        var lastDay = moment().format("YYYY-MM-") + moment().daysInMonth();
+
+        return this.odoo.search_read("sale.order", 
+                            [[ ['create_date','>=', firstDay],['create_date','<=', lastDay] ]], 
+                            {'fields': [],
+                            'limit': limit, 'offset': offset })
+    } 
 }

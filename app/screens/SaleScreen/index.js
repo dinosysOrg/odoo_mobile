@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadOrder, resetOrderState } from '../../redux/order/order.action'
 import OrderListComponent from './orderList.ui'
-
+import strings from '../../strings/index'
 import {
   StyleSheet,
   Text,
