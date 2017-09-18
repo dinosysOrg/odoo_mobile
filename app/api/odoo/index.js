@@ -44,5 +44,5 @@ export default class MyOdooAPI {
                             [[ ['create_date','>=', firstDay],['create_date','<=', lastDay] ]], 
                             {'fields': [],
                             'limit': limit, 'offset': offset })
-    }    
+    } 
 }
