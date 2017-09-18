@@ -2,18 +2,18 @@ import React from 'react';
 import { StyleSheet, Image, View, Text, TouchableOpacity, Dimensions, Platform  } from 'react-native';
 import { StackNavigator, TabNavigator, DrawerNavigator } from 'react-navigation';
 import Menu from './index';
-import Home from '../HomeScreen/index';
+import Product from '../ProductScreen/index';
 import Profile from '../ProfileScreen/index';
 import Setting from '../SettingScreen/index';
 import CustomerList from '../CustomerScreen/index';
 import SaleScreen from '../SaleScreen';
 export const SideMenu = DrawerNavigator(
   {
-    HomeScreen: {
-      screen: Home
-    },
     ProfileScreen: {
       screen: Profile
+    },
+    ProductScreen: {
+      screen: Product
     },
     SettingsScreen: {
       screen: Setting

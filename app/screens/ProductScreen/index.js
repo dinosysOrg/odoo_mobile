@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-class Home extends Component {
+class Product extends Component {
 
   constructor(props) {
         super(props);
@@ -35,4 +35,4 @@ const mapDispatchToProps = dispatch => ({
     resetProductState: () => dispatch( resetProductState())
 });
 
-export default connect( mapStateToProps, mapDispatchToProps )(Home);
+export default connect( mapStateToProps, mapDispatchToProps )(Product);
