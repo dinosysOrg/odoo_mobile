@@ -16,8 +16,8 @@ export default class MyOdooAPI {
     )
 
     fetchProductList = (currentSearchValue, limit, offset) => (
-        this.odoo.search_read("product.product", 
-                           [[['name', 'like', currentSearchValue] ]], 
+        this.odoo.search_read("product.product",
+                           [[['name', 'like', currentSearchValue] ]],
                             {'fields': [],
                             'limit': limit, 'offset': offset })
     )
@@ -29,9 +29,16 @@ export default class MyOdooAPI {
     )
 
     fetchOrderList = (currentSearchValue, limit, offset) => (
-        this.odoo.search_read("sale.order", 
-                            [], 
+        this.odoo.search_read("sale.order",
+                            [],
                             {'fields': [],
                             'limit': limit, 'offset': offset })
-    )    
+    )
+
+    fetchUserProfile = (limit, offset, id) => (
+      this.odoo.search_read("res.users",
+                            [[ ['email', '=', id] ]],
+                            {"fields": [],
+                            "limit": limit, "offset": offset})
+    )
 }
