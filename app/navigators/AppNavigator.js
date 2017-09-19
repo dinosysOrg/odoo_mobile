@@ -27,7 +27,6 @@ export const AppNavigator = StackNavigator({
         headerLeft: <DrawerButton navigation={navigation}/>
     })
   },
-
   SaleDetail: { screen: SaleDetail,
     path: 'order/:data',
     navigationOptions: ({navigation}) => ({

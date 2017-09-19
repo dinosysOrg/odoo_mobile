@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce'
 import images from '../../images'
 import strings from '../../strings/index'
 import {SaleDetail} from "../SaleDetailScreen/index"
+import moment from "moment"
 
 export default class OrderListComponent extends Component {
 
@@ -16,15 +17,24 @@ export default class OrderListComponent extends Component {
   render() {
 
     let { data } = this.props.order
+    
+    let currentMonth = moment().format("MMMM-YYYY");
 
-    console.log(data)
+    let currentMonthOrder = strings.order.currentMonthOrder;
+
+    let currentMonthOrderText = `${currentMonthOrder}:    ${currentMonth}`
 
     return (
+      <View style={ styles.container }>      
+        <View style={ { height: 40, backgroundColor: 'white', justifyContent: 'center', alignItems: 'flex-start'}}>
+          <Text style={{ marginHorizontal: 10 }}>{ currentMonthOrderText }</Text>
+        </View>  
         <FlatList
           data={data}
           renderItem={this._renderOrderItem.bind(this)}
           keyExtractor={item => item.id}
           on/>
+      </View>
     )
   }
 
@@ -33,7 +43,7 @@ export default class OrderListComponent extends Component {
 
     return (
       <View style={ styles.itemContainer }>
-        <TouchableOpacity onPress={() => this._onOrderClicked(item)}>
+        <TouchableOpacity style={ { flex: 1 } } onPress={() => this._onOrderClicked(item)}>
           <View style={ styles.orderInfoContainer }>
               <Text style={ [styles.itemInfoText, styles.itemNameText] } numberOfLines={ 1 } ellipsizeMode= { 'tail' }>
                 { `${strings.order.order}: ${item.display_name}` }
@@ -54,7 +64,6 @@ export default class OrderListComponent extends Component {
   }
 
   _onOrderClicked = (data) => {
-    console.log(JSON.stringify(data));
     this.props.navigation.navigate("SaleDetail", {order: JSON.stringify(data)});
   }
 }

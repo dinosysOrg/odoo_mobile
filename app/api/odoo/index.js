@@ -1,4 +1,5 @@
 import Odoo from 'react-native-odoo-client';
+import moment from 'moment';
 
 export default class MyOdooAPI {
 
@@ -6,32 +7,69 @@ export default class MyOdooAPI {
 
     }
 
-    doLogin(options) {
+    doLogin (options) {
         this.odoo = new Odoo(options);
-        return this.odoo.authenticate()
+        return new Promise(async(resolve, reject) => {
+            let isLoginSuccessfully = await this.odoo.authenticate()
+            if ( !isLoginSuccessfully ) {
+                reject(false)
+            }
+            const permissionRoles = await this.getAccessRight()
+            resolve(permissionRoles)
+        })
     }
+
+    getAccessRight = async() => {
+        let partnerReadable = await this.checkAccessRight('res.partner', ['read'])
+        let productReadable = await this.checkAccessRight('product.product', ['read'])
+        let saleOrderReadable = await this.checkAccessRight('sale.order', ['read'])
+        this.roles = {
+            resPartner: { read: partnerReadable },
+            productProduct: { read: productReadable },
+            saleOrder: { read: saleOrderReadable },
+        }
+        return this.roles
+    }
+    
 
     fetchTableFields = (tableName) => (
         this.odoo.fields_get(tableName, {})
     )
 
-    fetchProductList = (currentSearchValue, limit, offset) => (
+    fetchProductList = (searchKey, limit, offset) => (
         this.odoo.search_read("product.product", 
-                           [[['name', 'like', currentSearchValue] ]], 
+                           [[['name', 'like', searchKey] ]], 
                             {'fields': [],
                             'limit': limit, 'offset': offset })
     )
 
-    fetchCustomerList = (currentSearchValue, limit, offset, orderBy) => (
+    fetchCustomerList = (searchKey, limit, offset, orderBy) => (
         this.odoo.search_read("res.partner",
-                         [[ ['customer', '=', true], ['name', 'like', currentSearchValue] ]],
+                         [[ ['customer', '=', true], ['name', 'like', searchKey] ]],
                          {'fields': [], 'limit': limit, 'offset': offset, 'order': orderBy})
     )
 
-    fetchOrderList = (currentSearchValue, limit, offset) => (
+    fetchOrderList = (searchKey, limit, offset) => (
         this.odoo.search_read("sale.order", 
                             [], 
                             {'fields': [],
                             'limit': limit, 'offset': offset })
+
     )    
+
+    fetchOrderListInCurrentMonth = (searchKey, limit, offset) =>{
+        var firstDay = moment().format("YYYY-MM-01");
+        var lastDay = moment().format("YYYY-MM-") + moment().daysInMonth();
+
+        return this.odoo.search_read("sale.order", 
+                            [[ ['create_date','>=', firstDay],['create_date','<=', lastDay] ]], 
+                            {'fields': [],
+                            'limit': limit, 'offset': offset })
+    } 
+
+    
+    checkAccessRight = (tableName, params) => {
+        return this.odoo.check_access_rights(tableName, params, {}) 
+    }
+    
 }

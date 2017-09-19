@@ -27,19 +27,19 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: "#CED0CE"
   },
-  divider: {
-    height: 1,
-    width: "86%",
-    backgroundColor: "#CED0CE",
-    marginLeft: "14%"
-  },
+  // divider: {
+  //   height: 1,
+  //   width: "86%",
+  //   backgroundColor: "#CED0CE",
+  //   marginLeft: "14%"
+  // },
   sortButton: {
   marginRight: 5,
   },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
+  // container: {
+  //   flex: 1,
+  //   flexDirection: 'column',
+  // },
   topbar: {
     flexDirection: 'row',
     backgroundColor: 'dimgray',
@@ -83,24 +83,3 @@ export const styles = StyleSheet.create({
     padding: 8,
   },
 })
-
-export const optionsStyles = {
-  optionsContainer: {
-    backgroundColor: 'white',
-    padding: 5,
-  },
-  optionsWrapper: {
-    backgroundColor: 'white',
-  },
-  optionWrapper: {
-    backgroundColor: 'white',
-    margin: 5,
-  },
-  optionTouchable: {
-    underlayColor: 'gray',
-    activeOpacity: 70,
-  },
-  optionText: {
-    color: 'black',
-  },
-};

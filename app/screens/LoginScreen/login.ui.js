@@ -34,20 +34,18 @@ export default class LoginComponent extends Component {
         );
     }
 
-    _saveInfoToStore = async (options) => await AsyncStorage.setItem('@MySuperStore:key', options)
+    _saveInfoToStore = async (options) => {
+        const { session } = this.props.user;
+        let success = await session.saveUser(options);
+    }
 
-    _loadInfoFromStore= async () => {
-        try {
-            const options = await AsyncStorage.getItem('@MySuperStore:key');
-            if (options !== null){
-                this._showDialogLoading()
-                setTimeout(()=> {
-                    this._doLogin(options);
-                }, 1500)
-            }
-          } catch (error) {
-                
-          }
+    _loadInfoFromStore = async () => {
+        const { session } = this.props.user;
+        let user = await session.getUserActive();
+        if (user) {
+            this._showDialogLoading()
+            this._doLogin(user)
+        }
     }
 
     _showDialogLoading() {
@@ -63,20 +61,28 @@ export default class LoginComponent extends Component {
 
     _doLogin(options) {
         let { odoo } = this.props.user;
-        odoo.doLogin(this.state).then(res => {
-            if (res) {
-                this._saveInfoToStore(JSON.stringify(this.state))
-            } else {
-                throw "Login failure"
-            }
-        })
-        .then(value => {
-            this._openHomeScreen()
-        })
-        .catch( error => { 
-            this._showLoginError() 
-        });
+        const { session } = this.props.user;
+        odoo.doLogin(this.state)
+                .then(roles => {
+                    if (roles) {
+                        let user = {...this.state, roles: {...roles} }
+                        return session.saveUser(user)
+                    } else {
+                        throw "Login with failure"
+                    }
+                })
+                .then(value => {
+                    if (value) {
+                        this._openHomeScreen()
+                    } else {
+                        throw "Save info with failure"
+                    }
+                })
+                .catch( error => { 
+                    this._showLoginError() 
+                });
     }
+
 
     _openHomeScreen = () => {
         this.props.navigation.dispatch({ type: 'Main' });
