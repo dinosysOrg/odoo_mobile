@@ -1,44 +1,25 @@
 import React, { Component } from "react";
-import { styles, optionsStyles } from './styles'
 import { connect } from 'react-redux';
 import { loadCustomer, resetCustomerState } from '../../redux/customer/customer.action';
-import { View, Text, TouchableOpacity } from "react-native";
 import CustomerListComponent from './customerList.ui'
-import { addNavigationHelpers, StackNavigator } from 'react-navigation';
-import Menu, {
-  MenuContext,
-  MenuTrigger,
-  MenuOptions,
-  MenuOption,
-  renderers
-} from 'react-native-popup-menu';
 import { FontAwesome } from '@expo/vector-icons';
-class Customer extends Component {
+import SortMenu from './sortMenu'
 
-  static navigationOptions = ({navigation}) => {
-    return {
-      headerRight:
-        <Menu>
-          <MenuTrigger >
-            <FontAwesome name='sort-amount-asc' color='white' size={18} style={{margin: 9}} />
-          </MenuTrigger>
-          <MenuOptions customStyles={optionsStyles}>
-            <MenuOption onPress={() => {}} text='Name: a -> z' />
-            <MenuOption onPress={() => {}} text='Create Date' />
-            <MenuOption onPress={() => {}} text='Id' />
-          </MenuOptions>
-        </Menu>
-    }
-  };
+class Customer extends Component {
 
   constructor(props) {
     super(props);
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerRight: <SortMenu/>
+    }
+  };
+
+
   render() {
-    return (
-        <CustomerListComponent style={{ }} {...this.props} />
-    )
+    return (<CustomerListComponent {...this.props}/>);
   }
 
   componentDidMount() {

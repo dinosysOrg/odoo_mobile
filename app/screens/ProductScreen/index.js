@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadProduct, resetProductState } from '../../redux/product/product.action'
 import ProductListComponent from './productList.ui'
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+import SortMenu from './sortMenu'
 
 class Product extends Component {
 
@@ -14,8 +11,14 @@ class Product extends Component {
         super(props);
   }
 
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerRight: <SortMenu/>
+    }
+  };
+
   render() {
-    return (<ProductListComponent style={{ flex: 1 }} {...this.props} />);
+    return (<ProductListComponent {...this.props}/>);
   }
 
   componentDidMount() {
