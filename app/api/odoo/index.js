@@ -1,12 +1,21 @@
 import Odoo from 'react-native-odoo-client';
 import moment from 'moment';
 
+/**
+* @class MyOdooAPI
+*/
 export default class MyOdooAPI {
 
+    /**
+    * @constructor
+    * Default constructor
+    */
     constructor() {
-
     }
 
+    /**
+    * @param {object} options The options including url, db, username and password for estalishing odoo connection
+    */
     doLogin (options) {
         this.odoo = new Odoo(options);
         return new Promise(async(resolve, reject) => {
@@ -31,24 +40,61 @@ export default class MyOdooAPI {
         return this.roles
     }
     
+    /**
+    * Fetch a model for the given domain (filters)
+    * @param {string} model The model name
+    * @param {array} domain The array for filtering, e.g. [['is_company', '=', True], ['customer', '=', True]]
+    * @param {object} params Extra paramters, e.g. { fields: [], offset: 0, limit: 1000 }
+    */
+    fetchModel = (model, domain, params) => (
+        this.odoo.search_read(model, [domain], params)
+    )
 
+    /**
+    * Fetch fields for the given model
+    * @param {string} model The model name
+    */
+    fetchModelFields = (model) => (
+        this.odoo.fields_get(model, {})
+    )
+    
+    /**
+    * @deprecated using fetchModelFields instead
+    */
     fetchTableFields = (tableName) => (
         this.odoo.fields_get(tableName, {})
     )
 
-    fetchProductList = (searchKey, limit, offset) => (
-        this.odoo.search_read("product.product", 
-                           [[['name', 'like', searchKey] ]], 
-                            {'fields': [],
-                            'limit': limit, 'offset': offset })
-    )
+    /**
+    * Fetch list of products for the given keyword
+    * @param {string} searchKey The search keyword
+    * @param {number} limit The maximum number of records
+    * @param {number} offset The number of skipping records before fetching
+    */
+    fetchProductList = (searchKey, limit, offset) => {
+        var model = 'product.product';
+        var domain = [['name', 'like', searchKey]];
+        var params = { fields: [], limit: limit, offset: offset };
+        return this.fetchModel(model, domain, params);
+    }
 
-    fetchCustomerList = (searchKey, limit, offset, orderBy) => (
-        this.odoo.search_read("res.partner",
-                         [[ ['customer', '=', true], ['name', 'like', searchKey] ]],
-                         {'fields': [], 'limit': limit, 'offset': offset, 'order': orderBy})
-    )
+    /**
+    * Fetch list of customers for the given keyword
+    * @param {string} searchKey The search keyword
+    * @param {number} limit The maximum number of records
+    * @param {number} offset The number of skipping records before fetching
+    * @param {string} orderBy The orderby parameter
+    */
+    fetchCustomerList = (searchKey, limit, offset, orderBy) => {
+        var model = 'res.partner';
+        var domain = [['customer', '=', true], ['name', 'like', searchKey]];
+        var params = { fields: [], limit: limit, offset: offset, order: orderBy };
+        return this.fetchModel(model, domain, params);
+    }
 
+    /**
+    * @deprecated using fetchSaleOrderList instead
+    */
     fetchOrderList = (searchKey, limit, offset) => (
         this.odoo.search_read("sale.order", 
                             [], 
@@ -57,14 +103,29 @@ export default class MyOdooAPI {
 
     )    
 
+    /**
+    * Fetch list of sale orders
+    * @params {array} domain The filters
+    * The relevant states:
+    *   ('draft', 'Quotation'),
+    *   ('sent', 'Quotation Sent'),
+    *   ('sale', 'Sales Order'),
+    *   ('done', 'Locked'),
+    *   ('cancel', 'Cancelled')
+    * @params {object} params The extra parameters
+    */
+    fetchSaleOrderList = (domain=[], params={}) => {
+        var model = 'sale.order';
+        return this.fetchModel(model, domain, params);
+    }
+
     fetchOrderListInCurrentMonth = (searchKey, limit, offset) =>{
         var firstDay = moment().format("YYYY-MM-01");
         var lastDay = moment().format("YYYY-MM-") + moment().daysInMonth();
 
-        return this.odoo.search_read("sale.order", 
-                            [[ ['create_date','>=', firstDay],['create_date','<=', lastDay] ]], 
-                            {'fields': [],
-                            'limit': limit, 'offset': offset })
+        var domain = [['state', '=', 'done'], ['date_order','>=', firstDay],['date_order','<=', lastDay]];
+        var params = { fields: [], limit: limit, offset: offset };
+        return this.fetchSaleOrderList(domain, params);
     } 
 
     

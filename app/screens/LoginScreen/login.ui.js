@@ -12,10 +12,10 @@ export default class LoginComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            db: 'odoo-dev',
-            username: 'odoo.dev@dinosys.vn',
-            password: 'dino.dev.204',
-            url:'odoo-dev.dinosys.vn'
+            url: '',
+            db: '',
+            username: '',
+            password: ''
         };
         this.myDialog = null;
     }

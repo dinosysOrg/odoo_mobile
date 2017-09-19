@@ -3,7 +3,7 @@ export default {
         title: "Login",
         host: "Host",
         database: "Database",
-        username: "Usernam",
+        username: "Username",
         password: "Password"
     },
     home_screen: {
