@@ -88,6 +88,7 @@ export default class LoginComponent extends Component {
   }
 
   _openHomeScreen = () => {
+    console.log("_openHomeScreen",this.props.navigation);
     this.props.navigation.dispatch({ type: "Main" });
   };
 
@@ -103,18 +104,18 @@ export default class LoginComponent extends Component {
         <TextInput
           autoCapitalize="none"
           autoCorrect={false}
-          value={this.state.db}
-          onChangeText={text => this.setState({ db: text })}
-          style={styles.textInput}
-          placeholder={strings.login_screen.database}
-        />
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
           onChangeText={text => this.setState({ url: text })}
           style={styles.textInput}
           value={this.state.url}
           placeholder={strings.login_screen.host}
+        />
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={this.state.db}
+          onChangeText={text => this.setState({ db: text })}
+          style={styles.textInput}
+          placeholder={strings.login_screen.database}
         />
         <TextInput
           autoCapitalize="none"

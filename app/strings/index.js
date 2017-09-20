@@ -37,7 +37,8 @@ export default {
         searchPlaceHolder: 'Type here'
     },
     slide_menu: {
-        profile: "Profile",        
+        profile: "Profile",
+        setting: 'Setting',        
         product: 'Products',
         sale: "Sales",
         customer: 'Customers',

@@ -1,22 +1,22 @@
-import { combineReducers } from 'redux';
-import { NavigationActions } from 'react-navigation';
-import { AppNavigator } from './AppNavigator';
+import { combineReducers } from "redux";
+import { NavigationActions } from "react-navigation";
+import { AppNavigator } from "./AppNavigator";
 
-const firstAction = AppNavigator.router.getActionForPathAndParams('Login');
+const firstAction = AppNavigator.router.getActionForPathAndParams("Login");
 const tempNavState = AppNavigator.router.getStateForAction(firstAction);
-const initialNavState = AppNavigator.router.getStateForAction(
-  tempNavState
-);
+const initialNavState = AppNavigator.router.getStateForAction(tempNavState);
 
 function appReducer(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
-    case 'Main':
-      nextState = createNavigator('Main', state);
-    break
-    case 'Login':
-    nextState = createNavigator('Login', state);
-    break
+    case "Main":
+      nextState = createNavigator("Main", state);
+      break;
+    case "Login":
+      nextState = createNavigator("Login", state);
+    case "Logout":
+      nextState = createNavigator("Login", null);
+      break;
     default:
       nextState = AppNavigator.router.getStateForAction(action, state);
       break;
@@ -25,11 +25,10 @@ function appReducer(state = initialNavState, action) {
   return nextState || state;
 }
 
-createNavigator = (screen, currentState) => (
-  nextState = AppNavigator.router.getStateForAction(
+createNavigator = (screen, currentState) =>
+  (nextState = AppNavigator.router.getStateForAction(
     NavigationActions.navigate({ routeName: screen }),
     currentState
-  )
-)
+  ));
 
 export default appReducer;
