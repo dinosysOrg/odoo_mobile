@@ -36,7 +36,15 @@ export const AppNavigator = StackNavigator({
         headerLeft: <BackButton navigation={navigation}/>
     })
   },
-});
+},
+{
+  index: 0,
+  initialRouteName: 'Login',
+  navigationOptions: {
+    gesturesEnabled: false
+  }
+}
+);
 
 const backAction = NavigationActions.back({
   key: null,

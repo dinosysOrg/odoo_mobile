@@ -51,12 +51,6 @@ class Menu extends Component {
     // Setup menu
     this.menuList = [
       {
-        title: strings.slide_menu.profile,
-        icon: "user",
-        screen: "ProfileScreen",
-        enableMenu: true
-      },
-      {
         title: strings.slide_menu.sale,
         icon: "tags",
         screen: "SaleScreen",
@@ -75,11 +69,11 @@ class Menu extends Component {
         enableMenu: true
       },
       {
-        title: strings.slide_menu.logout,
-        icon: "sign-out",
-        screen: "Logout",
+        title: strings.slide_menu.setting,
+        icon: "user",
+        screen: "SettingScreen",
         enableMenu: true
-      }
+      },
     ];
   }
 

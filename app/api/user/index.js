@@ -50,7 +50,7 @@ const findUserInUserList = (userList, user) => {
     return itemFound
 }
 
-const removeUserFromList = async (userList, user) => {
+const removeUserFromList = (userList, user) => {
     let newListUser = []
     for (let item of userList) {
         if (item.auth.username != user.auth.username) {
@@ -78,7 +78,7 @@ export default class UserSession {
                 await doUpdateUserList(arrayList)
                 await doActiveUser(user)
             } catch (error) {
-                return resolve(false)
+                return reject(false)
             }
             return resolve(true)
         })
@@ -96,11 +96,11 @@ export default class UserSession {
         return new Promise(async(resolve, reject) => {
             try {
                 const userList = await fetchUserList()
-                let newListUser = await removeUserFromList(userList, user)
+                let newListUser = removeUserFromList(userList, user)
                 await doUpdateUserList(newListUser)
                 await doClearActiveUser()
             } catch (error) {
-                return resolve(error)
+                return reject(error)
             }
             return resolve(true)
         })

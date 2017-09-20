@@ -3,6 +3,16 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
 
+  parentView: {
+    justifyContent: 'center',
+  },
+
+  topView: {
+    backgroundColor: 'white',
+    paddingTop:20,
+    paddingBottom: 20,
+  },
+
   containerItem: {
     flex: 1,
     flexDirection: 'row',
@@ -26,7 +36,8 @@ export const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold',
     color: 'black',
   },
 
@@ -36,14 +47,18 @@ export const styles = StyleSheet.create({
   },
 
   subtitleText: {
+    marginTop: 10,
     fontSize: 14,
     color: 'gray',
   },
 
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    alignItems: 'center',
+  },
+
+  detailView: {
+    marginTop: 20,
+    marginLeft: 30,
   },
 
   switchButton: {
@@ -51,6 +66,21 @@ export const styles = StyleSheet.create({
     height: 44,
     borderRadius: 5,
     marginRight: 0,
+  },
+
+  logoutButton: {
+    marginTop: 30,
+    width: 100,
+    height: 44,
+    borderRadius: 5,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  titleButton: {
+    color: 'white',
+    fontWeight: 'bold',
   }
 
 })
