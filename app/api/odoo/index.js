@@ -1,6 +1,6 @@
 import Odoo from "react-native-odoo-client";
 import moment from "moment";
-import UserSession from '../../api/user'
+import UserSession from "../../api/user";
 /**
 * @class MyOdooAPI
 */
@@ -15,7 +15,7 @@ export default class MyOdooAPI {
     * @param {object} options The options including url, db, username and password for estalishing odoo connection
     */
   doLogin(options) {
-    this._initApiHandler(options)
+    this._initApiHandler(options);
     return new Promise(async (resolve, reject) => {
       try {
         let isLoginSuccessfully = await this.odoo.authenticate();
@@ -28,14 +28,14 @@ export default class MyOdooAPI {
           return reject("No user found.");
         }
         let user = {
-          auth: {...options},
+          auth: { ...options },
           roles: { ...roles },
           profile: { ...profileInfo }
         };
 
         this.userInfo = user;
         await this.session.saveUser(user);
-        return resolve(true)
+        return resolve(true);
       } catch (error) {
         return reject(error);
       }
@@ -50,21 +50,21 @@ export default class MyOdooAPI {
   }
 
   doLoginFormSession() {
-      return new Promise(async (resolve, reject) => { 
-          try {
-            let session = new UserSession()
-            let userInfo = await session.getUserActive();
-            if (!userInfo) {
-               return reject('user info null')
-            }
-            let { auth } = userInfo;
-            this._initApiHandler(auth)
-            this.userInfo = userInfo
-          } catch(error) {
-             return reject(error)
-          }
-          return resolve(true)
-      })
+    return new Promise(async (resolve, reject) => {
+      try {
+        let session = new UserSession();
+        let userInfo = await session.getUserActive();
+        if (!userInfo) {
+          return reject("user info null");
+        }
+        let { auth } = userInfo;
+        this._initApiHandler(auth);
+        this.userInfo = userInfo;
+      } catch (error) {
+        return reject(error);
+      }
+      return resolve(true);
+    });
   }
 
   getAccessRight = async () => {
@@ -169,14 +169,18 @@ export default class MyOdooAPI {
     return this.fetchModel(model, domain, params);
   };
 
-  fetchOrderListInCurrentMonth = (searchKey, limit, offset) => {
-    var firstDay = moment().format("YYYY-MM-01");
-    var lastDay = moment().format("YYYY-MM-") + moment().daysInMonth();
+  fetchSaleOrderListByMonth = (date, limit, offset) => {
+    let selectedDate = moment(date);
+
+    var firstDay = selectedDate.format("YYYY-MM-01");
+    var lastDay = selectedDate.format("YYYY-MM-") + selectedDate.daysInMonth();
+
     var domain = [
       ["state", "=", "done"],
       ["date_order", ">=", firstDay],
       ["date_order", "<=", lastDay]
     ];
+
     var params = {
       fields: [
         "display_name",
@@ -194,6 +198,7 @@ export default class MyOdooAPI {
       limit: limit,
       offset: offset
     };
+
     return this.fetchSaleOrderList(domain, params);
   };
 

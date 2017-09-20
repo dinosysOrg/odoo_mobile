@@ -1,16 +1,17 @@
-export const loadOrderSucessfully = (json, page, currentSearchValue) => {
+
+export const loadOrderSuccessfully = (json, page, selectedMonth) => {    
     return {
         type: 'LOAD_ORDER_SUCCESSFULLY',
         data: json,
         page: page,
-        searchText: currentSearchValue
+        month: selectedMonth
     }
 }
 
 export const loadOrderFailed = (errorMessage) => {
     return {
         type: 'LOAD_ORDER_FAILURE',
-        error:  errorMessage
+        error: errorMessage
     }
 }
 
@@ -24,13 +25,13 @@ export const resetOrderState = () => {
     return { type: 'RESET_ORDER_DATA' }
 }
 
-export const loadOrder = (odooApi, currentSearchValue = '', limit = 10, page = 0) => {
+export const loadOrder = (odooApi, month, limit = 10, page = 0) => {
     let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingOrder())
-        const requestOrder = odooApi.fetchOrderListInCurrentMonth(currentSearchValue, limit, offset);
+        const requestOrder = odooApi.fetchSaleOrderListByMonth(month, limit, offset);
         return requestOrder.then(
-            response => dispatch(loadOrderSucessfully(response, page, currentSearchValue)),
+            response => dispatch(loadOrderSuccessfully(response, page, month)),
             err => dispatch(loadOrderFailed(err))
         )
     }
