@@ -100,10 +100,9 @@ export default class UserSession {
                 await doUpdateUserList(newListUser)
                 await doClearActiveUser()
             } catch (error) {
-                console.log("error", error)
-                resolve(false)
+                return resolve(error)
             }
-            resolve(true)
+            return resolve(true)
         })
     }
 

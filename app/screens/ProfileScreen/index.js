@@ -48,7 +48,6 @@ class ProfileScreen extends Component {
   }
 
   _renderItem = ({ item, index }) => {
-    console.log("item", item);
     return (
       <View key={Math.random()} style={styles.containerItem}>
         <View style={{ flex: 2 }}>

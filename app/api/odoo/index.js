@@ -43,7 +43,6 @@ export default class MyOdooAPI {
   }
 
   _initApiHandler(options) {
-    console.log("_initApiHandler", options)
     // odoo api handle fetch data from server
     this.odoo = new Odoo(options);
     // user session handle user infomation when login succesfully

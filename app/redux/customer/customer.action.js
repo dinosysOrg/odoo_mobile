@@ -23,7 +23,6 @@ export const resetCustomerState = () => {
 }
 
 export const loadCustomer = (odooApi, currentSearchValue = '', limit = 10, page = 0, orderBy = 'id') => {
-    console.log("loadCustomer", limit, page, currentSearchValue);
     let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingCustomer())

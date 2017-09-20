@@ -1,5 +1,4 @@
 export const loadUserSucessfully = (json, page) => {
-  console.log("load success", json)
     return {
         type: 'LOAD_USER_SUCCESSFULLY',
         data: json,

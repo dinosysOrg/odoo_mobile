@@ -83,7 +83,6 @@ export default class LoginComponent extends Component {
         }
       })
       .catch(error => {
-        console.log("error", error)
         this._showLoginError();
       });
   }
