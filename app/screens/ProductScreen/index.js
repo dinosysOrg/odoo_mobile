@@ -13,6 +13,7 @@ class Product extends Component {
 
   static navigationOptions = ({navigation}) => {
     return {
+      headerTitle: 'Product',
       headerRight: <SortMenu/>
     }
   };

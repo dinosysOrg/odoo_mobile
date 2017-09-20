@@ -13,6 +13,7 @@ class Customer extends Component {
 
   static navigationOptions = ({navigation}) => {
     return {
+      headerTitle: 'Customers',
       headerRight: <SortMenu/>
     }
   };

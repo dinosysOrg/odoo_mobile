@@ -1,4 +1,5 @@
 export const loadOrderSucessfully = (json, page, currentSearchValue) => {
+    console.log("ecec", json)
     return {
         type: 'LOAD_ORDER_SUCCESSFULLY',
         data: json,
@@ -12,16 +13,16 @@ export const loadOrderFailed = (errorMessage) => {
         type: 'LOAD_ORDER_FAILURE',
         error:  errorMessage
     }
-} 
+}
 
 export const loadingOrder = () => {
     return {
         type: 'LOADING_ORDER',
     }
-} 
+}
 
 export const resetOrderState = () => {
-    return { type: 'RESET_ORDER_DATA' } 
+    return { type: 'RESET_ORDER_DATA' }
 }
 
 export const loadOrder = (odooApi, currentSearchValue = '', limit = 10, page = 0) => {
