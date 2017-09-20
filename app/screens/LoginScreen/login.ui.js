@@ -12,10 +12,11 @@ export default class LoginComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            url: '',
-            db: '',
-            username: '',
-            password: ''
+          db: 'odoo-dev',
+          username: 'odoo.dev@dinosys.vn',
+          password: 'dino.dev.204',
+          url:'https://odoo-dev.dinosys.vn'
+
         };
         this.myDialog = null;
     }
@@ -28,15 +29,10 @@ export default class LoginComponent extends Component {
         return (
         <View style={styles.loginContainer}>
             <Image resizeMode={"contain"} style={styles.logo} source={images.logo} />
-            {this._renderLoginInputUI()}   
-            <MyDialog  ref={(dialog) => { this.myDialog = dialog; }} />    
+            {this._renderLoginInputUI()}
+            <MyDialog  ref={(dialog) => { this.myDialog = dialog; }} />
         </View>
         );
-    }
-
-    _saveInfoToStore = async (options) => {
-        const { session } = this.props.user;
-        let success = await session.saveUser(options);
     }
 
     _loadInfoFromStore = async () => {
@@ -63,9 +59,10 @@ export default class LoginComponent extends Component {
         let { odoo } = this.props.user;
         const { session } = this.props.user;
         odoo.doLogin(this.state)
-                .then(roles => {
+                .then(({roles, profileInfo}) => {
                     if (roles) {
-                        let user = {...this.state, roles: {...roles} }
+                        let user = {...this.state, roles: {...roles}, profile: {...profileInfo} }
+                        console.log("user", user);
                         return session.saveUser(user)
                     } else {
                         throw "Login with failure"
@@ -78,8 +75,8 @@ export default class LoginComponent extends Component {
                         throw "Save info with failure"
                     }
                 })
-                .catch( error => { 
-                    this._showLoginError() 
+                .catch( error => {
+                    this._showLoginError()
                 });
     }
 
@@ -101,32 +98,32 @@ export default class LoginComponent extends Component {
                             autoCorrect={false}
                             value={this.state.db}
                             onChangeText={(text) => this.setState({db: text})}
-                            style={styles.textInput} 
+                            style={styles.textInput}
                             placeholder={strings.login_screen.database} />
                 <TextInput  autoCapitalize='none'
                             autoCorrect={false}
                             onChangeText={(text) => this.setState({url: text})}
-                            style={styles.textInput} 
+                            style={styles.textInput}
                             value={this.state.url}
-                            placeholder={strings.login_screen.host} />            
+                            placeholder={strings.login_screen.host} />
                 <TextInput  autoCapitalize='none'
                             autoCorrect={false}
                             onChangeText={(text) => this.setState({username: text})}
-                            style={styles.textInput} 
+                            style={styles.textInput}
                             value={this.state.username}
                             placeholder={strings.login_screen.username} />
                 <TextInput  autoCapitalize='none'
                             autoCorrect={false}
-                            style={styles.textInput} 
+                            style={styles.textInput}
                             secureTextEntry={true}
                             value={this.state.password}
                             onChangeText={(text) => this.setState({password: text})}
                             placeholder={strings.login_screen.password} />
 
                 <Button style={styles.buttonLogin}
-                        onClick={this._loginClick.bind(this)} 
+                        onClick={this._loginClick.bind(this)}
                         text={strings.login_screen.title.toUpperCase()} />
-        
+
             </View>
         );
     }

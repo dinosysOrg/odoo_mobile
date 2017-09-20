@@ -11,6 +11,12 @@ import {
 
 class SaleScreen extends Component {
 
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: 'Sales',
+    }
+  };
+
   constructor(props) {
         super(props);
   }

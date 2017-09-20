@@ -33,10 +33,10 @@ class Menu extends Component {
     };
     this._initListMenu()
   }
-
+  
   _initListMenu() {
     let { odoo } = this.props.user
-    // Get roles for menu 
+    // Get roles for menu
     let customerRole = odoo.roles.resPartner.read
     let productRole = odoo.roles.productProduct.read
     let saleRole = odoo.roles.saleOrder.read
@@ -75,12 +75,16 @@ class Menu extends Component {
 
   render() {
     const { navigation } = this.props;
+    console.log(this.props.user.odoo.profileInfo[0].email)
     return (
       <View style={styles.sideMenu}>
 
         <View style={styles.avatarView}>
-          <Image style={styles.avatar} source={{uri: 'https://avatarfiles.alphacoders.com/798/79894.jpg'}}  />
-          <Text style={styles.userName}> MEWO MEWO </Text>
+          {
+            this.props.user.odoo.profileInfo && this.props.user.odoo.profileInfo.length>0
+            && <Image style={styles.avatar} source={{ uri: `data:image/jpeg;base64,${this.props.user.odoo.profileInfo[0].image}` }} />
+          }
+          <Text style={styles.userName}> {this.props.user.odoo.profileInfo[0].name} </Text>
         </View>
 
          <ScrollView>

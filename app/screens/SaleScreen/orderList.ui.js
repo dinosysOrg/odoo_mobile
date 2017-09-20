@@ -17,7 +17,6 @@ export default class OrderListComponent extends Component {
   render() {
 
     let { data } = this.props.order
-    
     let currentMonth = moment().format("MMMM-YYYY");
 
     let currentMonthOrder = strings.order.currentMonthOrder;
@@ -25,10 +24,10 @@ export default class OrderListComponent extends Component {
     let currentMonthOrderText = `${currentMonthOrder}:    ${currentMonth}`
 
     return (
-      <View style={ styles.container }>      
+      <View style={ styles.container }>
         <View style={ { height: 40, backgroundColor: 'white', justifyContent: 'center', alignItems: 'flex-start'}}>
           <Text style={{ marginHorizontal: 10 }}>{ currentMonthOrderText }</Text>
-        </View>  
+        </View>
         <FlatList
           data={data}
           renderItem={this._renderOrderItem.bind(this)}

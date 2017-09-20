@@ -39,9 +39,6 @@ const fetchCurrentUser = async() => {
 }
 
 const findUserInUserList = (userList, user) => {
-    if (userList.length == 0) {
-        return null
-    }
     let itemFound = null;
     for (let item of userList) {
             if (item.username == user.username) {
@@ -54,13 +51,9 @@ const findUserInUserList = (userList, user) => {
 
 const removeUserFromList = async (userList, user) => {
     let newListUser = []
-    if (userList.length == 0) {
-        return newListUser
-    }
     for (let item of userList) {
         if (item.username != user.username) {
             newListUser.push(item)
-            break
         }
     }
     return newListUser
@@ -78,16 +71,16 @@ export default class UserSession {
                 let found = findUserInUserList(arrayList, user)
                 if (found) {
                     await doActiveUser(user)
-                    resolve(true)
+                    return resolve(true)
                 }
                 arrayList = arrayList.concat(user)
                 await doUpdateUserList(arrayList)
                 await doActiveUser(user)
             } catch (error) {
-                resolve(false)
+                return resolve(false)
             }
-            resolve(true)
-        })  
+            return resolve(true)
+        })
     }
 
     getUserActive = async() => (
@@ -110,7 +103,7 @@ export default class UserSession {
                 resolve(false)
             }
             resolve(true)
-        })  
-    } 
-    
+        })
+    }
+
 }

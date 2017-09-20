@@ -19,12 +19,22 @@ export default class MyOdooAPI {
     doLogin (options) {
         this.odoo = new Odoo(options);
         return new Promise(async(resolve, reject) => {
+          try {
             let isLoginSuccessfully = await this.odoo.authenticate()
             if ( !isLoginSuccessfully ) {
-                reject(false)
+                return reject('Login with failure')
             }
-            const permissionRoles = await this.getAccessRight()
-            resolve(permissionRoles)
+            this.roles = await this.getAccessRight()
+            this.profileInfo = await this.fetchUserProfile(10, 0, options.username);
+            if (this.profileInfo.length == 0) {
+               return reject('No user found.')
+            }
+            resolve({roles: this.roles, profileInfo: this.profileInfo[0]})
+          } catch (error) {
+            console.error('doLogin', error);
+            reject(error)
+          }
+
         })
     }
 
@@ -39,7 +49,7 @@ export default class MyOdooAPI {
         }
         return this.roles
     }
-    
+
     /**
     * Fetch a model for the given domain (filters)
     * @param {string} model The model name
@@ -57,10 +67,11 @@ export default class MyOdooAPI {
     fetchModelFields = (model) => (
         this.odoo.fields_get(model, {})
     )
-    
+
     /**
     * @deprecated using fetchModelFields instead
     */
+
     fetchTableFields = (tableName) => (
         this.odoo.fields_get(tableName, {})
     )
@@ -74,7 +85,7 @@ export default class MyOdooAPI {
     fetchProductList = (searchKey, limit, offset) => {
         var model = 'product.product';
         var domain = [['name', 'like', searchKey]];
-        var params = { fields: [], limit: limit, offset: offset };
+        var params = { fields: ['display_name', 'list_price', 'virtual_available', 'image_small'], limit: limit, offset: offset };
         return this.fetchModel(model, domain, params);
     }
 
@@ -88,7 +99,7 @@ export default class MyOdooAPI {
     fetchCustomerList = (searchKey, limit, offset, orderBy) => {
         var model = 'res.partner';
         var domain = [['customer', '=', true], ['name', 'like', searchKey]];
-        var params = { fields: [], limit: limit, offset: offset, order: orderBy };
+        var params = { fields: ['name', 'create_date', 'email', 'image'], limit: limit, offset: offset, order: orderBy };
         return this.fetchModel(model, domain, params);
     }
 
@@ -96,12 +107,12 @@ export default class MyOdooAPI {
     * @deprecated using fetchSaleOrderList instead
     */
     fetchOrderList = (searchKey, limit, offset) => (
-        this.odoo.search_read("sale.order", 
-                            [], 
+        this.odoo.search_read("sale.order",
+                            [],
                             {'fields': [],
                             'limit': limit, 'offset': offset })
 
-    )    
+    )
 
     /**
     * Fetch list of sale orders
@@ -124,13 +135,21 @@ export default class MyOdooAPI {
         var lastDay = moment().format("YYYY-MM-") + moment().daysInMonth();
 
         var domain = [['state', '=', 'done'], ['date_order','>=', firstDay],['date_order','<=', lastDay]];
-        var params = { fields: [], limit: limit, offset: offset };
+        var params = { fields: ['display_name', 'partner_id', 'create_date', 'state', 'company_id', 'partner_invoice_id', 'partner_shipping_id', 'product_id', 'amount_total', 'cart_quantity', 'date_order'], limit: limit, offset: offset };
         return this.fetchSaleOrderList(domain, params);
-    } 
 
-    
-    checkAccessRight = (tableName, params) => {
-        return this.odoo.check_access_rights(tableName, params, {}) 
     }
-    
+
+
+    checkAccessRight = (tableName, params) => {
+        return this.odoo.check_access_rights(tableName, params, {})
+    }
+
+    fetchUserProfile = (limit, offset, id) => (
+      this.odoo.search_read("res.users",
+      [id?[['email', '=', id]]:[]],
+      {"fields": [],
+      "limit": limit, "offset": offset})
+    )
+
 }
