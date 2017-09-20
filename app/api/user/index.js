@@ -31,7 +31,8 @@ const fetchUserList = async() => {
 
 const fetchCurrentUser = async() => {
     try {
-        return await AsyncStorage.getItem(CURRENT_USER_ACTIVE_KEY)
+        let userInfo =  await AsyncStorage.getItem(CURRENT_USER_ACTIVE_KEY)
+        return JSON.parse(userInfo)
     } catch (error) {
         console.error(`[fetchCurrentUser] ${error}`)
     }
@@ -41,7 +42,7 @@ const fetchCurrentUser = async() => {
 const findUserInUserList = (userList, user) => {
     let itemFound = null;
     for (let item of userList) {
-            if (item.username == user.username) {
+            if (item.auth.username == user.auth.username) {
                 itemFound = item;
                 break
             }
@@ -52,7 +53,7 @@ const findUserInUserList = (userList, user) => {
 const removeUserFromList = async (userList, user) => {
     let newListUser = []
     for (let item of userList) {
-        if (item.username != user.username) {
+        if (item.auth.username != user.auth.username) {
             newListUser.push(item)
         }
     }
@@ -99,10 +100,9 @@ export default class UserSession {
                 await doUpdateUserList(newListUser)
                 await doClearActiveUser()
             } catch (error) {
-                console.log("error", error)
-                resolve(false)
+                return resolve(error)
             }
-            resolve(true)
+            return resolve(true)
         })
     }
 

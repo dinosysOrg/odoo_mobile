@@ -1,5 +1,4 @@
 export const loadOrderSucessfully = (json, page, currentSearchValue) => {
-    console.log("ecec", json)
     return {
         type: 'LOAD_ORDER_SUCCESSFULLY',
         data: json,

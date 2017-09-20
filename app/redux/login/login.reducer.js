@@ -1,12 +1,9 @@
 import MyOdooAPI from '../../api/odoo'
-import UserSession from '../../api/user'
 
 const initFirstState = () => {
     let odoApi = new MyOdooAPI()
-    let sessionApi = new UserSession()
     return {
         odoo: odoApi,
-        session: sessionApi,
         error: null
     }
 }
