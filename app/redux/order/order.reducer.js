@@ -1,10 +1,12 @@
+import moment from "moment";
+
 let orderState = {
+    month: null,
     data: [],
     error: null,
     page: 0,
     limit: 10,
     isLoading: false,
-    searchText: '',
     isFinish: false
 }
 
@@ -32,13 +34,14 @@ const orderReducer = (state = orderState, action) => {
                 }
             }
             let currentPage = ++action.page;
-            let orderList = [...state.data, ...action.data]
+            let orderList = [...state.data, ...action.data];
+            let selectedMonth = action.month;
             return {
                 ...state, 
+                month: selectedMonth,
                 data: orderList,
                 isLoading: false,
-                page: currentPage,
-                searchText: action.searchText
+                page: currentPage
             }
         case 'LOAD_ORDER_FAILURE':
         return {
