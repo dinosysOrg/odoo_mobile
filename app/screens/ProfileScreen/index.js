@@ -1,19 +1,11 @@
-import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  Switch
-} from "react-native";
-import { connect } from "react-redux";
-import { loadUser } from "../../redux/user/user.action";
-import { List, ListItem, SearchBar, Avatar } from "react-native-elements";
-import getOdoo from "../../api/odoo";
-import { styles } from "./styles";
-import { FontAwesome } from "@expo/vector-icons";
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Switch} from 'react-native';
+import { connect } from 'react-redux';
+import { loadUser } from '../../redux/user/user.action';
+import { List, ListItem, SearchBar, Avatar, Button } from "react-native-elements";
+import getOdoo from '../../api/odoo';
+import { styles } from './styles';
+import { FontAwesome } from '@expo/vector-icons';
 
 class ProfileScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -37,13 +29,47 @@ class ProfileScreen extends Component {
   }
 
   render() {
-    let users = this.state.profileList;
+    let users = this.state.profileList
+    let activeUser = this.props.user.odoo.userInfo.profile[0]
     return (
-      <FlatList
+      <View style={styles.parentView}>
+        <View style={styles.topView}>
+          <View style={styles.avatar}>
+            <Avatar
+              xlarge
+              rounded
+              source = { {uri: `data:image/jpeg;base64, ${activeUser.image}` }}
+            />
+          </View>
+          <View style={styles.detailView}>
+            <Text style={styles.titleText}>
+              Name: {activeUser.name}
+            </Text>
+            <Text style={styles.subtitleText}>
+              Company: {activeUser.company_id[1]}
+            </Text>
+            <Text style={styles.subtitleText}>
+              Email: {activeUser.email}
+            </Text>
+            <Text style={styles.subtitleText}>
+              City: {activeUser.tz}
+            </Text>
+            <Text style={styles.subtitleText}>
+              Phone: {activeUser.phone}
+            </Text>
+          </View>
+        </View>
+        <FlatList
         data={users}
         keyExtractor={item => item.auth.username}
         renderItem={this._renderItem}
-      />
+        />
+        <View style={{alignItems:'center'}}>
+          <TouchableOpacity style={styles.logoutButton}>
+            <Text style={styles.titleButton}> LOGOUT </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 
