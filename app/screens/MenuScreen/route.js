@@ -6,6 +6,8 @@ import Product from '../ProductScreen/index';
 import Setting from '../SettingScreen/index';
 import CustomerList from '../CustomerScreen/index';
 import SaleScreen from '../SaleScreen';
+
+//List of screen in menu
 export const SideMenu = DrawerNavigator(
   {
     SaleScreen: {

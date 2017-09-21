@@ -9,7 +9,9 @@ import Menu, {
 import { FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { loadCustomer, resetCustomerState } from '../../redux/customer/customer.action';
+import { styles, optionsStyles } from './styles';
 
+// Sort menu on top right
 class CustomerSortMenu extends Component {
     render() {
         return (
@@ -49,24 +51,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps )(CustomerSortMenu);
-
-export const optionsStyles = {
-  optionsContainer: {
-    backgroundColor: 'white',
-    padding: 5,
-  },
-  optionsWrapper: {
-    backgroundColor: 'white',
-  },
-  optionWrapper: {
-    backgroundColor: 'white',
-    margin: 5,
-  },
-  optionTouchable: {
-    underlayColor: 'gray',
-    activeOpacity: 70,
-  },
-  optionText: {
-    color: 'black',
-  },
-};

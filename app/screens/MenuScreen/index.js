@@ -14,24 +14,6 @@ import { styles } from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
 import strings from "../../strings";
 import { connect } from "react-redux";
-const MenuItem = ({ title, icon, onPress, selected }) => (
-  <TouchableOpacity
-    style={selected ? styles.menuItemSelected : styles.menuItem}
-    onPress={onPress}
-  >
-    <View style={{ height: 30, width: 30, alignItems: "center" }}>
-      <FontAwesome
-        name={icon}
-        size={26}
-        c
-        color={selected ? "#5FC5B0" : "gray"}
-      />
-    </View>
-    <Text style={selected ? styles.menuTextSelected : styles.menuText}>
-      {title}
-    </Text>
-  </TouchableOpacity>
-);
 
 class Menu extends Component {
   constructor(props) {
@@ -44,11 +26,13 @@ class Menu extends Component {
 
   _initListMenu() {
     let { roles } = this.props.user.odoo.userInfo;
+
     // Get roles for menu
     let customerRole = roles.resPartner.read
     let productRole = roles.productProduct.read
     let saleRole = roles.saleOrder.read
-    // Setup menu
+
+    // Setup menu list
     this.menuList = [
       {
         title: strings.slide_menu.sale,
@@ -77,12 +61,14 @@ class Menu extends Component {
     ];
   }
 
+  // Handle touch event on item selected, move to screen selected
   _selectScreen = (name, index) => {
     this.setState({ selectedItem: index });
     let { navigation } = this.props;
     navigation.navigate(name);
   };
 
+  // Render per item in menu
   _renderMenuItem = (item, index) => {
     if (!item.enableMenu) {
       return null;
@@ -101,6 +87,8 @@ class Menu extends Component {
   _renderMenus = () =>
     this.menuList.map((item, index) => this._renderMenuItem(item, index));
 
+
+  // Load avatar for current user
   _renderAvatar() {
     let { profile } = this.props.user.odoo.userInfo;
     return (
@@ -112,7 +100,6 @@ class Menu extends Component {
           }}
         />
         <Text style={styles.userName}>
-          {" "}
           {profile[0].name}{" "}
         </Text>
       </View>
@@ -131,6 +118,26 @@ class Menu extends Component {
     );
   }
 }
+
+// Custom item in menu
+const MenuItem = ({ title, icon, onPress, selected }) => (
+  <TouchableOpacity
+    style={selected ? styles.menuItemSelected : styles.menuItem}
+    onPress={onPress}
+  >
+    <View style={{ height: 30, width: 30, alignItems: "center" }}>
+      <FontAwesome
+        name={icon}
+        size={26}
+        c
+        color={selected ? "#5FC5B0" : "gray"}
+      />
+    </View>
+    <Text style={selected ? styles.menuTextSelected : styles.menuText}>
+      {title}
+    </Text>
+  </TouchableOpacity>
+);
 
 const mapStateToProps = state => ({
   user: state.user

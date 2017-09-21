@@ -35,6 +35,7 @@ class CustomerListComponent extends Component {
 
   }
 
+  // Pull to refresh list of customer
   _handleRefresh = () => {
     let { customer, loadCustomer, resetCustomerState, user } = this.props;
     if (customer.isLoading) {
@@ -45,6 +46,7 @@ class CustomerListComponent extends Component {
     this.search.clearText();
   };
 
+  // Load more customer when scroll to bottom
   _handleLoadMore = () => {
     let { customer, loadCustomer, user } = this.props
     if (customer.isLoading) {
@@ -59,6 +61,7 @@ class CustomerListComponent extends Component {
 
   _renderSeparator = () => ( <View style={styles.divider} /> )
 
+  // Add search bar on top
   _renderHeader = () => (
       <SearchBar
         ref={search => this.search = search}
@@ -70,6 +73,9 @@ class CustomerListComponent extends Component {
       />
   )
 
+  /* Handle event typing in search bar
+    Load customers by key in search text
+  */
   _doSearchAfterTextChange(text) {;
     let { customer, loadCustomer, resetCustomerState, user } = this.props;
     if (customer.isLoading) {
@@ -81,6 +87,7 @@ class CustomerListComponent extends Component {
   }
 
 
+  // Show activity indicator when load list
   _renderFooter = () => {
     let { isLoading } = this.props.customer;
     if (isLoading) {
@@ -93,6 +100,7 @@ class CustomerListComponent extends Component {
     return null
   };
 
+  //Custom cell show infor of per customer
   _renderCustomerItem = ({item}) => {
     return (
       <ListItem
