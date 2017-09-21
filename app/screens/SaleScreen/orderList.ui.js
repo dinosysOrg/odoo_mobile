@@ -21,16 +21,31 @@ export default class OrderListComponent extends Component {
   constructor(props) {
     super(props);
   }
-
+  
+  /* Render Order List UI */
   render() {
     let { data } = this.props.order;
     let { month } = this.props.order;
 
+    /* Get current month from props order to set text to display */
     let currentSelectedMonth = moment(month).format("YYYY-MM-DD");
 
     return (
       <View style={styles.container}>
-        <View
+        { this._renderMonthController() }
+        <FlatList
+          data={data}
+          renderItem={this._renderOrderItem.bind(this)}
+          keyExtractor={item => item.id}
+          on
+        />
+      </View>
+    );
+  }
+
+  _renderMonthController() {
+    return (
+      <View
           style={{
             flexDirection: "row",
             height: 40,
@@ -41,7 +56,7 @@ export default class OrderListComponent extends Component {
         >
           <View style={{ flex: 1.5, marginVertical: 0 }}>
             <Button
-              style={{ marginVertical: 0, marginHorizontal: 0 }}
+              style={{ marginVertical: 0, marginHorizontal: 0, backgroundColor: 'white' }}
               onPress={this._onPreviousMonthPress}
               title="<<"
               color='black'
@@ -56,23 +71,17 @@ export default class OrderListComponent extends Component {
 
           <View style={{ flex: 1.5, marginVertical: 0 }}>
             <Button
-              style={{ marginVertical: 0, marginHorizontal: 0 }}
+              style={{ marginVertical: 0, marginHorizontal: 0, backgroundColor: 'white' }}
               onPress={this._onNextMonthPress}
               title=">>"
               color='black'
             />
           </View>
         </View>
-        <FlatList
-          data={data}
-          renderItem={this._renderOrderItem.bind(this)}
-          keyExtractor={item => item.id}
-          on
-        />
-      </View>
     );
   }
 
+  /* Reload order in a month before current selected month */
   _onPreviousMonthPress = () => {
     let { order, loadOrder, resetOrderState, user } = this.props;
     if (order.isLoading) {
@@ -91,6 +100,7 @@ export default class OrderListComponent extends Component {
 
   };
 
+  /* Reload order in a month after current selected month */
   _onNextMonthPress = () => {
     let { order, loadOrder, resetOrderState, user } = this.props;
     if (order.isLoading) {
@@ -108,6 +118,11 @@ export default class OrderListComponent extends Component {
     loadOrder(odoo, nextMonth,  order.limit, 0);
   };
 
+  /**
+  * Render order item of list
+  * @param {object} item The order
+  * @param {number} index The index of order in list
+  */
   _renderOrderItem = ({ item, index }) => {
     const { onFinishedItem, onDeleteItem } = this.props;
 
@@ -140,6 +155,10 @@ export default class OrderListComponent extends Component {
     );
   };
 
+  /**
+  * When user click an order, navigate to sale detail with order data
+  * @param {object} data The order's data
+  */
   _onOrderClicked = data => {
     this.props.navigation.navigate("SaleDetail", {
       order: JSON.stringify(data)

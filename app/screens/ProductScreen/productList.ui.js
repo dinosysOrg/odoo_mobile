@@ -12,8 +12,8 @@ export default class ProductListComponent extends Component {
     super(props);
   }
 
-  render() {
-    
+  /* Render product list UI */
+  render() {    
     let { data } = this.props.product
 
     return (
@@ -33,6 +33,7 @@ export default class ProductListComponent extends Component {
     )
   }
 
+  /* Function to reload when user pull down at the top of the list */
   _handleRefresh = () => {
     let { product, loadProduct, resetProductState, user } = this.props;
     if (product.isLoading) {
@@ -43,6 +44,7 @@ export default class ProductListComponent extends Component {
     loadProduct(odoo, product.searchText,  product.limit, 0);
   };
 
+  /* Function to load more when user scroll to the bottom of the list */
   _handleLoadMore = () => {
     let { product, loadProduct, user } = this.props
     if (product.isLoading) {
@@ -55,8 +57,10 @@ export default class ProductListComponent extends Component {
     loadProduct(odoo, product.searchText,  product.limit, product.page);
   }
 
+  /* Render item's separator */
   _renderSeparator = () => ( <View style={styles.divider} /> )
 
+  /* Render search bar which is the header of the list */
   _renderHeader = () => (
       <SearchBar
         placeholder = { strings.input.searchPlaceHolder }
@@ -67,6 +71,7 @@ export default class ProductListComponent extends Component {
       />
   )
 
+  /* Search product by keyword after user type in the search box */
   _doSearchAfterTextChange(text) {;
     let { product, loadProduct, resetProductState, user } = this.props;
     if (product.isLoading) {
@@ -77,7 +82,9 @@ export default class ProductListComponent extends Component {
     loadProduct(odoo, text,  product.limit, 0);
   }
 
-
+  /* Render activity indicator at the bottom of the list when user 
+   * scroll to bottom to load more
+   */
   _renderFooter = () => {
     let { isLoading } = this.props.product;
     if (isLoading) {
@@ -90,6 +97,10 @@ export default class ProductListComponent extends Component {
     return null
   };
 
+  /* Render product item
+   * {object} product The product
+   * {number} index The product's index in list
+   */
   _renderProductItem = ({item, index}) => {
     const { onFinishedItem, onDeleteItem } = this.props;
 
@@ -108,6 +119,9 @@ export default class ProductListComponent extends Component {
     );
   }
 
+  /* Render product image. If product has no image, set image placeholder
+   * {object} product The product
+   */
   _renderProductImage(product) {
     if (product.image_small != null && product.image_small != false) {
       return (
