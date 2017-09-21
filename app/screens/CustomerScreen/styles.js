@@ -72,3 +72,24 @@ export const styles = StyleSheet.create({
     padding: 8,
   },
 })
+
+export const optionsStyles = {
+  optionsContainer: {
+    backgroundColor: 'white',
+    padding: 5,
+  },
+  optionsWrapper: {
+    backgroundColor: 'white',
+  },
+  optionWrapper: {
+    backgroundColor: 'white',
+    margin: 5,
+  },
+  optionTouchable: {
+    underlayColor: 'gray',
+    activeOpacity: 70,
+  },
+  optionText: {
+    color: 'black',
+  },
+};

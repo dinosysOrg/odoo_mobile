@@ -78,9 +78,10 @@ class SettingScreen extends Component {
     );
   }
 
+// Logout and remove session and list user
   _doLogout() {
     let { session } = this.props.user.odoo;
-    let activeUser = this.props.user.odoo.userInfo
+    let activeUser = this.props.user.odoo.userInfo;
     session
       .removeUser(activeUser)
       .then(value => {
@@ -91,59 +92,7 @@ class SettingScreen extends Component {
       });
   }
 
-  _renderList() {
-    let { profileList } = this.state;
-    return (
-      <FlatList
-        data={users}
-        keyExtractor={item => item.auth.username}
-        renderItem={this._renderItem}
-      />
-    );
-  }
-
-  _renderItem = ({ item, index }) => {
-    return (
-      <View key={Math.random()} style={styles.containerItem}>
-        <View style={{ flex: 2 }}>
-          <Avatar
-            large
-            rounded
-            source={{ uri: `data:image/jpeg;base64, ${item.profile[0].image}` }}
-          />
-        </View>
-        <View style={{ flex: 6 }}>
-          <Text> {item.profile[0].name} </Text>
-          <Text> {item.profile[0].phone} </Text>
-          <Text> {item.profile[0].email} </Text>
-        </View>
-        <View
-          style={{ flex: 2, justifyContent: "center", alignItems: "center" }}
-        >
-          <Switch onTintColor="green" value={true} />
-        </View>
-      </View>
-    );
-  };
 }
-
-const SwitchButton = props => {
-  return (
-    <TouchableOpacity
-      style={styles.switchButton}
-      onPress={() => {
-        console.log("press on switch button");
-      }}
-    >
-      <FontAwesome
-        style={styles.menuIcon}
-        name="toggle-on"
-        size={32}
-        color="green"
-      />
-    </TouchableOpacity>
-  );
-};
 
 const mapStateToProps = state => ({
   user: state.user
