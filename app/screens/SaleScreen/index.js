@@ -7,6 +7,8 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import moment from "moment";
 
 class SaleScreen extends Component {
+
+  /* Update header's title */
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: "Sales"
@@ -18,9 +20,10 @@ class SaleScreen extends Component {
   }
 
   render() {
-    return <OrderListComponent style={{ flex: 1 }} {...this.props} />;
+    return (<OrderListComponent style={{ flex: 1 }} {...this.props} />);
   }
 
+  /* After component did mount, start loading order */
   componentDidMount() {
     let { order, loadOrder, user } = this.props;
     let { odoo } = user;
@@ -33,15 +36,18 @@ class SaleScreen extends Component {
   }
 }
 
+/* Map state to props */
 const mapStateToProps = state => ({
   user: state.user,
   order: state.order
 });
 
+/* Map dispatch method to props */
 const mapDispatchToProps = dispatch => ({
   loadOrder: (odooApi, month, limit, offset) =>
     dispatch(loadOrder(odooApi, month, limit, offset)),
   resetOrderState: () => dispatch(resetOrderState())
 });
 
+/* Connect props to screen */
 export default connect(mapStateToProps, mapDispatchToProps)(SaleScreen);
