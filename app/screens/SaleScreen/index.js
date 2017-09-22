@@ -21,6 +21,9 @@ class SaleScreen extends Component {
     return <OrderListComponent style={{ flex: 1 }} {...this.props} />;
   }
 
+  /**
+   * When component did mount, check if order.month in state is null or not, if null, set default value is current date.
+   */
   componentDidMount() {
     let { order, loadOrder, user } = this.props;
     let { odoo } = user;

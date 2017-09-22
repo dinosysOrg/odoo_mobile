@@ -44,14 +44,19 @@ export default class OrderListComponent extends Component {
               style={{ marginVertical: 0, marginHorizontal: 0 }}
               onPress={this._onPreviousMonthPress}
               title="<<"
-              color='black'
+              color="black"
             />
           </View>
 
-          <View style={{ flex: 7, marginVertical: 0, alignItems: 'center', justifyContent: 'center' }}>
-            <Text fontSize={ 20 }>
-              {currentSelectedMonth}
-            </Text>
+          <View
+            style={{
+              flex: 7,
+              marginVertical: 0,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text fontSize={20}>{currentSelectedMonth}</Text>
           </View>
 
           <View style={{ flex: 1.5, marginVertical: 0 }}>
@@ -59,7 +64,7 @@ export default class OrderListComponent extends Component {
               style={{ marginVertical: 0, marginHorizontal: 0 }}
               onPress={this._onNextMonthPress}
               title=">>"
-              color='black'
+              color="black"
             />
           </View>
         </View>
@@ -73,41 +78,53 @@ export default class OrderListComponent extends Component {
     );
   }
 
+  /**
+   * This method will be called when user click << button to Load previous month's order
+   */
   _onPreviousMonthPress = () => {
     let { order, loadOrder, resetOrderState, user } = this.props;
     if (order.isLoading) {
-      return
+      return;
     }
 
     let currentSelectedMonth = order.month;
 
-    let previousMonth = moment(currentSelectedMonth).subtract(1,'M').format("YYYY-MM-DD");
+    let previousMonth = moment(currentSelectedMonth)
+      .subtract(1, "M")
+      .format("YYYY-MM-DD");
 
-    resetOrderState()
+    resetOrderState();
 
-    let { odoo } = user
+    let { odoo } = user;
 
-    loadOrder(odoo, previousMonth,  order.limit, 0);
-
+    loadOrder(odoo, previousMonth, order.limit, 0);
   };
 
+  /**
+   * This method will be called when user click >> button to Load next month's order
+   */
   _onNextMonthPress = () => {
     let { order, loadOrder, resetOrderState, user } = this.props;
     if (order.isLoading) {
-      return
+      return;
     }
 
     let currentSelectedMonth = order.month;
 
-    let nextMonth = moment(currentSelectedMonth).add(1,'M').format("YYYY-MM-DD");
+    let nextMonth = moment(currentSelectedMonth)
+      .add(1, "M")
+      .format("YYYY-MM-DD");
 
-    resetOrderState()
+    resetOrderState();
 
-    let { odoo } = user
+    let { odoo } = user;
 
-    loadOrder(odoo, nextMonth,  order.limit, 0);
+    loadOrder(odoo, nextMonth, order.limit, 0);
   };
 
+  /**
+   * Render order item in list
+   */
   _renderOrderItem = ({ item, index }) => {
     const { onFinishedItem, onDeleteItem } = this.props;
 
@@ -140,6 +157,9 @@ export default class OrderListComponent extends Component {
     );
   };
 
+  /**
+   * Method will be called when user clicked an order item, then navigate to sale detail screen to view detail order
+   */
   _onOrderClicked = data => {
     this.props.navigation.navigate("SaleDetail", {
       order: JSON.stringify(data)
