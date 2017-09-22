@@ -22,6 +22,9 @@ class Product extends Component {
     return (<ProductListComponent {...this.props}/>);
   }
 
+ /**
+  * When component did mount, do load product 
+  */
   componentDidMount() {
     let { product, loadProduct, user } = this.props;
     let { odoo } = user;
