@@ -51,9 +51,9 @@ export const loadOrder = (odooApi, date, limit = 10, page = 0) => {
     let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingOrder())
-        const requestOrder = odooApi.fetchSaleOrderListByMonth(month, limit, offset);
+        const requestOrder = odooApi.fetchSaleOrderListByMonth(date, limit, offset);
         return requestOrder.then(
-            response => dispatch(loadOrderSuccessfully(response, page, month)),
+            response => dispatch(loadOrderSuccessfully(response, page, date)),
             err => dispatch(loadOrderFailed(err))
         )
     }
