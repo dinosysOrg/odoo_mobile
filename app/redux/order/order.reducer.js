@@ -1,5 +1,5 @@
 import moment from "moment";
-
+// The default state for order.
 let orderState = {
     month: null,
     data: [],
@@ -12,6 +12,10 @@ let orderState = {
 
 const orderReducer = (state = orderState, action) => {
     switch (action.type) {
+        case "RESET_ALL_DATA":
+        return {
+          ...orderState
+        };
         case 'LOADING_ORDER':
         return {
             ...state,

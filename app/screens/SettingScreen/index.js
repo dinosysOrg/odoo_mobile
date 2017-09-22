@@ -78,20 +78,20 @@ class SettingScreen extends Component {
     );
   }
 
-// Logout and remove session and list user
+  // Logout and remove session and list user
   _doLogout() {
     let { session } = this.props.user.odoo;
     let activeUser = this.props.user.odoo.userInfo;
     session
       .removeUser(activeUser)
       .then(value => {
+        this.props.navigation.dispatch({ type: "RESET_ALL_DATA" });
         this.props.navigation.dispatch({ type: "Logout" });
       })
       .catch(error => {
-        console.error("error", error)
+        console.error("error", error);
       });
   }
-
 }
 
 const mapStateToProps = state => ({
