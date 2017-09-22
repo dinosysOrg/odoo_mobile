@@ -12,11 +12,12 @@ export default class MyOdooAPI {
   constructor() {}
 
   /**
-    * @param {object} options The options including url, db, username and password for estalishing odoo connection
+    * Do login 
+    * @param {object} options The options include: {url, db, username and password} for estalishing odoo connection
     * @param {string} options.url The url of odoo server  
     * @param {string} options.db The database of odoo server
-    * @param {string} options.username The user name of user
-    * @param {string} options.password The password of user    
+    * @param {string} options.username The user name 
+    * @param {string} options.password The password  
     */
   doLogin(options) {
     this._initApiHandler(options);
@@ -74,7 +75,7 @@ export default class MyOdooAPI {
         let session = new UserSession();
         let userInfo = await session.getUserActive();
         if (!userInfo || !userInfo.auth || !userInfo.profile || !userInfo.roles) {
-          return reject("User invalid infomation");
+          return reject("User invalid information");
         }
         let { auth } = userInfo;
         this._initApiHandler(auth);

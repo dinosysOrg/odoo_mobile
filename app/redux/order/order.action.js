@@ -1,5 +1,5 @@
 /**
- * Load order with successfully action.
+ * Load order successfully action.
  * @param {object} json: The data response.  
  * @param {integer} page: The page requested.
  * @param {integer} selectedMonth: The selected month requested.
@@ -14,7 +14,7 @@ export const loadOrderSuccessfully = (json, page, selectedMonth) => {
 }
 
 /**
- * Load order with failure action.
+ * Load order failure action.
  * @param {string} errorMessage: The error message
  */
 export const loadOrderFailed = (errorMessage) => {

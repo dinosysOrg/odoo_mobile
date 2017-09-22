@@ -52,7 +52,7 @@ export default class LoginComponent extends Component {
   }
 
   /**
-   * Auto open home screen if user already login,
+   * Automatically open home screen if user already login.
    */
   _loadInfoFromStore = async () => {
     let { odoo } = this.props.user;

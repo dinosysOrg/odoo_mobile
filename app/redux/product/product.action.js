@@ -1,5 +1,5 @@
 /**
- * Load product with successsfully.
+ * Load product successsfully.
  * @param {object} json: The data response from odoo server. 
  * @param {integer} page: The page request. 
  * @param {string} currentSearchValue: The search key 
@@ -14,7 +14,7 @@ export const loadProductSucessfully = (json, page, currentSearchValue) => {
 }
 
 /**
- * Load product with failure.
+ * Load product failure.
  * @param {string} errorMessage: The error message.
  */
 export const loadProductFailed = (errorMessage) => {

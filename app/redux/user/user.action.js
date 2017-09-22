@@ -11,7 +11,7 @@ export const loadUserSucessfully = (json, page) => {
     }
 }
 /**
- * Load user with failure action.
+ * Load user  failure action.
  * @param {string} errorMessage: The error message
  */
 export const loadUserFailed = (errorMessage) => {
@@ -38,7 +38,7 @@ export const resetUserState = () => {
 }
 
 /**
- * Load user  action.
+ * Load user action.
  * @param {object} odooApi: The instance of MyOdooAPI.
  * @param {integer} limit: The limit size of query.  
  * @param {integer} page: The page.

@@ -1,5 +1,5 @@
 /**
- * Login with successfully action.
+ * Login successfully action.
  */
 export const loginSuccessfully = () => {
     return {
@@ -8,7 +8,7 @@ export const loginSuccessfully = () => {
 }
 
 /**
- * Login with failure.
+ * Login failure.
  * @param {string} errorMessage: The error message
  */
 export const loginFailure = (errorMessage) => {

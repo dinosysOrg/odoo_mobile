@@ -13,7 +13,7 @@ export const loadCustomerSucessfully = (json, page, currentSearchValue) => {
     }
 }
 /**
- * Load customer with failure action.
+ * Load customer failure action.
  * @param {string} errorMessage: The error message 
  */
 export const loadCustomerFailed = (errorMessage) => {
