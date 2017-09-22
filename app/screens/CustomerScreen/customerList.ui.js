@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import { styles } from './styles';
 import debounce from 'lodash/debounce';
-import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcon } from '@expo/vector-icons/MaterialIcons';
+import strings from "../../strings/index";
+import images from "../../images";
 
 class CustomerListComponent extends Component {
 
@@ -19,7 +21,6 @@ class CustomerListComponent extends Component {
           data={data}
           renderItem={this._renderCustomerItem.bind(this)}
           keyExtractor={item => item.id}
-          ItemSeparatorComponent={this._renderSeparator}
           ListHeaderComponent={this._renderHeader}
           ListFooterComponent={this._renderFooter}
           onRefresh={this._handleRefresh}
@@ -65,10 +66,10 @@ class CustomerListComponent extends Component {
   _renderHeader = () => (
       <SearchBar
         ref={search => this.search = search}
-        placeholder="Type Here..."
-        lightTheme
+        placeholder={strings.input.searchPlaceHolder}
         round
-        noIcon
+        lightTheme
+        icon={{ color: '#999', name: 'search' }}
         onChangeText={debounce((text) => this._doSearchAfterTextChange(text), 1000)}
       />
   )
@@ -103,24 +104,38 @@ class CustomerListComponent extends Component {
   //Custom cell show infor of per customer
   _renderCustomerItem = ({item}) => {
     return (
-      <ListItem
-        hideChevron={true}
-        roundAvatar
-        title={
-          <View style={styles.titleView}>
+      <View style={ styles.listItem }>
+        <View style={ styles.infoItem }>
+          {this._renderAvatar(item)}
+          <View style={ styles.subtitleView }>
             <Text style={styles.titleText}> {item.name} </Text>
-          </View>
-        }
-        subtitle={
-          <View style={styles.subtitleView}>
             <Text style={styles.subtitleText} numberOfLines={1} ellipsizeMode={"tail"}> {item.create_date} </Text>
             <Text style={styles.subtitleText} numberOfLines={1} ellipsizeMode={"tail"}> {item.email} </Text>
           </View>
-        }
-        avatar={{ uri: `data:image/png;base64, ${item.image}` }}
-        containerStyle={{ borderBottomWidth: 0 }}
-    />
+      </View>
+    </View>
     )
+  }
+
+  // Load avatar's customer
+  _renderAvatar(item) {
+    if (item.image != null) {
+      return (
+        <Image
+          style={{ width: 80, height: 80 }}
+          source={{ uri: "data:image/png;base64," + item.image }}
+          resizeMode={"contain"}
+        />
+      );
+    } else {
+      return (
+        <Image
+          style={{ width: 80, height: 80 }}
+          source={images.placeholder}
+          resizeMode={"contain"}
+        />
+      );
+    }
   }
 }
 

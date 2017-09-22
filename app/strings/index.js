@@ -14,7 +14,7 @@ export default {
         price: 'Price',
         onHand: 'On hand',
         forecasted: 'Forecasted',
-        currency: '$',        
+        currency: '$',
         units: 'Unit(s)'
     },
     order: {
@@ -34,14 +34,17 @@ export default {
         send_successfully: 'Sent successfully'
     },
     input: {
-        searchPlaceHolder: 'Type here'
+        searchPlaceHolder: 'Type here...'
     },
     slide_menu: {
         profile: "Profile",
-        setting: 'Setting',        
+        setting: 'Setting',
         product: 'Products',
         sale: "Sales",
         customer: 'Customers',
         logout: 'Logout'
+    },
+    sub_Screen: {
+        detailSale: 'Details'
     }
 }

@@ -9,7 +9,7 @@ import moment from "moment";
 class SaleScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: "Sales"
+      headerTitle: strings.slide_menu.sale,
     };
   };
 

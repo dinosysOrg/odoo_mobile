@@ -4,6 +4,7 @@ import { loadProduct, resetProductState } from '../../redux/product/product.acti
 import ProductListComponent from './productList.ui'
 import { FontAwesome } from '@expo/vector-icons';
 import SortMenu from './sortMenu'
+import strings from "../../strings/index";
 
 class Product extends Component {
 
@@ -13,7 +14,7 @@ class Product extends Component {
 
   static navigationOptions = ({navigation}) => {
     return {
-      headerTitle: 'Product',
+      headerTitle: strings.slide_menu.product,
       headerRight: <SortMenu/>
     }
   };
@@ -23,7 +24,7 @@ class Product extends Component {
   }
 
  /**
-  * When component did mount, do load product 
+  * When component did mount, do load product
   */
   componentDidMount() {
     let { product, loadProduct, user } = this.props;

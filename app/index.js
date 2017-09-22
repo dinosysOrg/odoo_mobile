@@ -3,6 +3,8 @@ import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import AppWithNavigationState from './navigators/AppNavigator';
 import store from './redux/configStore';
+import { Font } from 'expo';
+
 import Menu, {
   MenuContext,
   MenuTrigger,
@@ -12,6 +14,15 @@ import Menu, {
 } from 'react-native-popup-menu';
 
 export default class OdooMobile extends React.Component {
+
+  /**
+  * Add custom font for search bar icon
+  */
+  componentDidMount() {
+    Font.loadAsync({
+      'Material Icons': require('../assets/fonts/MaterialIcons.ttf'),
+    });
+  }
 
   render() {
     return (

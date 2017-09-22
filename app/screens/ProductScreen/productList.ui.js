@@ -79,7 +79,7 @@ export default class ProductListComponent extends Component {
       placeholder={strings.input.searchPlaceHolder}
       lightTheme
       round
-      noIcon
+      icon={{ color: '#999', name: 'search' }}
       onChangeText={debounce(text => this._doSearchAfterTextChange(text), 1000)}
     />
   );
@@ -147,7 +147,7 @@ export default class ProductListComponent extends Component {
 
   /**
    * Render product image if product has image or placeholder image instead if product doesn't have image.
-   * @param {object} product the product data 
+   * @param {object} product the product data
    */
   _renderProductImage(product) {
     if (product.image_small != null && product.image_small != false) {

@@ -24,7 +24,7 @@ export const SideMenu = DrawerNavigator(
     },
   },
   {
-    drawerWidth: Dimensions.get('window').width * 3/4,
+    drawerWidth: Dimensions.get('window').width - 56,
     drawerPosition: 'left',
     contentComponent: props => <Menu {...props} />
   }
