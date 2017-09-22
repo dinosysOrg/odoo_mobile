@@ -30,7 +30,7 @@ export const AppNavigator = StackNavigator({
   SaleDetail: { screen: SaleDetail,
     path: 'order/:data',
     navigationOptions: ({navigation}) => ({
-        title: "DETAIL",
+        title: strings.sub_Screen.detailSale,
         headerStyle: { backgroundColor: '#5FC5B0' },
         headerTintColor: 'white',
         headerLeft: <BackButton navigation={navigation}/>

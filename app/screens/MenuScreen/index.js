@@ -54,7 +54,7 @@ class Menu extends Component {
       },
       {
         title: strings.slide_menu.setting,
-        icon: "user",
+        icon: "gear",
         screen: "SettingScreen",
         enableMenu: true
       },

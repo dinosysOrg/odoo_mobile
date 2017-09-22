@@ -5,40 +5,41 @@ export const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   titleText: {
-    fontSize: 16,
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   subtitleView: {
-    flexDirection: 'column',
+    flexDirection: "column",
     paddingLeft: 5,
   },
   subtitleText: {
     fontSize: 14,
-    color: 'gray',
+    color: "gray",
   },
   container: {
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    marginTop: 0
+    marginTop: 0,
+    backgroundColor: "#e5e5ea",
   },
   footer: {
     paddingVertical: 20,
     borderTopWidth: 1,
-    borderColor: "#CED0CE"
+    borderColor: "#CED0CE",
   },
   sortButton: {
   marginRight: 5,
   },
   topbar: {
-    flexDirection: 'row',
-    backgroundColor: 'dimgray',
+    flexDirection: "row",
+    backgroundColor: "dimgray",
     paddingTop : 15,
   },
   menu: {
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
     width: 100,
-    flexDirection: 'column',
-    alignSelf: 'flex-end',
+    flexDirection: "column",
+    alignSelf: "flex-end",
   },
   options: {
     width: 100,
@@ -47,49 +48,73 @@ export const styles = StyleSheet.create({
   trigger: {
     padding: 5,
     width: 100,
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   triggerText: {
-    color: 'white',
-    textAlign: 'right',
-    backgroundColor: 'green',
+    color: "white",
+    textAlign: "right",
+    backgroundColor: "green",
   },
   disabled: {
-    color: '#ccc',
+    color: "#ccc",
   },
   divider: {
     marginVertical: 5,
     marginHorizontal: 2,
     borderBottomWidth: 1,
-    borderColor: '#ccc'
+    borderColor: "white"
   },
   logView: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   logItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 8,
   },
+  listItem: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    height: 100,
+    marginHorizontal: 10,
+    marginTop: 10,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    borderColor: "gray",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowColor: "gray",
+    elevation: 2
+  },
+  infoItem: {
+    flex: 1,
+    flexDirection: "row",
+    height: 80,
+    justifyContent: "flex-start",
+    alignItems: "flex-start"
+  }
 })
 
 export const optionsStyles = {
   optionsContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 5,
   },
   optionsWrapper: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   optionWrapper: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     margin: 5,
   },
   optionTouchable: {
-    underlayColor: 'gray',
+    underlayColor: "gray",
     activeOpacity: 70,
   },
   optionText: {
-    color: 'black',
+    color: "black",
   },
 };

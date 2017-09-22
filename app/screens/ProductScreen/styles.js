@@ -4,7 +4,8 @@ export const styles = StyleSheet.create({
   container: {
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    marginTop: 0
+    marginTop: 0,
+    backgroundColor: "#e5e5ea",
   },
   productInfoContainer: {
     flex: 1,
