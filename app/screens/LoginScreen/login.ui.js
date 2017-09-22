@@ -13,7 +13,9 @@ import Button from "../../components/Button";
 import getOdoo from "../../api/odoo";
 import MyDialog from "../../components/MyDialog";
 import images from "../../images";
-
+/**
+ * The login ui 
+ */
 export default class LoginComponent extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +29,7 @@ export default class LoginComponent extends Component {
   }
 
   componentDidMount() {
+    // Checking login from store 
     this._loadInfoFromStore()
   }
 
@@ -48,6 +51,9 @@ export default class LoginComponent extends Component {
     );
   }
 
+  /**
+   * Automatically open home screen if user already login.
+   */
   _loadInfoFromStore = async () => {
     let { odoo } = this.props.user;
     odoo.doLoginFormSession()
@@ -61,17 +67,31 @@ export default class LoginComponent extends Component {
       });
   };
 
+  /**
+   * Show dialog loading 
+   */
   _showDialogLoading() {
     let title = strings.dialog.title_loading;
     let content = strings.dialog.content_loading;
     this.myDialog.show("loading", title, content);
   }
 
+  /**
+   * Login button click
+   */
   _loginClick() {
     this._showDialogLoading();
     this._doLogin(this.state);
   }
 
+  /**
+   * Do login 
+   * @param {object} options The authentication info for odoo
+   * @param {string} options.url The url of odoo server  
+   * @param {string} options.db The database of odoo server
+   * @param {string} options.username The user name of user
+   * @param {string} options.password The password of user
+   */
   _doLogin(options) {
     let { odoo } = this.props.user;
     odoo.doLogin(options)
@@ -87,17 +107,25 @@ export default class LoginComponent extends Component {
       });
   }
 
+  /**
+   * Open home screen if user login successfully
+   */
   _openHomeScreen = () => {
-    console.log("_openHomeScreen",this.props.navigation);
     this.props.navigation.dispatch({ type: "Main" });
   };
 
+  /**
+   * Show error dialog when user login with failure
+   */
   _showLoginError = () => {
     let title = strings.dialog.title_error;
     let content = strings.dialog.content_error;
     this.myDialog.show("error", title, content);
   };
 
+  /**
+   * The UI for Login 
+   */
   _renderLoginInputUI() {
     return (
       <View>

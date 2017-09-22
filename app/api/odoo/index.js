@@ -12,7 +12,12 @@ export default class MyOdooAPI {
   constructor() {}
 
   /**
-    * @param {object} options The options including url, db, username and password for estalishing odoo connection
+    * Do login 
+    * @param {object} options The options include: {url, db, username and password} for estalishing odoo connection
+    * @param {string} options.url The url of odoo server  
+    * @param {string} options.db The database of odoo server
+    * @param {string} options.username The user name 
+    * @param {string} options.password The password  
     */
   doLogin(options) {
     this._initApiHandler(options);
@@ -42,6 +47,14 @@ export default class MyOdooAPI {
     });
   }
 
+  /**
+   * Method init api variable request 
+   * @param {object} options The authentication info for odoo
+   * @param {string} options.url The url of odoo server  
+   * @param {string} options.db The database of odoo server
+   * @param {string} options.username The user name of user
+   * @param {string} options.password The password of user
+   */
   _initApiHandler(options) {
     // odoo api handle fetch data from server
     this.odoo = new Odoo(options);
@@ -49,13 +62,20 @@ export default class MyOdooAPI {
     this.session = new UserSession();
   }
 
+  /**
+   * Load user from the cache.
+   * @return true   if user already login.
+   *         error  if user not found.
+   * @see _initApiHandler
+   * @see UserSession.getUserActive
+   */
   doLoginFormSession() {
     return new Promise(async (resolve, reject) => {
       try {
         let session = new UserSession();
         let userInfo = await session.getUserActive();
-        if (!userInfo) {
-          return reject("user info null");
+        if (!userInfo || !userInfo.auth || !userInfo.profile || !userInfo.roles) {
+          return reject("User invalid information");
         }
         let { auth } = userInfo;
         this._initApiHandler(auth);
@@ -67,18 +87,29 @@ export default class MyOdooAPI {
     });
   }
 
-  getAccessRight = async () => {
-    let partnerReadable = await this.checkAccessRight("res.partner", ["read"]);
-    let productReadable = await this.checkAccessRight("product.product", [
-      "read"
-    ]);
-    let saleOrderReadable = await this.checkAccessRight("sale.order", ["read"]);
-    this.roles = {
-      resPartner: { read: partnerReadable },
-      productProduct: { read: productReadable },
-      saleOrder: { read: saleOrderReadable }
-    };
-    return this.roles;
+  /**
+   * Check access roles for tables: (res.partner, product.product, sale.order)
+   * @return roles: The roles for tables.
+   *         error: The exception  
+   */
+  getAccessRight ()  {
+    return new Promise(async(resolve, reject) => {
+      try {
+          let partnerReadable = await this.checkAccessRight("res.partner", ["read"]);
+          let productReadable = await this.checkAccessRight("product.product", [
+            "read"
+          ]);
+          let saleOrderReadable = await this.checkAccessRight("sale.order", ["read"]);
+          let roles = {
+            resPartner: { read: partnerReadable },
+            productProduct: { read: productReadable },
+            saleOrder: { read: saleOrderReadable }
+          };
+          return resolve(roles);
+      } catch(error) {
+          return reject(error);
+      }
+    })
   };
 
   /**
@@ -99,7 +130,6 @@ export default class MyOdooAPI {
   /**
     * @deprecated using fetchModelFields instead
     */
-
   fetchTableFields = tableName => this.odoo.fields_get(tableName, {});
 
   /**
@@ -169,6 +199,12 @@ export default class MyOdooAPI {
     return this.fetchModel(model, domain, params);
   };
 
+  /**
+   * Get sale order by month 
+   * @param {string} date: The date 
+   * @param {int} limit: The limit size of query
+   * @param {int} offset: The offset of query 
+   */
   fetchSaleOrderListByMonth = (date, limit, offset) => {
     let selectedDate = moment(date);
 
@@ -202,10 +238,26 @@ export default class MyOdooAPI {
     return this.fetchSaleOrderList(domain, params);
   };
 
+  /**
+   * Check access roles for odoo query api
+   * @param {string} tableName: The table name of query
+   * @param {array} params: The permission role 
+   * The relevant states: 
+   *    [
+   *      "read", 
+   *      "write",
+   *      "create", 
+   *      "delete"
+   *    ]
+   */
   checkAccessRight = (tableName, params) => {
     return this.odoo.check_access_rights(tableName, params, {});
   };
 
+  /**
+   * Get user profile by email
+   * @return {array} profile: The array profile 
+   */
   fetchUserProfile = (limit, offset, id) =>
     this.odoo.search_read("res.users", [id ? [["email", "=", id]] : []], {
       fields: [],

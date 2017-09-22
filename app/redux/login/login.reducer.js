@@ -1,22 +1,23 @@
-import MyOdooAPI from '../../api/odoo'
+import MyOdooAPI from "../../api/odoo";
 
+// The default login state.
 const initFirstState = () => {
-    let odoApi = new MyOdooAPI()
-    return {
-        odoo: odoApi,
-        error: null
-    }
-}
+  let odoApi = new MyOdooAPI();
+  return {
+    odoo: odoApi,
+    error: null
+  };
+};
 
 const loginReducer = (state = initFirstState(), action) => {
-    switch (action.type) {
-        case 'LOGIN_FAILURE':
-        return {
-            ...state,
-            error: action.error
-        }
-    }
-    return state;
-}
- 
+  switch (action.type) {
+    case "LOGIN_FAILURE":
+      return {
+        ...state,
+        error: action.error
+      };
+  }
+  return state;
+};
+
 export default loginReducer;
