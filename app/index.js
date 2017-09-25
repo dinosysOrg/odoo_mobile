@@ -1,14 +1,9 @@
 import React from 'react';
-import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import AppWithNavigationState from './navigators/AppNavigator';
 import store from './redux/configStore';
 import Menu, {
-  MenuContext,
-  MenuTrigger,
-  MenuOptions,
-  MenuOption,
-  renderers
+  MenuContext
 } from 'react-native-popup-menu';
 
 export default class OdooMobile extends React.Component {
@@ -22,5 +17,4 @@ export default class OdooMobile extends React.Component {
       </Provider>
     );
   }
-
 }

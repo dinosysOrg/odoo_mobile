@@ -1,26 +1,25 @@
-// The default product state.
-let productState = {
+// The default user state.
+let userState = {
   data: [],
-  searchKey: "",
-  isLoading: false,
-  isFinish: false,
+  error: null,
   page: 0,
-  limit: 10, 
-  error: null
+  limit: 10,
+  isLoading: false,
+  isFinish: false
 };
 
-const productReducer = (state = productState, action) => {
+const userReducer = (state = userState, action) => {
   switch (action.type) {
     case "RESET_ALL_DATA":
       return {
-        ...productState
+        ...userState
       };
-    case "LOADING_PRODUCT":
+    case "LOADING_USER":
       return {
         ...state,
         isLoading: true
       };
-    case "RESET_PRODUCT_DATA":
+    case "RESET_USER_DATA":
       return {
         ...state,
         data: [],
@@ -28,7 +27,7 @@ const productReducer = (state = productState, action) => {
         isLoading: false,
         isFinish: false
       };
-    case "LOAD_PRODUCT_SUCCESSFULLY":
+    case "LOAD_USER_SUCCESSFULLY":
       if (action.page > 0 && action.data.length == 0) {
         return {
           ...state,
@@ -37,15 +36,14 @@ const productReducer = (state = productState, action) => {
         };
       }
       let currentPage = ++action.page;
-      let productList = [...state.data, ...action.data];
+      let userList = [...state.data, ...action.data];
       return {
         ...state,
-        data: productList,
+        data: userList,
         isLoading: false,
-        page: currentPage,
-        searchKey: action.searchKey
+        page: currentPage
       };
-    case "LOAD_PRODUCT_FAILURE":
+    case "LOAD_USER_FAILURE":
       return {
         ...state,
         error: action.error,
@@ -55,4 +53,4 @@ const productReducer = (state = productState, action) => {
   return state;
 };
 
-export default productReducer;
+export default userReducer;

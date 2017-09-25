@@ -4,6 +4,7 @@ import { loadCustomer, resetCustomerState } from '../../redux/customer/customer.
 import CustomerListComponent from './customerList.ui'
 import { FontAwesome } from '@expo/vector-icons';
 import SortMenu from './sortMenu'
+import strings from "../../strings/index";
 
 class Customer extends Component {
 
@@ -13,6 +14,7 @@ class Customer extends Component {
 
   static navigationOptions = ({navigation}) => {
     return {
+      headerTitle: strings.slide_menu.customer,
       headerRight: <SortMenu/>
     }
   };

@@ -30,13 +30,21 @@ export const AppNavigator = StackNavigator({
   SaleDetail: { screen: SaleDetail,
     path: 'order/:data',
     navigationOptions: ({navigation}) => ({
-        title: "DETAIL",
+        title: strings.sub_Screen.detailSale,
         headerStyle: { backgroundColor: '#5FC5B0' },
         headerTintColor: 'white',
         headerLeft: <BackButton navigation={navigation}/>
     })
   },
-});
+},
+{
+  index: 0,
+  initialRouteName: 'Login',
+  navigationOptions: {
+    gesturesEnabled: false
+  }
+}
+);
 
 const backAction = NavigationActions.back({
   key: null,

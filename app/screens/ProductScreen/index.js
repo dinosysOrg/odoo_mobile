@@ -4,6 +4,7 @@ import { loadProduct, resetProductState } from '../../redux/product/product.acti
 import ProductListComponent from './productList.ui'
 import { FontAwesome } from '@expo/vector-icons';
 import SortMenu from './sortMenu'
+import strings from "../../strings/index";
 
 class Product extends Component {
 
@@ -13,7 +14,10 @@ class Product extends Component {
 
   static navigationOptions = ({navigation}) => {
     return {
-      headerRight: <SortMenu/>
+      headerTitle: strings.slide_menu.product,
+      /**
+       * Temporary suspend
+       * headerRight: <SortMenu/> */
     }
   };
 
@@ -21,10 +25,13 @@ class Product extends Component {
     return (<ProductListComponent {...this.props}/>);
   }
 
+ /**
+  * When component did mount, do load product
+  */
   componentDidMount() {
     let { product, loadProduct, user } = this.props;
     let { odoo } = user;
-    loadProduct(odoo, product.searchText,  product.limit, product.page);
+    loadProduct(odoo, product.searchKey,  product.limit, product.page);
   }
 }
 
@@ -34,7 +41,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    loadProduct: (odooApi, currentSearchText, limit, offset) => dispatch( loadProduct(odooApi, currentSearchText, limit, offset)),
+    loadProduct: (odooApi, searchKey, limit, offset) => dispatch( loadProduct(odooApi, searchKey, limit, offset)),
     resetProductState: () => dispatch( resetProductState())
 });
 

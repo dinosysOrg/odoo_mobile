@@ -3,7 +3,7 @@ export default {
         title: "Login",
         host: "Host",
         database: "Database",
-        username: "Usernam",
+        username: "Username",
         password: "Password"
     },
     home_screen: {
@@ -14,7 +14,7 @@ export default {
         price: 'Price',
         onHand: 'On hand',
         forecasted: 'Forecasted',
-        currency: '$',        
+        currency: '$',
         units: 'Unit(s)'
     },
     order: {
@@ -34,13 +34,17 @@ export default {
         send_successfully: 'Sent successfully'
     },
     input: {
-        searchPlaceHolder: 'Type here'
+        searchPlaceHolder: 'Search here...'
     },
     slide_menu: {
-        profile: "Profile",        
+        profile: "Profile",
+        setting: 'Setting',
         product: 'Products',
         sale: "Sales",
         customer: 'Customers',
         logout: 'Logout'
+    },
+    sub_Screen: {
+        detailSale: 'Details'
     }
 }

@@ -3,30 +3,28 @@ import { StyleSheet, Image, View, Text, TouchableOpacity, Dimensions, Platform  
 import { StackNavigator, TabNavigator, DrawerNavigator } from 'react-navigation';
 import Menu from './index';
 import Product from '../ProductScreen/index';
-import Profile from '../ProfileScreen/index';
 import Setting from '../SettingScreen/index';
 import CustomerList from '../CustomerScreen/index';
 import SaleScreen from '../SaleScreen';
+
+//List of screen in menu
 export const SideMenu = DrawerNavigator(
   {
-    ProfileScreen: {
-      screen: Profile
+    SaleScreen: {
+      screen: SaleScreen
     },
     ProductScreen: {
       screen: Product
     },
-    SettingsScreen: {
-      screen: Setting
-    },
     CustomerScreen: {
       screen: CustomerList
     },
-    SaleScreen: {
-      screen: SaleScreen
-    }
+    SettingScreen: {
+      screen: Setting
+    },
   },
   {
-    drawerWidth: Dimensions.get('window').width * 3/4,
+    drawerWidth: Dimensions.get('window').width - 56,
     drawerPosition: 'left',
     contentComponent: props => <Menu {...props} />
   }
