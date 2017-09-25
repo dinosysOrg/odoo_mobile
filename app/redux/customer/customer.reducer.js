@@ -5,7 +5,7 @@ let customerDefaultState = {
   page: 0,
   limit: 10,
   isLoading: false,
-  searchText: "",
+  searchkey: "",
   isFinish: false,
   orderBy: "id"
 };
@@ -31,7 +31,7 @@ const customerReducer = (state = customerDefaultState, action) => {
       };
     case "LOAD_CUSTOMER_SUCCESSFULLY":
       if (action.page > 0 && action.data.length == 0) {
-        // If list return is empty. It's mean all record has been loaded. 
+        // If list return is empty. It's mean all record has been loaded.
         // Set isFinish flag is true to prevent loading more.
         return {
           ...state,
@@ -46,7 +46,7 @@ const customerReducer = (state = customerDefaultState, action) => {
         data: customerList,
         isLoading: false,
         page: currentPage,
-        searchText: action.searchText
+        searchkey: action.searchkey
       };
     case "LOAD_CUSTOMER_FAILURE":
       return {

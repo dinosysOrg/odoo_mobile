@@ -57,7 +57,7 @@ class CustomerListComponent extends Component {
       return;
     }
     let { odoo } = user
-    loadCustomer(odoo, customer.searchText,  customer.limit, customer.page);
+    loadCustomer(odoo, customer.searchkey,  customer.limit, customer.page);
   }
 
   _renderSeparator = () => ( <View style={styles.divider} /> )

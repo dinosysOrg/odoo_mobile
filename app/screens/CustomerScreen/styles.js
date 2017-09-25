@@ -111,7 +111,7 @@ export const optionsStyles = {
     margin: 5,
   },
   optionTouchable: {
-    underlayColor: "gray",
+    underlayColor: "green",
     activeOpacity: 70,
   },
   optionText: {
