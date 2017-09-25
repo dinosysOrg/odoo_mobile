@@ -34,7 +34,7 @@ export default {
         send_successfully: 'Sent successfully'
     },
     input: {
-        searchPlaceHolder: 'Type here...'
+        searchPlaceHolder: 'Search here...'
     },
     slide_menu: {
         profile: "Profile",

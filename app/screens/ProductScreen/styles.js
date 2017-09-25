@@ -31,6 +31,10 @@ export const styles = StyleSheet.create({
     shadowColor: "gray",
     elevation: 2
   },
+  itemImage: {
+    width: 80,
+    height: 80
+  },
   itemNameText: {
     fontWeight: "bold"
   },

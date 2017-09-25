@@ -69,7 +69,7 @@ class CustomerListComponent extends Component {
         placeholder={strings.input.searchPlaceHolder}
         round
         lightTheme
-        icon={{ color: '#999', name: 'search' }}
+        noIcon
         onChangeText={debounce((text) => this._doSearchAfterTextChange(text), 1000)}
       />
   )
