@@ -64,7 +64,7 @@ class ProductSortMenu extends Component {
     let { odoo } = user;
 
     resetProductState();
-    loadProduct(odoo, product.searchText, product.limit, product.page, orderBy);
+    loadProduct(odoo, product.searchKey, product.limit, product.page, orderBy);
   }
 }
 
@@ -74,8 +74,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadProduct: (odooApi, currentSearchKey, limit, page, orderBy) =>
-    dispatch(loadProduct(odooApi, currentSearchKey, limit, page, orderBy)),
+  loadProduct: (odooApi, searchKey, limit, page, orderBy) =>
+    dispatch(loadProduct(odooApi, searchKey, limit, page, orderBy)),
   resetProductState: () => dispatch(resetProductState())
 });
 

@@ -48,7 +48,7 @@ export default class ProductListComponent extends Component {
     }
     resetProductState();
     let { odoo } = user;
-    loadProduct(odoo, product.searchText, product.limit, 0);
+    loadProduct(odoo, product.searchKey, product.limit, 0);
   };
 
   /**
@@ -63,7 +63,7 @@ export default class ProductListComponent extends Component {
       return;
     }
     let { odoo } = user;
-    loadProduct(odoo, product.searchText, product.limit, product.page);
+    loadProduct(odoo, product.searchKey, product.limit, product.page);
   };
 
   /**
@@ -79,7 +79,7 @@ export default class ProductListComponent extends Component {
       placeholder={strings.input.searchPlaceHolder}
       lightTheme
       round
-      icon={{ color: '#999', name: 'search' }}
+      noIcon
       onChangeText={debounce(text => this._doSearchAfterTextChange(text), 1000)}
     />
   );
@@ -153,7 +153,7 @@ export default class ProductListComponent extends Component {
     if (product.image_small != null && product.image_small != false) {
       return (
         <Image
-          style={{ width: 80, height: 80 }}
+          style={styles.itemImage}
           source={{ uri: "data:image/png;base64," + product.image_small }}
           resizeMode={"contain"}
         />
@@ -161,7 +161,7 @@ export default class ProductListComponent extends Component {
     } else {
       return (
         <Image
-          style={{ width: 80, height: 80 }}
+          style={styles.itemImage}
           source={images.placeholder}
           resizeMode={"contain"}
         />

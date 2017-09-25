@@ -1,12 +1,12 @@
 // The default product state.
 let productState = {
   data: [],
-  error: null,
-  page: 0,
-  limit: 10,
+  searchKey: "",
   isLoading: false,
-  searchText: "",
-  isFinish: false
+  isFinish: false,
+  page: 0,
+  limit: 10, 
+  error: null
 };
 
 const productReducer = (state = productState, action) => {
@@ -43,7 +43,7 @@ const productReducer = (state = productState, action) => {
         data: productList,
         isLoading: false,
         page: currentPage,
-        searchText: action.searchText
+        searchKey: action.searchKey
       };
     case "LOAD_PRODUCT_FAILURE":
       return {

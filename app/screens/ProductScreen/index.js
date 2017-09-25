@@ -15,7 +15,9 @@ class Product extends Component {
   static navigationOptions = ({navigation}) => {
     return {
       headerTitle: strings.slide_menu.product,
-      headerRight: <SortMenu/>
+      /**
+       * Temporary suspend
+       * headerRight: <SortMenu/> */
     }
   };
 
@@ -29,7 +31,7 @@ class Product extends Component {
   componentDidMount() {
     let { product, loadProduct, user } = this.props;
     let { odoo } = user;
-    loadProduct(odoo, product.searchText,  product.limit, product.page);
+    loadProduct(odoo, product.searchKey,  product.limit, product.page);
   }
 }
 
@@ -39,7 +41,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    loadProduct: (odooApi, currentSearchText, limit, offset) => dispatch( loadProduct(odooApi, currentSearchText, limit, offset)),
+    loadProduct: (odooApi, searchKey, limit, offset) => dispatch( loadProduct(odooApi, searchKey, limit, offset)),
     resetProductState: () => dispatch( resetProductState())
 });
 

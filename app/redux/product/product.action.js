@@ -2,14 +2,14 @@
  * Load product successsfully.
  * @param {object} json: The data response from odoo server. 
  * @param {integer} page: The page request. 
- * @param {string} currentSearchValue: The search key 
+ * @param {string} searchKey: The search key 
  */
-export const loadProductSucessfully = (json, page, currentSearchValue) => {
+export const loadProductSucessfully = (json, page, searchKey) => {
     return {
         type: 'LOAD_PRODUCT_SUCCESSFULLY',
         data: json,
         page: page,
-        searchText: currentSearchValue
+        searchKey: searchKey
     }
 }
 
@@ -43,17 +43,17 @@ export const resetProductState = () => {
 /**
  * The load order action.
  * @param {object} odooApi: The instance of MyOdooAPI.
- * @param {string} currentSearchValue: The search key. 
+ * @param {string} searchKey: The search key. 
  * @param {integer} limit: The limit size.
  * @param {integer} page: The page request. 
  */
-export const loadProduct = (odooApi, currentSearchValue = '', limit = 10, page = 0) => {
+export const loadProduct = (odooApi, searchKey = '', limit = 10, page = 0) => {
     let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingProduct())
-        const requestProduct = odooApi.fetchProductList(currentSearchValue, limit, offset);
+        const requestProduct = odooApi.fetchProductList(searchKey, limit, offset);
         return requestProduct.then(
-            response => dispatch(loadProductSucessfully(response, page, currentSearchValue)),
+            response => dispatch(loadProductSucessfully(response, page, searchKey)),
             err => dispatch(loadProductFailed(err))
         )
     }
