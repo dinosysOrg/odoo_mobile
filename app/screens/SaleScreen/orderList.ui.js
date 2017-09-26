@@ -54,11 +54,18 @@ export default class OrderListComponent extends Component {
           {this._renderFromDatePicker()}
           {this._renderToDatePicker()}
         </View>
-        <FlatList
-          data={data}
-          renderItem={this._renderOrderItem.bind(this)}
-          keyExtractor={item => item.id}
-        />
+        <List style={styles.container}>
+          <FlatList
+            style={styles.container}
+            data={data}
+            renderItem={this._renderOrderItem.bind(this)}
+            keyExtractor={item => item.id}
+            refreshing={false}
+            onRefresh={this._handleRefresh}
+            onEndReached={this._handleLoadMore}
+            onEndReachedThreshold={0.1}
+          />
+        </List>
         <MyDialog
           ref={dialog => {
             this.myDialog = dialog;
@@ -87,7 +94,7 @@ export default class OrderListComponent extends Component {
         minDate={this.state.minDate}
         maxDate={this.state.maxDate}
         confirmBtnText={strings.dialog.confirm}
-        cancelBtnText={strings.dialog.confirm}
+        cancelBtnText={strings.dialog.cancel}
         customStyles={{
           dateIcon: {
             position: "absolute",
@@ -131,7 +138,7 @@ export default class OrderListComponent extends Component {
         minDate={this.state.minDate}
         maxDate={this.state.maxDate}
         confirmBtnText={strings.dialog.confirm}
-        cancelBtnText={strings.dialog.confirm}
+        cancelBtnText={strings.dialog.cancel}
         customStyles={{
           dateIcon: {
             position: "absolute",
@@ -199,10 +206,12 @@ export default class OrderListComponent extends Component {
     });
   };
 
+  /**
+   * Reload order after use changing start or end date
+   */
   _reloadOrderInRange = (from, to) => {
-    console.log(`Reload Order In Range from ${from} to ${to}`);
-
     let { order, loadOrder, resetOrderState, user } = this.props;
+
     let { odoo } = user;
 
     if (order.isLoading) {
@@ -212,6 +221,44 @@ export default class OrderListComponent extends Component {
     resetOrderState();
 
     loadOrder(odoo, from, to, order.limit, 0);
+  };
+
+  /**
+   * When user pull the list at the top, this method will be called to refresh data 
+   * by loading data with current range 
+   */
+  _handleRefresh = () => {
+    let { order, loadOrder, resetOrderState, user } = this.props;
+
+    let { odoo } = user;
+
+    if (order.isLoading) {
+      return;
+    }
+
+    resetOrderState();
+
+    loadOrder(odoo, order.from, order.to, order.limit, 0);
+  };
+
+  /**
+   * When user scroll the list to the bottom, this method will be called to 
+   * load more data with current range by increasing page
+   */
+  _handleLoadMore = () => {
+    let { order, loadOrder, user } = this.props;
+
+    let { odoo } = user;
+
+    if (order.isLoading) {
+      return;
+    }
+
+    if (order.isFinish) {
+      return;
+    }
+
+    loadOrder(odoo, order.from, order.to, order.limit, order.page);
   };
 
   /**
