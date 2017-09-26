@@ -5,16 +5,19 @@ import {
   Text,
   Image,
   TextInput,
-  AsyncStorage
+  Animated,
+  Keyboard,
+  KeyboardAvoidingView,
+  AsyncStorage,
 } from "react-native";
 import strings from "../../strings";
-import styles from "./login.styles";
+import { styles, IMAGE_WIDTH, IMAGE_WIDTH_SMALL} from "./login.styles";
 import Button from "../../components/Button";
 import getOdoo from "../../api/odoo";
 import MyDialog from "../../components/MyDialog";
 import images from "../../images";
 /**
- * The login ui 
+ * The login ui
  */
 export default class LoginComponent extends Component {
   constructor(props) {
@@ -26,19 +29,54 @@ export default class LoginComponent extends Component {
       url: "https://odoo-dev.dinosys.vn"
     };
     this.myDialog = null;
+    this.imageWidth = new Animated.Value(IMAGE_WIDTH);
+    this.imageHeight = new Animated.Value(IMAGE_WIDTH)
   }
 
+  componentWillMount () {
+    this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
+    this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = (event) => {
+    Animated.timing(this.imageWidth, {
+      duration: event.duration,
+      toValue: IMAGE_WIDTH_SMALL,
+    }).start();
+    Animated.timing(this.imageHeight, {
+      duration: event.duration,
+      toValue: IMAGE_WIDTH_SMALL,
+    }).start();
+  };
+
+  keyboardWillHide = (event) => {
+    Animated.timing(this.imageWidth, {
+      duration: event.duration,
+      toValue: IMAGE_WIDTH,
+    }).start();
+    Animated.timing(this.imageHeight, {
+      duration: event.duration,
+      toValue: IMAGE_WIDTH,
+    }).start();
+  };
+
   componentDidMount() {
-    // Checking login from store 
+    // Checking login from store
     this._loadInfoFromStore()
   }
 
   render() {
     return (
-      <View style={styles.loginContainer}>
-        <Image
+      <KeyboardAvoidingView style={styles.loginContainer}
+        behavior="padding" >
+        <Animated.Image
           resizeMode={"contain"}
-          style={styles.logo}
+          style={[styles.logo, {width: this.imageWidth, height: this.imageHeight}]}
           source={images.logo}
         />
         {this._renderLoginInputUI()}
@@ -47,7 +85,8 @@ export default class LoginComponent extends Component {
             this.myDialog = dialog;
           }}
         />
-      </View>
+        <View style={{ height: 60 }} />
+      </KeyboardAvoidingView>
     );
   }
 
@@ -68,7 +107,7 @@ export default class LoginComponent extends Component {
   };
 
   /**
-   * Show dialog loading 
+   * Show dialog loading
    */
   _showDialogLoading() {
     let title = strings.dialog.title_loading;
@@ -85,9 +124,9 @@ export default class LoginComponent extends Component {
   }
 
   /**
-   * Do login 
+   * Do login
    * @param {object} options The authentication info for odoo
-   * @param {string} options.url The url of odoo server  
+   * @param {string} options.url The url of odoo server
    * @param {string} options.db The database of odoo server
    * @param {string} options.username The user name of user
    * @param {string} options.password The password of user
@@ -124,7 +163,7 @@ export default class LoginComponent extends Component {
   };
 
   /**
-   * The UI for Login 
+   * The UI for Login
    */
   _renderLoginInputUI() {
     return (
