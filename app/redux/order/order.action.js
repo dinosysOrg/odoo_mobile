@@ -4,12 +4,13 @@
  * @param {integer} page: The page requested.
  * @param {integer} selectedMonth: The selected month requested.
  */
-export const loadOrderSuccessfully = (json, page, selectedMonth) => {    
+export const loadOrderSuccessfully = (json, page, from, to) => {  
     return {
         type: 'LOAD_ORDER_SUCCESSFULLY',
         data: json,
+        from: from,
+        to: to,
         page: page,
-        month: selectedMonth
     }
 }
 
@@ -43,17 +44,18 @@ export const resetOrderState = () => {
 /**
  * The load order action.
  * @param {object} odooApi: The instance of MyOdooAPI
- * @param {string} date: The date. 
+ * @param {string} from: The from date.
+ * @param {string} to: The to date. 
  * @param {integer} limit: The limit size.
  * @param {integer} page: The page request. 
  */
-export const loadOrder = (odooApi, date, limit = 10, page = 0) => {
+export const loadOrder = (odooApi, from, to, limit = 10, page = 0) => {
     let offset = page * limit
     return function action(dispatch) {
         dispatch(loadingOrder())
-        const requestOrder = odooApi.fetchSaleOrderListByMonth(date, limit, offset);
+        const requestOrder = odooApi.fetchSaleOrderListInRange(from, to, limit, offset);
         return requestOrder.then(
-            response => dispatch(loadOrderSuccessfully(response, page, date)),
+            response => dispatch(loadOrderSuccessfully(response, page, from, to)),
             err => dispatch(loadOrderFailed(err))
         )
     }
