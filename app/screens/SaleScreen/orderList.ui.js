@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  FlatList,
   ActivityIndicator,
   StyleSheet,
+  Button,
+  FlatList,
   Image,
-  TouchableOpacity,
-  Button
+  TouchableOpacity
 } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 import { styles } from "./styles";
@@ -15,111 +15,144 @@ import debounce from "lodash/debounce";
 import images from "../../images";
 import strings from "../../strings/index";
 import { SaleDetail } from "../SaleDetailScreen/index";
+import DatePicker from "react-native-datepicker";
+import MyDialog from "../../components/MyDialog";
 import moment from "moment";
 
 export default class OrderListComponent extends Component {
   constructor(props) {
     super(props);
+
+    let { from } = this.props.order;
+
+    let { to } = this.props.order;
+
+    let fromDate = moment(from).format("YYYY-MM-DD");
+
+    let toDate = moment(to).format("YYYY-MM-DD");
+
+    let maxDate = moment().format("YYYY-MM-DD");
+
+    let minDate = moment()
+      .subtract(10, "y")
+      .format("YYYY-MM-DD");
+
+    this.state = {
+      minDate: minDate,
+      maxDate: maxDate
+    };
+
+    this.myDialog = null;
   }
 
   render() {
     let { data } = this.props.order;
-    let { month } = this.props.order;
-
-    let currentSelectedMonth = moment(month).format("YYYY-MM-DD");
 
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: "row",
-            height: 40,
-            backgroundColor: "white",
-            justifyContent: "space-around",
-            alignItems: "stretch"
-          }}
-        >
-          <View style={{ flex: 1.5, marginVertical: 0 }}>
-            <Button
-              style={{ marginVertical: 0, marginHorizontal: 0 }}
-              onPress={this._onPreviousMonthPress}
-              title="<<"
-              color="black"
-            />
-          </View>
-
-          <View
-            style={{
-              flex: 7,
-              marginVertical: 0,
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            <Text fontSize={20}>{currentSelectedMonth}</Text>
-          </View>
-
-          <View style={{ flex: 1.5, marginVertical: 0 }}>
-            <Button
-              style={{ marginVertical: 0, marginHorizontal: 0 }}
-              onPress={this._onNextMonthPress}
-              title=">>"
-              color="black"
-            />
-          </View>
+        <View style={styles.datePickerContainer}>
+          {this._renderFromDatePicker()}
+          {this._renderToDatePicker()}
         </View>
         <FlatList
           data={data}
           renderItem={this._renderOrderItem.bind(this)}
           keyExtractor={item => item.id}
-          on
+        />
+        <MyDialog
+          ref={dialog => {
+            this.myDialog = dialog;
+          }}
         />
       </View>
     );
   }
 
-  /**
-   * This method will be called when user click << button to Load previous month's order
-   */
-  _onPreviousMonthPress = () => {
-    let { order, loadOrder, resetOrderState, user } = this.props;
-    if (order.isLoading) {
-      return;
-    }
+  _renderFromDatePicker = () => {
+    let { from } = this.props.order;
 
-    let currentSelectedMonth = order.month;
+    let { to } = this.props.order;
 
-    let previousMonth = moment(currentSelectedMonth)
-      .subtract(1, "M")
-      .format("YYYY-MM-DD");
+    let fromDate = moment(from).format("YYYY-MM-DD");
 
-    resetOrderState();
+    let toDate = moment(to).format("YYYY-MM-DD");
 
-    let { odoo } = user;
-
-    loadOrder(odoo, previousMonth, order.limit, 0);
+    return (
+      <DatePicker
+        style={styles.datePicker}
+        date={fromDate}
+        mode="date"
+        placeholder={strings.order.select_date}
+        format="YYYY-MM-DD"
+        minDate={this.state.minDate}
+        maxDate={this.state.maxDate}
+        confirmBtnText={strings.dialog.confirm}
+        cancelBtnText={strings.dialog.confirm}
+        customStyles={{
+          dateIcon: {
+            position: "absolute",
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={date => {
+          if (moment(to) < moment(date)) {
+            this._showInvalidRangePickWarning();
+          } else {
+            let newFromDate = moment(date).format("YYYY-MM-DD");
+            this._reloadOrderInRange(newFromDate, toDate);
+          }
+        }}
+      />
+    );
   };
 
-  /**
-   * This method will be called when user click >> button to Load next month's order
-   */
-  _onNextMonthPress = () => {
-    let { order, loadOrder, resetOrderState, user } = this.props;
-    if (order.isLoading) {
-      return;
-    }
+  _renderToDatePicker = () => {
+    let { from } = this.props.order;
 
-    let currentSelectedMonth = order.month;
+    let { to } = this.props.order;
 
-    let nextMonth = moment(currentSelectedMonth)
-      .add(1, "M")
-      .format("YYYY-MM-DD");
+    let fromDate = moment(from).format("YYYY-MM-DD");
 
-    resetOrderState();
+    let toDate = moment(to).format("YYYY-MM-DD");
 
-    let { odoo } = user;
-
-    loadOrder(odoo, nextMonth, order.limit, 0);
+    return (
+      <DatePicker
+        style={styles.datePicker}
+        date={toDate}
+        mode="date"
+        placeholder={strings.order.select_date}
+        format="YYYY-MM-DD"
+        minDate={this.state.minDate}
+        maxDate={this.state.maxDate}
+        confirmBtnText={strings.dialog.confirm}
+        cancelBtnText={strings.dialog.confirm}
+        customStyles={{
+          dateIcon: {
+            position: "absolute",
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+        }}
+        onDateChange={date => {
+          if (moment(date) < moment(from)) {
+            this._showInvalidRangePickWarning();
+          } else {
+            let newToDate = moment(date).format("YYYY-MM-DD");
+            this._reloadOrderInRange(fromDate, newToDate);
+          }
+        }}
+      />
+    );
   };
 
   /**
@@ -164,5 +197,29 @@ export default class OrderListComponent extends Component {
     this.props.navigation.navigate("SaleDetail", {
       order: JSON.stringify(data)
     });
+  };
+
+  _reloadOrderInRange = (from, to) => {
+    console.log(`Reload Order In Range from ${from} to ${to}`);
+
+    let { order, loadOrder, resetOrderState, user } = this.props;
+    let { odoo } = user;
+
+    if (order.isLoading) {
+      return;
+    }
+
+    resetOrderState();
+
+    loadOrder(odoo, from, to, order.limit, 0);
+  };
+
+  /**
+   * Show warning dialog when user picked invalid range. Ex: The end date is before the begin date.
+   */
+  _showInvalidRangePickWarning = () => {
+    let title = strings.dialog.title_warning;
+    let content = strings.order.invalid_range_warning;
+    this.myDialog.show("error", title, content);
   };
 }

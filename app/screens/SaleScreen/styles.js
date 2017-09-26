@@ -32,5 +32,15 @@ export const styles = StyleSheet.create({
     color: "black",
     fontSize: 14,
     textAlign: "left"
+  },
+  datePickerContainer: {
+    flexDirection: "row",
+    height: 60,
+    backgroundColor: "white"
+  },
+  datePicker: {
+    flex: 1,
+    marginHorizontal: 10,
+    marginVertical: 10
   }
 });

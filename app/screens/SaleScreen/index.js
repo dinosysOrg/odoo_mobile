@@ -9,7 +9,7 @@ import moment from "moment";
 class SaleScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: strings.slide_menu.sale,
+      headerTitle: strings.slide_menu.sale
     };
   };
 
@@ -22,17 +22,14 @@ class SaleScreen extends Component {
   }
 
   /**
-   * When component did mount, check if order.month in state is null or not, if null, set default value is current date.
+   * When component did mount, 
+   * start loading order in range from 30 days ago to current day
    */
   componentDidMount() {
     let { order, loadOrder, user } = this.props;
     let { odoo } = user;
 
-    if (order.month == null) {
-      order.month = moment().format("YYYY-MM-DD");
-    }
-
-    loadOrder(odoo, order.month, order.limit, order.page);
+    loadOrder(odoo, order.from, order.to, order.limit, order.page);
   }
 }
 
@@ -42,8 +39,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadOrder: (odooApi, month, limit, offset) =>
-    dispatch(loadOrder(odooApi, month, limit, offset)),
+  loadOrder: (odooApi, from, to, limit, offset) =>
+    dispatch(loadOrder(odooApi, from, to, limit, offset)),
   resetOrderState: () => dispatch(resetOrderState())
 });
 

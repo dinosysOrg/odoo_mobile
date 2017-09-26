@@ -74,7 +74,12 @@ export default class MyOdooAPI {
       try {
         let session = new UserSession();
         let userInfo = await session.getUserActive();
-        if (!userInfo || !userInfo.auth || !userInfo.profile || !userInfo.roles) {
+        if (
+          !userInfo ||
+          !userInfo.auth ||
+          !userInfo.profile ||
+          !userInfo.roles
+        ) {
           return reject("User invalid information");
         }
         let { auth } = userInfo;
@@ -92,25 +97,29 @@ export default class MyOdooAPI {
    * @return roles: The roles for tables.
    *         error: The exception  
    */
-  getAccessRight ()  {
-    return new Promise(async(resolve, reject) => {
+  getAccessRight() {
+    return new Promise(async (resolve, reject) => {
       try {
-          let partnerReadable = await this.checkAccessRight("res.partner", ["read"]);
-          let productReadable = await this.checkAccessRight("product.product", [
-            "read"
-          ]);
-          let saleOrderReadable = await this.checkAccessRight("sale.order", ["read"]);
-          let roles = {
-            resPartner: { read: partnerReadable },
-            productProduct: { read: productReadable },
-            saleOrder: { read: saleOrderReadable }
-          };
-          return resolve(roles);
-      } catch(error) {
-          return reject(error);
+        let partnerReadable = await this.checkAccessRight("res.partner", [
+          "read"
+        ]);
+        let productReadable = await this.checkAccessRight("product.product", [
+          "read"
+        ]);
+        let saleOrderReadable = await this.checkAccessRight("sale.order", [
+          "read"
+        ]);
+        let roles = {
+          resPartner: { read: partnerReadable },
+          productProduct: { read: productReadable },
+          saleOrder: { read: saleOrderReadable }
+        };
+        return resolve(roles);
+      } catch (error) {
+        return reject(error);
       }
-    })
-  };
+    });
+  }
 
   /**
     * Fetch a model for the given domain (filters)
@@ -201,20 +210,20 @@ export default class MyOdooAPI {
 
   /**
    * Get sale order by month 
-   * @param {string} date: The date 
+   * @param {string} from: The from date.
+   * @param {string} to: The to date. 
    * @param {int} limit: The limit size of query
    * @param {int} offset: The offset of query 
    */
-  fetchSaleOrderListByMonth = (date, limit, offset) => {
-    let selectedDate = moment(date);
+  fetchSaleOrderListInRange = (from, to, limit, offset) => {
 
-    var firstDay = selectedDate.format("YYYY-MM-01");
-    var lastDay = selectedDate.format("YYYY-MM-") + selectedDate.daysInMonth();
+    var fromDate = moment(from).format("YYYY-MM-DD");
+    var toDate = moment(to).format("YYYY-MM-DD");
 
     var domain = [
       ["state", "=", "done"],
-      ["date_order", ">=", firstDay],
-      ["date_order", "<=", lastDay]
+      ["date_order", ">=", fromDate],
+      ["date_order", "<=", toDate]
     ];
 
     var params = {

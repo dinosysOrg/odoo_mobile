@@ -10,19 +10,25 @@ import { SideMenu } from '../screens/MenuScreen/route';
 import strings from '../strings';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 
+/**
+ * App Style
+ * Primary Color: #00bfa5
+ * Light Color: #5df2d6
+ * Dark Color: #008e76
+ */
 export const AppNavigator = StackNavigator({
   Login: {
     screen: LoginScreen,
     navigationOptions: {
             title: strings.login_screen.title,
-            headerStyle: { backgroundColor: '#54bda7' },
+            headerStyle: { backgroundColor: '#00bfa5' },
             headerTintColor: 'white'
     }
   },
   Main: { screen: SideMenu,
     navigationOptions: ({navigation}) => ({
         title: strings.home_screen.title,
-        headerStyle: { backgroundColor: '#5FC5B0' },
+        headerStyle: { backgroundColor: '#00bfa5' },
         headerTintColor: 'white',
         headerLeft: <DrawerButton navigation={navigation}/>
     })
@@ -31,7 +37,7 @@ export const AppNavigator = StackNavigator({
     path: 'order/:data',
     navigationOptions: ({navigation}) => ({
         title: strings.sub_Screen.detailSale,
-        headerStyle: { backgroundColor: '#5FC5B0' },
+        headerStyle: { backgroundColor: '#00bfa5' },
         headerTintColor: 'white',
         headerLeft: <BackButton navigation={navigation}/>
     })
@@ -79,7 +85,7 @@ const styles = {
   },
   menuIcon: {
       padding: 10
-  }
+  },
 }
 
 const BackButton = (props) => {
