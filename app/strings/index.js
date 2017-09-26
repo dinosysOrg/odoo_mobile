@@ -25,7 +25,8 @@ export default {
     select_date: "Select date",
     from: "From",
     to: "To",
-    invalid_range_warning: "The End date must be greater than the Start date."
+    invalid_range_warning: "The End date must be greater than the Start date.",
+    currentMonthOrder: "This month orders"
   },
   dialog: {
     btn_close_text: "Close",
@@ -37,10 +38,22 @@ export default {
     send: "Send",
     send_successfully: "Sent successfully",
     confirm: "Confirm",
-    cancel: "Cancel"
+    cancel: "Cancel",
+    send_successfully: "Sent successfully",
+    add: "Add",
+    add_button: "Add account",
+    list_account: "List account",
+    logout_button: "Logout",
+    switch_acc_button: "Switch Account",
+    current_acc_login: "You are using this account"
   },
   input: {
-    searchPlaceHolder: "Search here..."
+    searchPlaceHolder: "Search here...",
+    name: "Name",
+    company: "Company",
+    email: "Email",
+    city: "City",
+    phone: "Phone"
   },
   slide_menu: {
     profile: "Profile",
@@ -50,6 +63,10 @@ export default {
     dashboard: "Dashboard",
     customer: "Customers",
     logout: "Logout"
+  },
+  setting_screen: {
+    logout: "Logout",
+    switch_account: "Switch Account"
   },
   sub_Screen: {
     detailSale: "Details"

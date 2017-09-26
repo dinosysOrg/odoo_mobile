@@ -31,16 +31,10 @@ class SettingScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      profileList: []
-    };
   }
 
   componentDidMount() {
-    const { session } = this.props.user.odoo;
-    let users = session.loadList().then(userList => {
-      this.setState({ profileList: userList });
-    });
+    
   }
 
   render() {
@@ -56,22 +50,36 @@ class SettingScreen extends Component {
             />
           </View>
           <View style={styles.detailView}>
-            <Text style={styles.titleText}>Name: {activeUser.name}</Text>
+            <Text style={styles.titleText}>{strings.input.name}: {activeUser.name}</Text>
             <Text style={styles.subtitleText}>
-              Company: {activeUser.company_id[1]}
+            {strings.input.company}: {activeUser.company_id[1]}
             </Text>
-            <Text style={styles.subtitleText}>Email: {activeUser.email}</Text>
-            <Text style={styles.subtitleText}>City: {activeUser.tz}</Text>
-            <Text style={styles.subtitleText}>Phone: {activeUser.phone}</Text>
+            <Text style={styles.subtitleText}>{strings.input.email}: {activeUser.email}</Text>
+            <Text style={styles.subtitleText}>{strings.input.city}: {activeUser.tz}</Text>
+            <Text style={styles.subtitleText}>{strings.input.phone}: {activeUser.phone}</Text>
           </View>
         </View>
 
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity
+            style={styles.switchButton}
+            onPress={() => {
+              this.props.navigation.navigate("SwitchAccount");
+            }}
+          >
+            <Text style={styles.titleButton}>
+              {" "}
+              {strings.setting_screen.switch_account}{" "}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.logoutButton}
             onPress={() => this._doLogout()}
           >
-            <Text style={styles.titleButton}> LOGOUT </Text>
+            <Text style={styles.titleButton}>
+              {" "}
+              {strings.setting_screen.logout}{" "}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
