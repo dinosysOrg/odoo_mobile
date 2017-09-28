@@ -7,7 +7,7 @@ export default {
     password: "Password"
   },
   home_screen: {
-    title: "Home"
+    title: "Dashboard"
   },
   product: {
     product: "Product",
@@ -47,6 +47,7 @@ export default {
     setting: "Setting",
     product: "Products",
     sale: "Sales",
+    dashboard: "Dashboard",
     customer: "Customers",
     logout: "Logout"
   },
