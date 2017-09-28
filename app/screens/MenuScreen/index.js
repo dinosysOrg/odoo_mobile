@@ -35,6 +35,11 @@ class Menu extends Component {
     // Setup menu list
     this.menuList = [
       {
+        title: strings.slide_menu.dashboard,
+        icon: "pie-chart",
+        screen: "DashboardScreen",
+        enableMenu: true
+      },{
         title: strings.slide_menu.sale,
         icon: "tags",
         screen: "SaleScreen",
