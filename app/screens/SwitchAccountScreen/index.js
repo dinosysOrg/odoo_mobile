@@ -241,6 +241,7 @@ class SwitchAccountScreen extends Component {
    * Open home screen if user login successfully
    */
   _openHomeScreen = () => {
+    this.props.navigation.dispatch({ type: "RESET_ALL_DATA" });
     this.props.navigation.dispatch({ type: "Main" });
   };
 
