@@ -9,6 +9,10 @@ export default {
   home_screen: {
     title: "Dashboard"
   },
+  dashboard_screen: {
+    order_chart_title: "Order Statistics",
+    product_chart_title: "Product Statistics"
+  },
   product: {
     product: "Product",
     price: "Price",
