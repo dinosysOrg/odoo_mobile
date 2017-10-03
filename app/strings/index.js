@@ -9,6 +9,11 @@ export default {
   home_screen: {
     title: "Dashboard"
   },
+  dashboard_screen: {
+    order_chart_title: "Order Statistics",
+    product_chart_title: "Product Statistics",
+    currency: "Currency"
+  },
   product: {
     product: "Product",
     price: "Price",
@@ -39,7 +44,6 @@ export default {
     send_successfully: "Sent successfully",
     confirm: "Confirm",
     cancel: "Cancel",
-    send_successfully: "Sent successfully",
     add: "Add",
     add_button: "Add account",
     list_account: "List account",

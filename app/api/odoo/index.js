@@ -215,13 +215,12 @@ export default class MyOdooAPI {
    * @param {int} limit: The limit size of query
    * @param {int} offset: The offset of query 
    */
-  fetchSaleOrderListInRange = (from, to, limit, offset) => {
-
+  fetchSaleOrderListInRange = ({ from, to, limit, offset }) => {
     var fromDate = moment(from).format("YYYY-MM-DD");
     var toDate = moment(to).format("YYYY-MM-DD");
 
     var domain = [
-      ["state", "=", "done"],
+      //["state", "=", "done"],
       ["date_order", ">=", fromDate],
       ["date_order", "<=", toDate]
     ];
@@ -238,7 +237,8 @@ export default class MyOdooAPI {
         "product_id",
         "amount_total",
         "cart_quantity",
-        "date_order"
+        "date_order",
+        "currency_id"
       ],
       limit: limit,
       offset: offset
