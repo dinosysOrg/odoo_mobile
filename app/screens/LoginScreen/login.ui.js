@@ -8,10 +8,10 @@ import {
   Animated,
   Keyboard,
   KeyboardAvoidingView,
-  AsyncStorage,
+  AsyncStorage
 } from "react-native";
 import strings from "../../strings";
-import { styles, IMAGE_WIDTH, IMAGE_WIDTH_SMALL} from "./login.styles";
+import { styles, IMAGE_WIDTH, IMAGE_WIDTH_SMALL } from "./login.styles";
 import Button from "../../components/Button";
 import getOdoo from "../../api/odoo";
 import MyDialog from "../../components/MyDialog";
@@ -30,12 +30,18 @@ export default class LoginComponent extends Component {
     };
     this.myDialog = null;
     this.imageWidth = new Animated.Value(IMAGE_WIDTH);
-    this.imageHeight = new Animated.Value(IMAGE_WIDTH)
+    this.imageHeight = new Animated.Value(IMAGE_WIDTH);
   }
 
-  componentWillMount () {
-    this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
-    this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+  componentWillMount() {
+    this.keyboardWillShowSub = Keyboard.addListener(
+      "keyboardWillShow",
+      this.keyboardWillShow
+    );
+    this.keyboardWillHideSub = Keyboard.addListener(
+      "keyboardWillHide",
+      this.keyboardWillHide
+    );
   }
 
   componentWillUnmount() {
@@ -43,40 +49,42 @@ export default class LoginComponent extends Component {
     this.keyboardWillHideSub.remove();
   }
 
-  keyboardWillShow = (event) => {
+  keyboardWillShow = event => {
     Animated.timing(this.imageWidth, {
       duration: event.duration,
-      toValue: IMAGE_WIDTH_SMALL,
+      toValue: IMAGE_WIDTH_SMALL
     }).start();
     Animated.timing(this.imageHeight, {
       duration: event.duration,
-      toValue: IMAGE_WIDTH_SMALL,
+      toValue: IMAGE_WIDTH_SMALL
     }).start();
   };
 
-  keyboardWillHide = (event) => {
+  keyboardWillHide = event => {
     Animated.timing(this.imageWidth, {
       duration: event.duration,
-      toValue: IMAGE_WIDTH,
+      toValue: IMAGE_WIDTH
     }).start();
     Animated.timing(this.imageHeight, {
       duration: event.duration,
-      toValue: IMAGE_WIDTH,
+      toValue: IMAGE_WIDTH
     }).start();
   };
 
   componentDidMount() {
     // Checking login from store
-    this._loadInfoFromStore()
+    this._loadInfoFromStore();
   }
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.loginContainer}
-        behavior="padding" >
+      <KeyboardAvoidingView style={styles.loginContainer} behavior="padding">
         <Animated.Image
           resizeMode={"contain"}
-          style={[styles.logo, {width: this.imageWidth, height: this.imageHeight}]}
+          style={[
+            styles.logo,
+            { width: this.imageWidth, height: this.imageHeight }
+          ]}
           source={images.logo}
         />
         {this._renderLoginInputUI()}
@@ -95,10 +103,11 @@ export default class LoginComponent extends Component {
    */
   _loadInfoFromStore = async () => {
     let { odoo } = this.props.user;
-    odoo.doLoginFormSession()
+    odoo
+      .doLoginFormSession()
       .then(value => {
         if (value) {
-            this._openHomeScreen();
+          this._openHomeScreen();
         }
       })
       .catch(error => {
@@ -133,7 +142,8 @@ export default class LoginComponent extends Component {
    */
   _doLogin(options) {
     let { odoo } = this.props.user;
-    odoo.doLogin(options)
+    odoo
+      .doLogin(options)
       .then(value => {
         if (value) {
           this._openHomeScreen();

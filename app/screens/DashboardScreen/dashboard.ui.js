@@ -5,7 +5,8 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import { styles } from "./dashboard.styles";
 import strings from "../../strings";
@@ -28,10 +29,9 @@ export default class DashboardComponent extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <OrderChartComponent />
-        {/*<ProductChartComponent />*/}
-      </View>
+      <ScrollView style={styles.container}>
+        <OrderChartComponent {...this.props} />
+      </ScrollView>
     );
   }
 }

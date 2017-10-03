@@ -7,10 +7,15 @@ export const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   chartTitle: {
-    height: 30,
+    height: 20,
     textAlign: "center",
     fontSize: 16,
     fontWeight: "500",
     marginVertical: 10
+  },
+  currency: {
+    height: 20,
+    fontSize: 14,
+    marginHorizontal: 10
   }
 });
